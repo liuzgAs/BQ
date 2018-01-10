@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_marginBottom="@dimen/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <com.bigkoo.convenientbanner.ConvenientBanner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bannerHeight"
+            app:canLoop="true">
+
+        </com.bigkoo.convenientbanner.ConvenientBanner>
+
+        <TextView
+            android:id="@+id/textZhiShiQi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/banner"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_tran_15dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="2/6"
+            android:textColor="@color/lightWhite"
+            android:textSize="@dimen/normal_textsize" />
+
+        <TextView
+            android:id="@+id/textTitle"
+            style="@style/detail_text"
+            android:layout_below="@+id/banner"
+            android:layout_marginTop="5dp"
+            android:text="大脑雷达测试仪" />
+
+        <TextView
+            android:id="@+id/textDes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textTitle"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="@dimen/leftAndRight"
+            android:text="活动价" />
+
+        <TextView
+            android:id="@+id/textPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textDes"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/textDes"
+            android:text="¥2880"
+            android:textColor="@color/basicText"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+    <TextView
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+</LinearLayout>

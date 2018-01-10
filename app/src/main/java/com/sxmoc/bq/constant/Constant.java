@@ -52,13 +52,26 @@ public class Constant {
         /**
          * 启动广告页
          */
-        public static final String INDEX_STARTAD = "&g=App&m=Index&a=startAd";
+        public static final String INDEX_STARTAD = "/Index/start";
+        /**
+         * 商品列表
+         */
+        public static final String GOODS_INDEX = "/Goods/index";
+        /**
+         * 商品详情
+         */
+        public static final String GOODS_INFO = "/Goods/info";
+        /**
+         * 确认订单页
+         */
+        public static final String ORDER_CREATEORDER = "/order/createOrder";
     }
 
     public static class IntentKey {
         public static final String TYPE = "type";
         public static final String POSITION = "position";
         public static final String PHONE = "phone";
+        public static final String ID = "id";
     }
 
     public static class RequestResultCode {

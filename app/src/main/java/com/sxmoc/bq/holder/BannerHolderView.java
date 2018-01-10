@@ -6,9 +6,10 @@ import android.widget.ImageView;
 
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.model.GoodsInfo;
 import com.sxmoc.bq.util.GlideApp;
 
-public class BannerHolderView implements Holder<Integer> {
+public class BannerHolderView implements Holder<GoodsInfo.BannerBean> {
     private ImageView imageView;
 
     @Override
@@ -19,9 +20,9 @@ public class BannerHolderView implements Holder<Integer> {
     }
 
     @Override
-    public void UpdateUI(Context context, int position, Integer data) {
+    public void UpdateUI(Context context, int position, GoodsInfo.BannerBean data) {
         GlideApp.with(context)
-                .load(data)
+                .load(data.getImg())
                 .placeholder(R.mipmap.ic_empty)
                 .into(imageView);
     }

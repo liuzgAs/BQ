@@ -10,12 +10,23 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
+import com.sxmoc.bq.constant.Constant;
+import com.sxmoc.bq.model.GoodsIndex;
+import com.sxmoc.bq.model.OkObject;
+import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.BannerSettingUtil;
 import com.sxmoc.bq.util.DpUtils;
+import com.sxmoc.bq.util.GsonUtils;
+import com.sxmoc.bq.util.LogUtil;
 import com.sxmoc.bq.util.ScreenUtils;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,8 +88,6 @@ public class ShangChengFragment extends ZjbBaseFragment {
     protected void initViews() {
         viewBar.setPadding(0, ScreenUtils.getStatusBarHeight(getActivity()), 0, 0);
         new BannerSettingUtil(id_viewpager, (int) DpUtils.convertDpToPixel(13, getActivity()), false).set();
-        id_viewpager.setAdapter(new MyPageAdapter(getChildFragmentManager()));
-        id_viewpager.setCurrentItem(50);
         setZhiShiQi(0);
     }
 
@@ -102,9 +111,51 @@ public class ShangChengFragment extends ZjbBaseFragment {
         });
     }
 
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
+    private OkObject getOkObject() {
+        String url = Constant.HOST + Constant.Url.GOODS_INDEX;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime",tokenTime);
+        }
+        return new OkObject(params, url);
+    }
+
     @Override
     protected void initData() {
+        showLoadingDialog();
+        ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
+            @Override
+            public void onSuccess(String s) {
+                cancelLoadingDialog();
+                LogUtil.LogShitou("ShangChengFragment--onSuccess",s+ "");
+                try {
+                    GoodsIndex goodsIndex = GsonUtils.parseJSON(s, GoodsIndex.class);
+                    if (goodsIndex.getStatus()==1){
+                        List<GoodsIndex.DataBean> dataBeanList = goodsIndex.getData();
+                        id_viewpager.setAdapter(new MyPageAdapter(getChildFragmentManager(),dataBeanList));
+                        id_viewpager.setCurrentItem(50);
+                    }else if (goodsIndex.getStatus()==3){
+                        MyDialog.showReLoginDialog(getActivity());
+                    }else {
+                        Toast.makeText(getActivity(), goodsIndex.getInfo(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(),"数据出错", Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onError() {
+                cancelLoadingDialog();
+                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setZhiShiQi(int index){
@@ -115,15 +166,16 @@ public class ShangChengFragment extends ZjbBaseFragment {
     }
 
     public class MyPageAdapter extends FragmentPagerAdapter {
-
-        public MyPageAdapter(FragmentManager fm) {
+        private List<GoodsIndex.DataBean> dataBeanList;
+        public MyPageAdapter(FragmentManager fm,List<GoodsIndex.DataBean> dataBeanList) {
             super(fm);
+            this.dataBeanList =dataBeanList;
         }
 
         @Override
         public Fragment getItem(int position) {
-
-            return new ShangPinFragment();
+            int i = position % dataBeanList.size();
+            return new ShangPinFragment(dataBeanList.get(i));
         }
 
         @Override

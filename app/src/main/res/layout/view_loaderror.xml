@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_marginTop="120dp"
+        android:src="@mipmap/ic_empty"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView17"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView17"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:textSize="@dimen/normal_textsize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wangguochucuo"
+            android:id="@+id/textMsg"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/basic_color"
+            android:textSize="@dimen/normal_textsize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dianjichongshi"
+            android:id="@+id/buttonReLoad"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignBaseline="@+id/textMsg"
+            android:layout_alignBottom="@+id/textMsg"
+            android:layout_toRightOf="@+id/textMsg"
+            android:layout_toEndOf="@+id/textMsg" />
+    </RelativeLayout>
+</RelativeLayout>

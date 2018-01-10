@@ -35,7 +35,8 @@
             android:name=".activity.YinDaoActivity"
             android:launchMode="singleTop" />
         <activity android:name=".activity.ChanPinXQActivity" />
-        <activity android:name=".activity.LiJiZFActivity"></activity>
+        <activity android:name=".activity.LiJiZFActivity" />
+        <activity android:name=".activity.QueRenDDActivity"></activity>
     </application>
 
 </manifest>

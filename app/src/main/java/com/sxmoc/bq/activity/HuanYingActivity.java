@@ -35,11 +35,11 @@ public class HuanYingActivity extends ZjbBaseNotLeftActivity {
         HashMap<String, String> params = new HashMap<>();
         params.put("isFirst", isFirst);
         params.put("deviceId", PushServiceFactory.getCloudPushService().getDeviceId());
-        params.put("deviceToken", "");
-        params.put("type", "android");
         params.put("version", VersionUtils.getCurrVersionName(this));
         params.put("intro", "model=" + android.os.Build.MODEL + "sdk=" + android.os.Build.VERSION.SDK);
         params.put("mid", "");
+        params.put("lng", "");
+        params.put("lat", "");
         return new OkObject(params, url);
     }
 
