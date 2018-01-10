@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sxmoc.bq">
+
+    <application
+        android:name=".application.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/logo"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppThemeNoTranslucent" />
+        <activity
+            android:name=".activity.WangJiMMActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.DengLuActivity"
+            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".activity.ZhuCeActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.HuanYingActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.YinDaoActivity"
+            android:launchMode="singleTop" />
+        <activity android:name=".activity.ChanPinXQActivity"></activity>
+    </application>
+
+</manifest>

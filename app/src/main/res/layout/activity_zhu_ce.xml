@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".activity.ZhuCeActivity">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewBar"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/tranblack"
+        android:fitsSystemWindows="true"
+        android:gravity="bottom"
+        android:minHeight="?attr/actionBarSize"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/titleHeight">
+
+            <ImageView
+                android:paddingLeft="10dp"
+                android:background="@drawable/white_selector"
+                android:id="@+id/imageBack"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:paddingBottom="15dp"
+                android:paddingRight="20dp"
+                android:paddingTop="15dp"
+                android:src="@mipmap/left_black"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView
+                android:textStyle="bold"
+                tools:text="标题"
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/light_black"
+                android:textSize="@dimen/titleSize"/>
+
+            <TextView
+                tools:text="右边"
+                android:background="@drawable/white_selector"
+                android:textSize="@dimen/normal_textsize"
+                android:textColor="@color/light_black"
+                android:paddingRight="10dp"
+                android:paddingLeft="15dp"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/textViewRight"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:paddingLeft="20dp"
+        android:textSize="50dp"
+        android:gravity="center_vertical"
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="注册"
+        android:textColor="@color/basic_color01"
+        android:textStyle="bold"
+        android:id="@+id/textView142"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.sxmoc.bq.customview.EditTextWithDel
+            android:inputType="number"
+            android:maxLength="11"
+            android:singleLine="true"
+            android:textColorHint="@color/light_black"
+            android:textCursorDrawable="@drawable/mycursor"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/edit01"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/normalItemHeight"
+            android:background="@null"
+            android:hint="请输入手机号"
+            android:paddingLeft="2dp"
+            android:textSize="@dimen/normal_textsize" />
+
+
+        <TextView
+            android:id="@+id/line01"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/basic_color" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/normalItemHeight"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp">
+
+            <com.sxmoc.bq.customview.EditTextWithDel
+                android:layout_weight="1"
+                android:paddingRight="10dp"
+                android:inputType="number"
+                android:maxLength="6"
+                android:singleLine="true"
+                android:textColorHint="@color/light_black"
+                android:textCursorDrawable="@drawable/mycursor"
+                android:id="@+id/edit02"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/textSms"
+                android:layout_toStartOf="@+id/textSms"
+                android:background="@null"
+                android:hint="请输入验证码"
+                android:paddingLeft="2dp"
+                android:textSize="@dimen/normal_textsize" />
+
+            <TextView
+                android:id="@+id/textSms"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="获取验证码"
+                android:textColor="@color/basicText"
+                android:textSize="@dimen/normal_textsize" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/line02"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/basic_color" />
+
+        <com.sxmoc.bq.customview.EditTextWithDel
+            android:inputType="textPassword"
+            android:maxLength="18"
+            android:singleLine="true"
+            android:textColorHint="@color/light_black"
+            android:textCursorDrawable="@drawable/mycursor"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/edit03"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/normalItemHeight"
+            android:background="@null"
+            android:hint="请设置密码（字母+数字6位以上）"
+            android:paddingLeft="2dp"
+            android:textSize="@dimen/normal_textsize" />
+
+        <TextView
+            android:id="@+id/line03"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/basic_color" />
+
+        <com.sxmoc.bq.customview.EditTextWithDel
+            android:inputType="textPassword"
+            android:maxLength="18"
+            android:singleLine="true"
+            android:textColorHint="@color/light_black"
+            android:textCursorDrawable="@drawable/mycursor"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/edit04"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/normalItemHeight"
+            android:background="@null"
+            android:hint="确认密码"
+            android:paddingLeft="2dp"
+            android:textSize="@dimen/normal_textsize" />
+
+        <TextView
+            android:id="@+id/line04"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/basic_color" />
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="8dp">
+
+            <ImageView
+                android:id="@+id/imageAgreement"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@mipmap/xuanzhong" />
+
+            <TextView
+                android:id="@+id/textView155"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/imageAgreement"
+                android:layout_toRightOf="@+id/imageAgreement"
+                android:text="@string/xieyi"
+                android:textSize="@dimen/litterText" />
+        </RelativeLayout>
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/shape_basic01_25dp_jian_bian"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/normalItemHeight"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:text="注册"
+            android:id="@+id/buttonZhuCe"
+            android:layout_gravity="center_horizontal" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                android:text="客服热线：400-188-2030"
+                android:textSize="@dimen/moreLitterText" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

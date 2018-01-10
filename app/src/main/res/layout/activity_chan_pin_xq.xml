@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".activity.ChanPinXQActivity">
+
+    <com.sxmoc.bq.customview.ScrollViewWithListener
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/textReserve">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <com.bigkoo.convenientbanner.ConvenientBanner
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bannerHeight"
+                    app:canLoop="true">
+
+                </com.bigkoo.convenientbanner.ConvenientBanner>
+
+                <TextView
+                    android:id="@+id/textZhiShiQi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/banner"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_tran_15dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="2/6"
+                    android:textColor="@color/lightWhite"
+                    android:textSize="@dimen/normal_textsize" />
+
+                <TextView
+                    android:id="@+id/textTitle"
+                    style="@style/detail_text"
+                    android:layout_below="@+id/banner"
+                    android:text="绿野仙踪·森山小木屋·十分钟叨叨鼓浪屿码头·远离尘嚣" />
+
+                <TextView
+                    android:layout_marginBottom="15dp"
+                    android:id="@+id/text0000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textTitle"
+                    android:layout_marginLeft="@dimen/leftAndRight"
+                    android:text="活动价：" />
+
+                <TextView
+                    android:id="@+id/textPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/text0000"
+                    android:layout_toRightOf="@+id/text0000"
+                    android:text="¥2880"
+                    android:textColor="@color/basicText"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/top"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    style="@style/detail_text"
+                    android:text="产品说明" />
+                <TextView
+                    android:lineSpacingMultiplier="1.5"
+                    android:layout_marginLeft="@dimen/leftAndRight"
+                    android:layout_marginRight="@dimen/leftAndRight"
+                    android:textSize="@dimen/normal_textsize"
+                    android:text="据说爱因斯坦的智商有160，算算您和天才差多远。如果下面的flash不能直接播放.请把您的鼠标放到flash上点鼠标右健，然后"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginTop="15dp"
+                    style="@style/detail_text"
+                    android:text="检测公司" />
+                <TextView
+                    android:lineSpacingMultiplier="1.5"
+                    android:layout_marginLeft="@dimen/leftAndRight"
+                    android:layout_marginRight="@dimen/leftAndRight"
+                    android:textSize="@dimen/normal_textsize"
+                    android:text="厦门市互动创想网络科技有限公司"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginTop="15dp"
+                    style="@style/detail_text"
+                    android:text="产品小贴士" />
+                <TextView
+                    android:lineSpacingMultiplier="1.5"
+                    android:layout_marginLeft="@dimen/leftAndRight"
+                    android:layout_marginRight="@dimen/leftAndRight"
+                    android:textSize="@dimen/normal_textsize"
+                    android:text="适合人群：3~12岁儿童"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.sxmoc.bq.customview.ScrollViewWithListener>
+
+    <LinearLayout
+        android:id="@+id/viewBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/basic_color"
+        android:fitsSystemWindows="true"
+        android:gravity="bottom"
+        android:minHeight="?attr/actionBarSize"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/titleHeight">
+
+            <ImageView
+                android:id="@+id/imageBack"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/shape_tranblack_20dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:src="@mipmap/back" />
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="房源详情"
+                android:textColor="@color/white"
+                android:textSize="@dimen/titleSize" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/textReserve"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/normalItemHeight"
+        android:layout_alignParentBottom="true"
+        android:background="@color/basic_color"
+        android:gravity="center"
+        android:text="立即预定"
+        android:textColor="@color/white"
+        android:textSize="@dimen/MoreBigText" />
+</RelativeLayout>

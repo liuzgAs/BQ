@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".activity.WangJiMMActivity">
+
+    <include layout="@layout/view_bar_white" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/normalItemHeight"
+        android:layout_marginTop="5dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/imageView78"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@mipmap/wang_ji_mm_phone" />
+
+        <EditText
+            android:id="@+id/edit01"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/imageView78"
+            android:layout_toRightOf="@+id/imageView78"
+            android:background="@null"
+            android:hint="请输入电话号码"
+            android:inputType="number"
+            android:maxLength="11"
+            android:textSize="@dimen/normal_textsize" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/normalItemHeight"
+        android:layout_marginTop="1dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/imageView82"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:src="@mipmap/wang_ji_mm_duanxin" />
+
+        <EditText
+            android:id="@+id/edit02"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/imageView82"
+            android:layout_toLeftOf="@+id/textSms"
+            android:layout_toRightOf="@+id/imageView82"
+            android:layout_toStartOf="@+id/textSms"
+            android:background="@null"
+            android:hint="请输入短信验证码"
+            android:inputType="number"
+            android:maxLength="6"
+            android:textSize="@dimen/normal_textsize" />
+
+        <TextView
+            android:id="@+id/textSms"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:text="获取短信"
+            android:textColor="@color/basicText"
+            android:textSize="@dimen/normal_textsize" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="@dimen/normalItemHeight"
+        android:layout_marginTop="1dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/imageView83"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@mipmap/wang_ji_mm_mima" />
+
+        <EditText
+            android:maxLength="18"
+            android:inputType="textPassword"
+            android:id="@+id/edit03"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/imageView83"
+            android:layout_toRightOf="@+id/imageView83"
+            android:background="@null"
+            android:hint="设置新密码"
+            android:textSize="@dimen/normal_textsize" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/normalItemHeight"
+        android:layout_marginTop="1dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/imageView84"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@mipmap/wang_ji_mm_mima" />
+
+        <EditText
+            android:maxLength="18"
+            android:inputType="textPassword"
+            android:id="@+id/edit04"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/imageView84"
+            android:layout_toRightOf="@+id/imageView84"
+            android:background="@null"
+            android:hint="确认密码"
+            android:textSize="@dimen/normal_textsize" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:background="@color/basic_color"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/normalItemHeight"
+            android:text="提交"
+            android:id="@+id/buttonTiJiao"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+
+</LinearLayout>

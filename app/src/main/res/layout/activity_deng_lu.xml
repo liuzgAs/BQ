@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/denglu_bg"
+    android:orientation="vertical"
+    tools:context=".activity.DengLuActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewBar"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/tranblack"
+        android:fitsSystemWindows="true"
+        android:gravity="bottom"
+        android:minHeight="?attr/actionBarSize"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/titleHeight">
+
+            <ImageView
+                android:paddingLeft="10dp"
+                android:background="@drawable/white_selector"
+                android:id="@+id/imageBack"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:paddingBottom="15dp"
+                android:paddingRight="20dp"
+                android:paddingTop="15dp"
+                android:src="@mipmap/left_black"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView
+                android:maxLength="8"
+                android:textStyle="bold"
+                tools:text="标题"
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/light_black"
+                android:textSize="@dimen/titleSize"/>
+
+            <TextView
+                tools:text="右边"
+                android:background="@drawable/white_selector"
+                android:textSize="@dimen/normal_textsize"
+                android:textColor="@color/light_black"
+                android:paddingRight="10dp"
+                android:paddingLeft="15dp"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/textViewRight"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/textView142"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="2"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="登录"
+        android:textColor="@color/basic_color01"
+        android:textSize="50dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:animateLayoutChanges="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/normalItemHeight"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <ImageView
+                android:id="@+id/imageView55"
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/denglu_shouji" />
+
+            <com.sxmoc.bq.customview.EditTextWithDel
+                android:id="@+id/edit01"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/normalItemHeight"
+                android:layout_toEndOf="@+id/imageView55"
+                android:layout_toRightOf="@+id/imageView55"
+                android:background="@null"
+                android:hint="请输入手机号"
+                android:inputType="number"
+                android:maxLength="11"
+                android:paddingLeft="15dp"
+                android:singleLine="true"
+                android:textColorHint="@color/light_black"
+                android:textCursorDrawable="@drawable/mycursor"
+                android:textSize="@dimen/normal_textsize" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/line01"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/basic_color" />
+
+        <RelativeLayout
+            android:id="@+id/viewPsw"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/normalItemHeight"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/imageView56"
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/denglu_mima" />
+
+            <com.sxmoc.bq.customview.EditTextWithDel
+                android:id="@+id/edit02"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/normalItemHeight"
+                android:layout_toEndOf="@+id/imageView56"
+                android:layout_toRightOf="@+id/imageView56"
+                android:background="@null"
+                android:hint="请输入密码"
+                android:inputType="textPassword"
+                android:paddingLeft="15dp"
+                android:singleLine="true"
+                android:textColorHint="@color/light_black"
+                android:textCursorDrawable="@drawable/mycursor"
+                android:textSize="@dimen/normal_textsize" />
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/line02"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/basic_color" />
+        <TextView
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+            android:id="@+id/textWangJiMM"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="忘记密码"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/normal_textsize" />
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/normalItemHeight"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_basic01_25dp_jian_bian"
+            android:text="登录"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/buttonZhuCe"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/normalItemHeight"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/shape_basic01_1dp_25dp"
+            android:text="新用户注册"
+            android:textColor="@color/basicText"
+            android:textSize="16dp" />
+
+
+    </LinearLayout>
+</LinearLayout>

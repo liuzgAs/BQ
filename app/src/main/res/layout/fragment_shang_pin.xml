@@ -1,0 +1,55 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/viewShangPin"
+    app:cardCornerRadius="0dp"
+    app:cardBackgroundColor="@color/white"
+    tools:context="com.sxmoc.bq.fragment.ShangPinFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:src="@mipmap/shouhuan" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:id="@+id/textTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/leftAndRight"
+                android:text="小米手环"
+                android:textColor="@color/light_black"
+                android:textSize="18dp" />
+
+            <TextView
+                android:layout_alignBaseline="@+id/textTitle"
+                android:id="@+id/textPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/leftAndRight"
+                android:text="¥888"
+                android:textColor="@color/basicText"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
