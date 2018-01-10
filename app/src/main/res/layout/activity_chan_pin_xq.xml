@@ -165,14 +165,8 @@
     </LinearLayout>
 
 
-    <TextView
+    <Button
         android:id="@+id/textReserve"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/normalItemHeight"
-        android:layout_alignParentBottom="true"
-        android:background="@color/basic_color"
-        android:gravity="center"
-        android:text="立即预定"
-        android:textColor="@color/white"
-        android:textSize="@dimen/MoreBigText" />
+        android:text="立即购买"
+        style="@style/bottomBtn" />
 </RelativeLayout>

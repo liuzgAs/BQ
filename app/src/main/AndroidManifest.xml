@@ -18,7 +18,7 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".activity.DengLuActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.ZhuCeActivity"
             android:launchMode="singleTop" />
@@ -34,7 +34,8 @@
         <activity
             android:name=".activity.YinDaoActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".activity.ChanPinXQActivity"></activity>
+        <activity android:name=".activity.ChanPinXQActivity" />
+        <activity android:name=".activity.LiJiZFActivity"></activity>
     </application>
 
 </manifest>

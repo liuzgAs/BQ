@@ -59,4 +59,13 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <style name="bottomBtn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/normalItemHeight</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:background">@drawable/shape_basic_jian_bian</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/MoreBigText</item>
+    </style>
 </resources>
