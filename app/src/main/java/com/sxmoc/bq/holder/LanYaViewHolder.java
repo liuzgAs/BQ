@@ -21,9 +21,13 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.MainActivity;
 import com.sxmoc.bq.base.MyDialog;
+import com.sxmoc.bq.customview.SingleBtnDialog;
 import com.sxmoc.bq.model.BlueBean;
+import com.sxmoc.bq.model.NaoBo;
+import com.sxmoc.bq.util.ByteUtils;
 import com.sxmoc.bq.util.LogUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +39,10 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
     private final TextView textDes;
     private final Button btnLianJie;
     private final TextView textStatue;
+    private List<List<NaoBo>> naoBoList = new ArrayList<>();
     BlueBean data;
+    int num = 0;
+    int index = 0;
 
     public LanYaViewHolder(ViewGroup parent, @LayoutRes int res) {
         super(parent, res);
@@ -52,14 +59,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                 } else if (data.getStatue() == 1) {
                     caoZuo();
                 } else {
-                    BluetoothGatt bluetoothGatt = BleManager.getInstance().getBluetoothGatt(data.getBleDevice());
-                    final List<BluetoothGattService> services = bluetoothGatt.getServices();
-                    List<BluetoothGattCharacteristic> characteristics = services.get(2).getCharacteristics();
-                    final BluetoothGattCharacteristic bluetoothGattCharacteristic = characteristics.get(0);
-                    BleManager.getInstance().stopNotify(data.getBleDevice(), bluetoothGattCharacteristic.getService().getUuid().toString(),
-                            bluetoothGattCharacteristic.getUuid().toString());
-                    data.setStatue(1);
-                    btnLianJie.setText("测试");
+                    closeNotify();
                 }
             }
         });
@@ -67,11 +67,27 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
         textStatue.setVisibility(View.GONE);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    private void closeNotify() {
+        BluetoothGatt bluetoothGatt = BleManager.getInstance().getBluetoothGatt(data.getBleDevice());
+        final List<BluetoothGattService> services = bluetoothGatt.getServices();
+        List<BluetoothGattCharacteristic> characteristics = services.get(2).getCharacteristics();
+        final BluetoothGattCharacteristic bluetoothGattCharacteristic = characteristics.get(0);
+        BleManager.getInstance().stopNotify(data.getBleDevice(), bluetoothGattCharacteristic.getService().getUuid().toString(),
+                bluetoothGattCharacteristic.getUuid().toString());
+        data.setStatue(1);
+        btnLianJie.setText("测试");
+    }
+
     /**
      * 操作
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void caoZuo() {
+        for (int i = 0; i < 120; i++) {
+            List<NaoBo> stringList = new ArrayList<>();
+            naoBoList.add(stringList);
+        }
         BluetoothGatt bluetoothGatt = BleManager.getInstance().getBluetoothGatt(data.getBleDevice());
         final List<BluetoothGattService> services = bluetoothGatt.getServices();
         List<BluetoothGattCharacteristic> characteristics = services.get(2).getCharacteristics();
@@ -99,7 +115,53 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                     @Override
                     public void onCharacteristicChanged(byte[] data) {
                         // 打开通知后，设备发过来的数据将在这里出现
-                        LogUtil.LogShitou("MainActivity--onCharacteristicChanged", HexUtil.formatHexString(data, true));
+                        /**
+                         * a55a02e002870295000000000000000004
+                         * a55a02 e0         0287 0295 000000000000000004
+                         * 数据头  第几个数据包
+                         * 000000000000000004a55a02
+                         */
+                        String hexString = HexUtil.formatHexString(data, false);
+                        LogUtil.LogShitou("MainActivity--onCharacteristicChanged", hexString);
+                        String replace = hexString.replace("000000000000000f04a55a02", "000000000000000004a55a02");
+                        String[] split = replace.split("000000000000000004a55a02");
+                        for (int i = 0; i < split.length; i++) {
+
+                            if (split[i].length() == 10) {
+                                LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "截取后" + split[i]);
+                                byte[] bytes = HexUtil.hexStringToBytes(split[i]);
+                                int zuoNao = ByteUtils.bytesUInt(bytes[1])*256+ByteUtils.bytesUInt(bytes[2]);
+                                int youNao = ByteUtils.bytesUInt(bytes[3])*256+ByteUtils.bytesUInt(bytes[4]);
+                                LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "左脑"+zuoNao);
+                                LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "右脑"+youNao);
+                                naoBoList.get(index).add(new NaoBo(zuoNao,youNao));
+                                num++;
+                                LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "num"+num);
+                                if (num == 256) {
+                                    num = 0;
+                                    index++;
+                                    LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "index"+index);
+                                    if (index==120){
+                                        index = 0;
+                                        closeNotify();
+                                        /**
+                                         * 测试结束
+                                         */
+                                        final SingleBtnDialog singleBtnDialog = new SingleBtnDialog(getContext(), "测试结束", "确认");
+                                        singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
+                                            @Override
+                                            public void doWhat() {
+                                                singleBtnDialog.dismiss();
+                                                for (int j = 0; j < naoBoList.size(); j++) {
+                                                    LogUtil.LogShitou("LanYaViewHolder--doWhat", ""+naoBoList.get(j).size());
+                                                }
+                                            }
+                                        });
+                                        singleBtnDialog.show();
+                                    }
+                                }
+                            }
+                        }
                     }
                 });
     }
