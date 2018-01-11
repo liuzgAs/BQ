@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/viewZhengZaiSS"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageSouSuoBg"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/sousuobg" />
+
+        <TextView
+            android:id="@+id/textSouSuo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageSouSuoBg"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="35dp"
+            android:text="正在搜索……"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+    </RelativeLayout>
+</LinearLayout>

@@ -1,26 +1,44 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/background"
     android:layout_height="match_parent"
     tools:context="com.sxmoc.bq.fragment.CeYiCeFragment">
-    <ImageView
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:src="@mipmap/qianqi_ceyicecircle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
-    <Button
-        android:textColor="@color/ceyice"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
-        android:background="@drawable/shape_ceyice"
-        android:id="@+id/btnKaiShiJC"
-        android:layout_marginBottom="80dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="@dimen/MoreBigText"
-        android:text="开始检测"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp" />
+    <RelativeLayout
+        android:id="@+id/viewKaiShiJC"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/naoboceyicebg" />
+
+        <Button
+            android:id="@+id/btnKaiShiJC"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="80dp"
+            android:background="@drawable/shape_ceyice"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="开始检测"
+            android:textColor="@color/ceyice"
+            android:textSize="@dimen/MoreBigText" />
+    </RelativeLayout>
+
+    <com.jude.easyrecyclerview.EasyRecyclerView
+        android:visibility="gone"
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_progress="@layout/view_progress"
+        app:scrollbarStyle="insideOverlay" />
+
 </RelativeLayout>

@@ -4,16 +4,18 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TabHost;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.application.MyApplication;
 import com.sxmoc.bq.base.ZjbBaseNotLeftActivity;
 import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.fragment.CeYiCeFragment;
 import com.sxmoc.bq.fragment.FaXianFragment;
 import com.sxmoc.bq.fragment.ShangChengFragment;
 import com.sxmoc.bq.fragment.WoDeFragment;
-import com.sxmoc.bq.util.LogUtil;
+import com.sxmoc.bq.util.BackHandlerHelper;
 import com.sxmoc.bq.util.UpgradeUtils;
 
 
@@ -26,10 +28,10 @@ public class MainActivity extends ZjbBaseNotLeftActivity {
             WoDeFragment.class,
     };
     private int[] imgRes = new int[]{
-            R.mipmap.item_01,
-            R.mipmap.item_02,
-            R.mipmap.item_03,
-            R.mipmap.item_04,
+            R.drawable.selector_item01,
+            R.drawable.selector_item02,
+            R.drawable.selector_item03,
+            R.drawable.selector_item04,
     };
     public FragmentTabHost mTabHost;
 
@@ -58,44 +60,22 @@ public class MainActivity extends ZjbBaseNotLeftActivity {
 
     @Override
     protected void initViews() {
-        tabsItem[0] = "0";
-        tabsItem[1] = "1";
-        tabsItem[2] = "2";
-        tabsItem[3] = "3";
+        tabsItem[0] = "商城";
+        tabsItem[1] = "测一测";
+        tabsItem[2] = "发现";
+        tabsItem[3] = "我的";
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtab);
         for (int i = 0; i < tabsItem.length; i++) {
             View inflate = getLayoutInflater().inflate(R.layout.tabs_item, null);
-            View tabsCircle = inflate.findViewById(R.id.tabsCircle);
+            TextView tabsText = inflate.findViewById(R.id.tabs_text);
             ImageView tabsImg = inflate.findViewById(R.id.tabs_img);
 //            if (i==1||i==2){
 //                tabsImg.setPadding(0,(int) DpUtils.convertDpToPixel(1f,this),0,(int) DpUtils.convertDpToPixel(1f,this));
 //            }
+            tabsText.setText(tabsItem[i]);
             tabsImg.setImageResource(imgRes[i]);
             mTabHost.addTab(mTabHost.newTabSpec(tabsItem[i]).setIndicator(inflate), fragment[i], null);
         }
-        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            @Override
-            public void onTabChanged(String s) {
-                LogUtil.LogShitou("MainActivity--onTabChanged", "" + s);
-                switch (s) {
-                    case "0":
-                        mTabHost.setBackgroundResource(R.mipmap.shangcheng_bg);
-                        break;
-                    case "1":
-                        mTabHost.setBackgroundResource(R.drawable.top_bottom_jian_bian);
-                        break;
-                    case "2":
-                        mTabHost.setBackgroundResource(R.drawable.top_bottom_jian_bian);
-                        break;
-                    case "3":
-                        mTabHost.setBackgroundResource(R.drawable.top_bottom_jian_bian);
-                        break;
-                    default:
-                        mTabHost.setBackgroundResource(R.drawable.top_bottom_jian_bian);
-                        break;
-                }
-            }
-        });
     }
 
     @Override
@@ -105,6 +85,26 @@ public class MainActivity extends ZjbBaseNotLeftActivity {
     @Override
     protected void initData() {
 
+    }
+
+    /**
+     * 双击退出应用
+     */
+    private long currentTime = 0;
+
+    @Override
+    public void onBackPressed() {
+        if (!BackHandlerHelper.handleBackPress(this)) {
+            if (System.currentTimeMillis() - currentTime > 1000) {
+                Toast toast = Toast.makeText(this, "双击退出应用", Toast.LENGTH_SHORT);
+                toast.show();
+                currentTime = System.currentTimeMillis();
+            } else {
+                MyApplication.getInstance().exit();
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(0);
+            }
+        }
     }
 
 }
