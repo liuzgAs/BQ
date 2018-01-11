@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
@@ -20,7 +21,9 @@ import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.holder.QueRenDDViewHolder;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.OrderCreateorder;
+import com.sxmoc.bq.model.OrderSubmitorder;
 import com.sxmoc.bq.util.ApiClient;
+import com.sxmoc.bq.util.Arith;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
 
@@ -32,6 +35,7 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
     private EasyRecyclerView recyclerView;
     private RecyclerArrayAdapter<OrderCreateorder> adapter;
     public TextView textSum;
+    private OrderCreateorder orderCreateorder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +88,7 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
     @Override
     protected void setListeners() {
         findViewById(R.id.imageBack).setOnClickListener(this);
+        findViewById(R.id.buttonTiJiao).setOnClickListener(this);
     }
 
     /**
@@ -96,9 +101,9 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
-        params.put("id",id+"");
+        params.put("id", id + "");
         return new OkObject(params, url);
     }
 
@@ -109,14 +114,14 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
             public void onSuccess(String s) {
                 LogUtil.LogShitou("确认订单页", s);
                 try {
-                    OrderCreateorder orderCreateorder = GsonUtils.parseJSON(s, OrderCreateorder.class);
+                    orderCreateorder = GsonUtils.parseJSON(s, OrderCreateorder.class);
                     if (orderCreateorder.getStatus() == 1) {
                         orderCreateorder.setNum(1);
-                        textSum.setText("¥"+orderCreateorder.getGoods_price());
+                        textSum.setText("¥" + orderCreateorder.getGoods_price());
                         adapter.clear();
                         adapter.add(orderCreateorder);
                         adapter.notifyDataSetChanged();
-                    } else if (orderCreateorder.getStatus()== 3) {
+                    } else if (orderCreateorder.getStatus() == 3) {
                         MyDialog.showReLoginDialog(QueRenDDActivity.this);
                     } else {
                         showError(orderCreateorder.getInfo());
@@ -130,6 +135,7 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
             public void onError() {
                 showError("网络出错");
             }
+
             /**
              * 错误显示
              * @param msg
@@ -153,12 +159,81 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
+            case R.id.buttonTiJiao:
+                if (orderCreateorder.getIs_deddr() == 0) {
+                    Toast.makeText(QueRenDDActivity.this, "没有收货地址", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (orderCreateorder.getNum()==0){
+                    Toast.makeText(QueRenDDActivity.this, "商品数量必须大于1", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                tiJiaoDingDan();
+                break;
             case R.id.imageBack:
                 finish();
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
+    private OkObject getTiJiaoDDOkObject() {
+        String url = Constant.HOST + Constant.Url.ORDER_SUBMITORDER;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime",tokenTime);
+        }
+        params.put("id",id+"");
+        params.put("num",orderCreateorder.getNum()+"");
+        params.put("type_id","1");
+        params.put("phone",orderCreateorder.getPhone());
+        params.put("address",orderCreateorder.getAddress());
+        params.put("consignee",orderCreateorder.getConsignee());
+        return new OkObject(params, url);
+    }
+
+    /**
+     * 提交订单
+     */
+    private void tiJiaoDingDan() {
+        showLoadingDialog();
+        ApiClient.post(QueRenDDActivity.this, getTiJiaoDDOkObject(), new ApiClient.CallBack() {
+            @Override
+            public void onSuccess(String s) {
+                cancelLoadingDialog();
+                LogUtil.LogShitou("QueRenDDActivity--onSuccess",s+ "");
+                try {
+                    OrderSubmitorder orderSubmitorder = GsonUtils.parseJSON(s, OrderSubmitorder.class);
+                    if (orderSubmitorder.getStatus()==1){
+                        Intent intent = new Intent();
+                        intent.putExtra(Constant.IntentKey.ORDER,orderSubmitorder.getOrder_no());
+                        Double price = Arith.mul((double) orderCreateorder.getNum(), Double.parseDouble(orderCreateorder.getGoods_price()));
+                        intent.putExtra(Constant.IntentKey.VALUE,price);
+                        intent.setClass(QueRenDDActivity.this, LiJiZFActivity.class);
+                        startActivity(intent);
+                    }else if (orderSubmitorder.getStatus()==3){
+                        MyDialog.showReLoginDialog(QueRenDDActivity.this);
+                    }else {
+                        Toast.makeText(QueRenDDActivity.this, orderSubmitorder.getInfo(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(QueRenDDActivity.this,"数据出错", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError() {
+                cancelLoadingDialog();
+                Toast.makeText(QueRenDDActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

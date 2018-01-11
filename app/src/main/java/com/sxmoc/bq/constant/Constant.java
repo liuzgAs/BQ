@@ -65,6 +65,18 @@ public class Constant {
          * 确认订单页
          */
         public static final String ORDER_CREATEORDER = "/order/createOrder";
+        /**
+         * 提交订单
+         */
+        public static final String ORDER_SUBMITORDER = "/order/submitOrder";
+        /**
+         * 余额获取
+         */
+        public static final String USER_GETBALANCE = "/user/getbalance";
+        /**
+         * 余额支付
+         */
+        public static final String PAY_BALANCEPAY = "/pay/balancePay";
     }
 
     public static class IntentKey {
@@ -72,6 +84,8 @@ public class Constant {
         public static final String POSITION = "position";
         public static final String PHONE = "phone";
         public static final String ID = "id";
+        public static final String VALUE = "value";
+        public static final String ORDER = "order";
     }
 
     public static class RequestResultCode {

@@ -47,19 +47,20 @@
         android:layout_marginTop="@dimen/top"
         android:background="@drawable/layout_selector_white_system_gray"
         android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="100dp">
-        <TextView
-            android:text="选择收货地址"
-            android:textSize="@dimen/MoreBigText"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/leftAndRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
         <ImageView
-            android:src="@mipmap/right_big"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/leftAndRight"
+            android:id="@+id/image0100"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/xinzengdizhi"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp" />
+        <TextView
+            android:layout_below="@+id/image0100"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="新增地址"
+            android:textSize="@dimen/normal_textsize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>

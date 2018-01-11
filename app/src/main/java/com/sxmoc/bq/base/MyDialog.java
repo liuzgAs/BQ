@@ -3,8 +3,9 @@ package com.sxmoc.bq.base;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
+
+import com.sxmoc.bq.customview.SingleBtnDialog;
 
 
 /**
@@ -12,29 +13,25 @@ import android.view.KeyEvent;
  */
 public class MyDialog {
     public static void showReLoginDialog(final Context context) {
-        final AlertDialog reLoginDialog = new AlertDialog.Builder(context)
-                .setTitle("提示")
-                .setMessage("您的账号在其他设备上登录，请重新登录")
-                .setCancelable(false)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ToLoginActivity.toLoginActivity(context);
-                    }
-                })
-                .create();
-        reLoginDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+        final SingleBtnDialog singleBtnDialog = new SingleBtnDialog(context, "您的账号在其他设备上登录，请重新登录", "确认");
+        singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
+            @Override
+            public void doWhat() {
+                ToLoginActivity.toLoginActivity(context);
+            }
+        });
+        singleBtnDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-                    reLoginDialog.dismiss();
+                    singleBtnDialog.dismiss();
                     ToLoginActivity.toLoginActivity(context);
                 }
                 return false;
             }
         });
-        reLoginDialog.show();
+        singleBtnDialog.show();
     }
 
     /**
@@ -43,50 +40,25 @@ public class MyDialog {
      * @param msg
      */
     public static void showTipDialog(Context context, String msg) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(msg)
-                .setPositiveButton("是", null)
-                .create()
-                .show();
-    }
-
-    public static void dialogResultFinish(final Context context, String msg, final int code) {
-        AlertDialog dialog = new AlertDialog.Builder(context)
-                .setMessage(msg)
-                .setPositiveButton("是", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ((ZjbBaseActivity) context).setResult(code);
-                        ((ZjbBaseActivity) context).finish();
-                    }
-                })
-                .create();
-        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+        final SingleBtnDialog singleBtnDialog = new SingleBtnDialog(context, msg, "确认");
+        singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
             @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-                    dialog.dismiss();
-                    ((ZjbBaseActivity) context).setResult(code);
-                    ((ZjbBaseActivity) context).finish();
-                }
-                return false;
+            public void doWhat() {
+                singleBtnDialog.dismiss();
             }
         });
-        dialog.setCancelable(false);
-        dialog.show();
+        singleBtnDialog.show();
     }
 
     public static void dialogFinish(final Activity activity, String msg) {
-        AlertDialog dialog = new AlertDialog.Builder(activity)
-                .setMessage(msg)
-                .setPositiveButton("是", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        activity.finish();
-                    }
-                })
-                .create();
-        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+        SingleBtnDialog singleBtnDialog = new SingleBtnDialog(activity, msg, "确认");
+        singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
+            @Override
+            public void doWhat() {
+                activity.finish();
+            }
+        });
+        singleBtnDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
@@ -96,8 +68,8 @@ public class MyDialog {
                 return false;
             }
         });
-        dialog.setCancelable(false);
-        dialog.show();
+        singleBtnDialog.setCancelable(false);
+        singleBtnDialog.show();
     }
 
 
