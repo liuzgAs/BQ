@@ -2,15 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/background"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context="com.sxmoc.bq.fragment.CeYiCeFragment">
 
     <RelativeLayout
         android:id="@+id/viewKaiShiJC"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="match_parent"
@@ -34,15 +34,27 @@
     </RelativeLayout>
 
     <com.jude.easyrecyclerview.EasyRecyclerView
-        android:visibility="gone"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         app:layout_progress="@layout/view_progress"
         app:scrollbarStyle="insideOverlay" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_basic_jian_bian"
+        android:orientation="vertical">
+
+        <com.sxmoc.bq.customview.NaoBoTu
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_weight="1" />
+
+        <com.sxmoc.bq.customview.NaoBoTu
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_weight="1" />
+    </LinearLayout>
 </RelativeLayout>
