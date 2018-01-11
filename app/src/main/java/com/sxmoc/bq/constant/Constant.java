@@ -77,6 +77,10 @@ public class Constant {
          * 余额支付
          */
         public static final String PAY_BALANCEPAY = "/pay/balancePay";
+        /**
+         * 我的
+         */
+        public static final String USER_BUYERINDEX = "/User/buyerIndex";
     }
 
     public static class IntentKey {
