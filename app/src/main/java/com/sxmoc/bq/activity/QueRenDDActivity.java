@@ -31,6 +31,7 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
     private int id;
     private EasyRecyclerView recyclerView;
     private RecyclerArrayAdapter<OrderCreateorder> adapter;
+    public TextView textSum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
     @Override
     protected void findID() {
         recyclerView = (EasyRecyclerView) findViewById(R.id.recyclerView);
+        textSum = (TextView) findViewById(R.id.textSum);
     }
 
     @Override
@@ -110,6 +112,7 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
                     OrderCreateorder orderCreateorder = GsonUtils.parseJSON(s, OrderCreateorder.class);
                     if (orderCreateorder.getStatus() == 1) {
                         orderCreateorder.setNum(1);
+                        textSum.setText("¥"+orderCreateorder.getGoods_price());
                         adapter.clear();
                         adapter.add(orderCreateorder);
                         adapter.notifyDataSetChanged();

@@ -1,7 +1,11 @@
 package com.sxmoc.bq.holder;
 
 import android.support.annotation.LayoutRes;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -11,7 +15,9 @@ import android.widget.Toast;
 
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.activity.QueRenDDActivity;
 import com.sxmoc.bq.model.OrderCreateorder;
+import com.sxmoc.bq.util.Arith;
 import com.sxmoc.bq.util.GlideApp;
 
 /**
@@ -48,14 +54,14 @@ public class QueRenDDViewHolder extends BaseViewHolder<OrderCreateorder> {
         imageAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(editNum.getText().toString().trim())){
+                if (TextUtils.isEmpty(editNum.getText().toString().trim())) {
                     editNum.setText("1");
                     editNum.setSelection(1);
-                }else {
+                } else {
                     int goodsNum = Integer.parseInt(editNum.getText().toString().trim());
                     if (goodsNum < data.getGoods_stock()) {
-                        editNum.setText((goodsNum + 1)+"");
-                        editNum.setSelection(((goodsNum + 1)+"").length());
+                        editNum.setText((goodsNum + 1) + "");
+                        editNum.setSelection(((goodsNum + 1) + "").length());
                     } else {
                         Toast.makeText(getContext(), "库存不足", Toast.LENGTH_SHORT).show();
                     }
@@ -65,16 +71,46 @@ public class QueRenDDViewHolder extends BaseViewHolder<OrderCreateorder> {
         imageDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(editNum.getText().toString().trim())){
+                if (TextUtils.isEmpty(editNum.getText().toString().trim())) {
 
-                }else {
+                } else {
                     int goodsNum = Integer.parseInt(editNum.getText().toString().trim());
                     if (goodsNum > 1) {
-                        editNum.setText((goodsNum - 1)+"");
-                        editNum.setSelection(((goodsNum - 1)+"").length());
+                        editNum.setText((goodsNum - 1) + "");
+                        editNum.setSelection(((goodsNum - 1) + "").length());
                     }
                 }
+            }
+        });
+        editNum.setFilters(new InputFilter[]{new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if ((source.equals("0") && dest.toString().length() == 0)) {
+                    return "1";
+                }
+                return null;
+            }
+        }});
+        editNum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (TextUtils.isEmpty(editable.toString())){
+                    editNum.setText("1");
+                    editNum.setSelection(1);
+                }
+                data.setNum(Integer.parseInt(editNum.getText().toString().trim()));
+                Double price = Arith.mul((double) data.getNum(), Double.parseDouble(data.getGoods_price()));
+                ((QueRenDDActivity)getContext()).textSum.setText("¥"+price);
             }
         });
     }
@@ -100,8 +136,8 @@ public class QueRenDDViewHolder extends BaseViewHolder<OrderCreateorder> {
                 .into(imageImg);
         textTitle.setText(data.getGoods_title());
         textPrice.setText("¥" + data.getGoods_price());
-        editNum.setText(data.getNum()+"");
-        editNum.setSelection((data.getNum()+"").length());
+        editNum.setText(data.getNum() + "");
+        editNum.setSelection((data.getNum() + "").length());
     }
 
 }
