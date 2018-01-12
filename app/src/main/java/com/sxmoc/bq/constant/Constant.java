@@ -89,6 +89,10 @@ public class Constant {
          * 测试数据上传
          */
         public static final String BUYER_SAVEDATA = "/buyer/saveData";
+        /**
+         * 宝宝信息填写
+         */
+        public static final String BUYER_ADDINFO = "/buyer/addInfo";
     }
 
     public static class IntentKey {
@@ -102,6 +106,7 @@ public class Constant {
 
     public static class RequestResultCode {
         public static final int IMAGE_PICKER = 2029;
+        public static final int KAI_SHI_CE_SHI = 2030;
     }
 
     public static class Acache {

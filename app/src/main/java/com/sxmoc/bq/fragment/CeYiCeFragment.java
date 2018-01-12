@@ -41,6 +41,7 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.DividerDecoration;
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.activity.XinXiTXActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.constant.Constant;
@@ -84,6 +85,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     ObjectAnimator[] animator = new ObjectAnimator[5];
     private TextView textShangChuanStatue;
     private int screenWidth;
+    private int id;
 
     public CeYiCeFragment() {
         // Required empty public constructor
@@ -269,7 +271,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
             params.put("uid", userInfo.getUid());
             params.put("tokenTime", tokenTime);
         }
-        params.put("bid", "1");
+        params.put("bid", id+"");
         List<String> naoBoDataList00 = new ArrayList<>();
         List<String> naoBoDataList01 = new ArrayList<>();
         List<String> naoBoDataList02 = new ArrayList<>();
@@ -399,33 +401,40 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnKaiShiJC:
-                boolean supportBle = BleManager.getInstance().isSupportBle();
-                if (!supportBle) {
-                    MyDialog.showTipDialog(getActivity(), "该设备不支持蓝牙");
-                    return;
-                }
-                final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                if (!bluetoothAdapter.isEnabled()) {
-                    final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(getActivity(), "某个应用要打开你的蓝牙", "允许", "拒绝");
-                    twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
-                        @Override
-                        public void doConfirm() {
-                            twoBtnDialog.dismiss();
-                            BleManager.getInstance().enableBluetooth();
-                        }
-
-                        @Override
-                        public void doCancel() {
-                            twoBtnDialog.dismiss();
-                        }
-                    });
-                    twoBtnDialog.show();
-                } else {
-                    checkPermissions();
-                }
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), XinXiTXActivity.class);
+                startActivityForResult(intent,Constant.RequestResultCode.KAI_SHI_CE_SHI);
+//                startCeShi();
                 break;
             default:
                 break;
+        }
+    }
+
+    private void startCeShi() {
+        boolean supportBle = BleManager.getInstance().isSupportBle();
+        if (!supportBle) {
+            MyDialog.showTipDialog(getActivity(), "该设备不支持蓝牙");
+            return;
+        }
+        final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (!bluetoothAdapter.isEnabled()) {
+            final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(getActivity(), "某个应用要打开你的蓝牙", "允许", "拒绝");
+            twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
+                @Override
+                public void doConfirm() {
+                    twoBtnDialog.dismiss();
+                    BleManager.getInstance().enableBluetooth();
+                }
+
+                @Override
+                public void doCancel() {
+                    twoBtnDialog.dismiss();
+                }
+            });
+            twoBtnDialog.show();
+        } else {
+            checkPermissions();
         }
     }
 
@@ -497,6 +506,10 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
             if (checkGPSIsOpen()) {
                 startScan();
             }
+        }
+        if (requestCode==Constant.RequestResultCode.KAI_SHI_CE_SHI&&resultCode==Constant.RequestResultCode.KAI_SHI_CE_SHI){
+            id = data.getIntExtra(Constant.IntentKey.ID, 0);
+            startCeShi();
         }
     }
 

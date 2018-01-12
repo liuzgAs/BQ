@@ -16,6 +16,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <!-- 支付宝h5 -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -79,6 +80,7 @@
         <activity
             android:name=".activity.QueRenDDActivity"
             android:launchMode="singleTop" />
+        <activity android:name=".activity.XinXiTXActivity"></activity>
     </application>
 
 </manifest>
