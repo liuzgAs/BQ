@@ -52,7 +52,7 @@ public class RoateImg extends View{
     {
         bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.huojian);
 
-        animator.setDuration(8000);
+        animator.setDuration(1000);
         animator.setInterpolator(new LinearInterpolator());
         animator.setRepeatCount(ValueAnimator.INFINITE);
 

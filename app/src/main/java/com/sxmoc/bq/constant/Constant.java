@@ -85,6 +85,10 @@ public class Constant {
          * 支付宝支付
          */
         public static final String PAY_ALIPAY = "/pay/alipay";
+        /**
+         * 测试数据上传
+         */
+        public static final String BUYER_SAVEDATA = "/buyer/saveData";
     }
 
     public static class IntentKey {

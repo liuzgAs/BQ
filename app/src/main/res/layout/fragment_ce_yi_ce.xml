@@ -47,7 +47,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/shape_basic_jian_bian"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/textLeftTime"
@@ -142,7 +142,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/shape_basic_jian_bian"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/textShangChuanStatue"

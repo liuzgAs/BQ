@@ -43,14 +43,21 @@ import com.jude.easyrecyclerview.decoration.DividerDecoration;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
+import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.customview.NaoBoTu;
 import com.sxmoc.bq.customview.RoateImg;
 import com.sxmoc.bq.customview.TwoBtnDialog;
 import com.sxmoc.bq.holder.LanYaViewHolder;
 import com.sxmoc.bq.model.BlueBean;
+import com.sxmoc.bq.model.OkObject;
+import com.sxmoc.bq.model.SimpleInfo;
+import com.sxmoc.bq.util.ApiClient;
+import com.sxmoc.bq.util.GsonUtils;
+import com.sxmoc.bq.util.LogUtil;
 import com.sxmoc.bq.util.ScreenUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -76,6 +83,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     private RelativeLayout viewDuQuBG;
     ObjectAnimator[] animator = new ObjectAnimator[5];
     private TextView textShangChuanStatue;
+    private int screenWidth;
 
     public CeYiCeFragment() {
         // Required empty public constructor
@@ -101,7 +109,6 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
 
     @Override
     protected void initIntent() {
-
     }
 
     @Override
@@ -132,9 +139,9 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     @Override
     protected void initViews() {
         initRecycler();
-        viewJieMian[0].setPadding(0, ScreenUtils.getStatusBarHeight(getActivity()), 0, 0);
+        viewJieMian[2].setPadding(0, ScreenUtils.getStatusBarHeight(getActivity()), 0, 0);
 
-        int screenWidth = ScreenUtils.getScreenWidth(getActivity());
+        screenWidth = ScreenUtils.getScreenWidth(getActivity());
         ImageView imageView1 = new ImageView(getActivity());
         imageView1.setImageResource(R.mipmap.jianbianquan);
         RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams((int) ((float) screenWidth * 0.6f), (int) ((float) screenWidth * 0.6f));
@@ -181,7 +188,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         layoutParams2.addRule(RelativeLayout.CENTER_IN_PARENT);
         viewDuQuBG.addView(imageView2, layoutParams2);
         imageView2.setAlpha(0.2f);
-
+        setJieMian(0);
     }
 
     /**
@@ -217,6 +224,12 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
                         textLeftTime.setText(String.valueOf(120 - leftTime));
                     }
 
+                    @Override
+                    public void upLoad(List<String> naoBoDataList) {
+                        upLoadData(naoBoDataList);
+                        setJieMian(3);
+                    }
+
                 });
                 return lanYaViewHolder;
             }
@@ -244,6 +257,126 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         });
     }
 
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
+    private OkObject getOkObject(List<String> naoBoDataList) {
+        String url = Constant.HOST + Constant.Url.BUYER_SAVEDATA;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime", tokenTime);
+        }
+        params.put("bid", "1");
+        List<String> naoBoDataList00 = new ArrayList<>();
+        List<String> naoBoDataList01 = new ArrayList<>();
+        List<String> naoBoDataList02 = new ArrayList<>();
+        List<String> naoBoDataList03 = new ArrayList<>();
+        List<String> naoBoDataList04 = new ArrayList<>();
+        List<String> naoBoDataList05 = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            naoBoDataList00.add(naoBoDataList.get(i));
+        }
+        for (int i = 20; i < 40; i++) {
+            naoBoDataList01.add(naoBoDataList.get(i));
+        }
+        for (int i = 40; i < 60; i++) {
+            naoBoDataList02.add(naoBoDataList.get(i));
+        }
+        for (int i = 60; i < 80; i++) {
+            naoBoDataList03.add(naoBoDataList.get(i));
+        }
+        for (int i = 80; i < 100; i++) {
+            naoBoDataList04.add(naoBoDataList.get(i));
+        }
+        for (int i = 100; i < 120; i++) {
+            naoBoDataList05.add(naoBoDataList.get(i));
+        }
+        params.put("raw_data1", GsonUtils.parseObject(naoBoDataList00));
+        params.put("raw_data2", GsonUtils.parseObject(naoBoDataList01));
+        params.put("raw_data3", GsonUtils.parseObject(naoBoDataList02));
+        params.put("raw_data4", GsonUtils.parseObject(naoBoDataList03));
+        params.put("raw_data5", GsonUtils.parseObject(naoBoDataList04));
+        params.put("raw_data6", GsonUtils.parseObject(naoBoDataList05));
+        return new OkObject(params, url);
+    }
+
+    /**
+     * 上传脑波数据
+     *
+     * @param naoBoDataList
+     */
+    private void upLoadData(List<String> naoBoDataList) {
+        showLoadingDialog();
+        ApiClient.post(getActivity(), getOkObject(naoBoDataList), new ApiClient.CallBack() {
+            @Override
+            public void onSuccess(String s) {
+                cancelLoadingDialog();
+                LogUtil.LogShitou("CeYiCeFragment--onSuccess", s + "");
+                try {
+                    SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
+                    if (simpleInfo.getStatus() == 1) {
+                        shangChuangWanCheng();
+                    } else if (simpleInfo.getStatus() == 3) {
+                        MyDialog.showReLoginDialog(getActivity());
+                    } else {
+                        Toast.makeText(getActivity(), simpleInfo.getInfo(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError() {
+                cancelLoadingDialog();
+                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 上传完成
+     */
+    private void shangChuangWanCheng() {
+        textShangChuanStatue.setText("上传完成");
+        for (int i = 0; i < animator.length; i++) {
+            animator[i].end();
+        }
+        roateImg.stopAnim();
+        PropertyValuesHolder holder01 = PropertyValuesHolder.ofFloat("scaleY", 1f, 0.6f);
+        PropertyValuesHolder holder03 = PropertyValuesHolder.ofFloat("scaleX", 1f, 1.4f);
+        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(roateImg, holder01, holder03);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.setDuration(500);
+        PropertyValuesHolder holder04 = PropertyValuesHolder.ofFloat("scaleY", 0.6f, 1f);
+        PropertyValuesHolder holder05 = PropertyValuesHolder.ofFloat("scaleX", 1.4f, 1f);
+        ObjectAnimator animator2 = ObjectAnimator.ofPropertyValuesHolder(roateImg, holder04, holder05);
+        animator2.setInterpolator(new LinearInterpolator());
+        animator2.setDuration(200);
+        PropertyValuesHolder holder02 = PropertyValuesHolder.ofFloat("translationY", -1500);
+        ObjectAnimator animator1 = ObjectAnimator.ofPropertyValuesHolder(roateImg, holder02);
+        animator1.setInterpolator(new LinearInterpolator());
+        animator1.setDuration(1000);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playSequentially(animator, animator2, animator1);
+        animatorSet.start();
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                setJieMian(4);
+            }
+        });
+    }
+
+    /**
+     * 设置界面
+     *
+     * @param jieMianIndex
+     */
     private void setJieMian(int jieMianIndex) {
         jieMian = jieMianIndex;
         for (int i = 0; i < viewJieMian.length; i++) {
@@ -255,7 +388,6 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     @Override
     protected void setListeners() {
         mInflate.findViewById(R.id.btnKaiShiJC).setOnClickListener(this);
-        roateImg.setOnClickListener(this);
     }
 
     @Override
@@ -266,37 +398,6 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.roateImg:
-                textShangChuanStatue.setText("上传完成");
-                for (int i = 0; i < animator.length; i++) {
-                    animator[i].end();
-                }
-                roateImg.stopAnim();
-                PropertyValuesHolder holder01 = PropertyValuesHolder.ofFloat("scaleY", 1f, 0.6f);
-                PropertyValuesHolder holder03 = PropertyValuesHolder.ofFloat("scaleX", 1f, 1.4f);
-                ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(roateImg, holder01, holder03);
-                animator.setInterpolator(new LinearInterpolator());
-                animator.setDuration(500);
-                PropertyValuesHolder holder04 = PropertyValuesHolder.ofFloat("scaleY", 0.6f, 1f);
-                PropertyValuesHolder holder05 = PropertyValuesHolder.ofFloat("scaleX", 1.4f, 1f);
-                ObjectAnimator animator2 = ObjectAnimator.ofPropertyValuesHolder(roateImg, holder04, holder05);
-                animator2.setInterpolator(new LinearInterpolator());
-                animator2.setDuration(200);
-                PropertyValuesHolder holder02 = PropertyValuesHolder.ofFloat("translationY", -1500);
-                ObjectAnimator animator1 = ObjectAnimator.ofPropertyValuesHolder(roateImg, holder02);
-                animator1.setInterpolator(new LinearInterpolator());
-                animator1.setDuration(1000);
-                AnimatorSet animatorSet = new AnimatorSet();
-                animatorSet.playSequentially(animator, animator2, animator1);
-                animatorSet.start();
-                animatorSet.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        setJieMian(4);
-                    }
-                });
-                break;
             case R.id.btnKaiShiJC:
                 boolean supportBle = BleManager.getInstance().isSupportBle();
                 if (!supportBle) {

@@ -21,7 +21,6 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.MainActivity;
 import com.sxmoc.bq.base.MyDialog;
-import com.sxmoc.bq.customview.SingleBtnDialog;
 import com.sxmoc.bq.model.BlueBean;
 import com.sxmoc.bq.model.NaoBo;
 import com.sxmoc.bq.util.ByteUtils;
@@ -48,6 +47,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
         void setNaoBo(int value01, int value02);
         void success();
         void leftTime(int leftTime);
+        void upLoad(List<String> naoBoDataList);
     }
 
     public LanYaViewHolder(ViewGroup parent, @LayoutRes int res) {
@@ -96,6 +96,9 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void caoZuo() {
+        num=0;
+        index=0;
+        naoBoList.clear();
         for (int i = 0; i < 120; i++) {
             List<NaoBo> stringList = new ArrayList<>();
             naoBoList.add(stringList);
@@ -161,20 +164,31 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                                     if (index == 120) {
                                         index = 0;
                                         closeNotify();
-                                        /**
-                                         * 测试结束
-                                         */
-                                        final SingleBtnDialog singleBtnDialog = new SingleBtnDialog(getContext(), "测试结束", "确认");
-                                        singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
-                                            @Override
-                                            public void doWhat() {
-                                                singleBtnDialog.dismiss();
-                                                for (int j = 0; j < naoBoList.size(); j++) {
-                                                    LogUtil.LogShitou("LanYaViewHolder--doWhat", "" + naoBoList.get(j).size());
+                                        List<String> naoBoDataList = new ArrayList<>();
+                                        for (int j = 0; j < naoBoList.size(); j++) {
+                                            naoBoDataList.add("A  "+j*256);
+                                            StringBuffer zuoNaoData = new StringBuffer();
+                                            for (int k = 0; k <naoBoList.get(j).size(); k++) {
+                                                if (k<naoBoList.get(j).size()-1){
+                                                    zuoNaoData.append(String.valueOf(naoBoList.get(j).get(k).getZuoNao()+","));
+                                                }else {
+                                                    zuoNaoData.append(String.valueOf(naoBoList.get(j).get(k).getZuoNao()));
                                                 }
                                             }
-                                        });
-                                        singleBtnDialog.show();
+                                            naoBoDataList.add(zuoNaoData.toString());
+                                            naoBoDataList.add("B  "+j*256);
+                                            StringBuffer youNaoData = new StringBuffer();
+                                            for (int k = 0; k <naoBoList.get(j).size(); k++) {
+                                                if (k<naoBoList.get(j).size()-1){
+                                                    youNaoData.append(String.valueOf(naoBoList.get(j).get(k).getYouNao()+","));
+                                                }else {
+                                                    youNaoData.append(String.valueOf(naoBoList.get(j).get(k).getYouNao()));
+                                                }
+                                            }
+                                            naoBoDataList.add(youNaoData.toString());
+                                        }
+                                        LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", ""+naoBoDataList.size());
+                                        onNaoBoListener.upLoad(naoBoDataList);
                                     }
                                 }
                             }
@@ -221,7 +235,10 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                 // 连接失败
                 LogUtil.LogShitou("MainActivity--onConnectFail", "连接失败");
                 ((MainActivity) getContext()).cancelLoadingDialog();
-                MyDialog.showTipDialog(getContext(), "连接失败");
+                try {
+                    MyDialog.showTipDialog(getContext(), "连接失败");
+                } catch (Exception e) {
+                }
             }
 
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
