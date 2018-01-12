@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -32,9 +33,12 @@ import com.jude.easyrecyclerview.decoration.DividerDecoration;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
+import com.sxmoc.bq.customview.NaoBoTu;
 import com.sxmoc.bq.customview.TwoBtnDialog;
 import com.sxmoc.bq.holder.LanYaViewHolder;
 import com.sxmoc.bq.model.BlueBean;
+import com.sxmoc.bq.util.LogUtil;
+import com.sxmoc.bq.util.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +55,10 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     private RecyclerArrayAdapter<BlueBean> adapter;
     private String saoMiaoStatue = "正在搜索……";
     private int jieMian = 0;
+    private View viewNaoBo;
+    private NaoBoTu naoBo01;
+    private NaoBoTu naoBo02;
+    private LanYaViewHolder lanYaViewHolder;
 
     public CeYiCeFragment() {
         // Required empty public constructor
@@ -88,11 +96,15 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     protected void findID() {
         viewKaiShiJC = mInflate.findViewById(R.id.viewKaiShiJC);
         recyclerView = mInflate.findViewById(R.id.recyclerView);
+        viewNaoBo = mInflate.findViewById(R.id.viewNaoBo);
+        naoBo01 = mInflate.findViewById(R.id.naoBo01);
+        naoBo02 = mInflate.findViewById(R.id.naoBo02);
     }
 
     @Override
     protected void initViews() {
         initRecycler();
+        viewNaoBo.setPadding(0, ScreenUtils.getStatusBarHeight(getActivity()), 0, 0);
     }
 
     /**
@@ -108,7 +120,24 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
             @Override
             public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
                 int layout = R.layout.item_lanya;
-                return new LanYaViewHolder(parent, layout);
+                lanYaViewHolder = new LanYaViewHolder(parent, layout);
+                lanYaViewHolder.setOnNaoBoListener(new LanYaViewHolder.OnNaoBoListener() {
+                    @Override
+                    public void setNaoBo(int value01, int value02) {
+                        naoBo01.setNaoBoPoint( value01);
+                        naoBo02.setNaoBoPoint( value02);
+                    }
+
+                    @Override
+                    public void success() {
+                        viewNaoBo.setVisibility(View.VISIBLE);
+                        viewKaiShiJC.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.GONE);
+                        jieMian = 2;
+                    }
+
+                });
+                return lanYaViewHolder;
             }
         });
         adapter.addHeader(new RecyclerArrayAdapter.ItemView() {
@@ -253,7 +282,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         List<BleDevice> allConnectedDevice = BleManager.getInstance().getAllConnectedDevice();
         List<BlueBean> blueBeanList = new ArrayList<>();
         for (int i = 0; i < allConnectedDevice.size(); i++) {
-            BlueBean blueBean = new BlueBean(allConnectedDevice.get(i),  0);
+            BlueBean blueBean = new BlueBean(allConnectedDevice.get(i), 0);
             blueBeanList.add(blueBean);
         }
         adapter.clear();
@@ -296,16 +325,17 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
                 saoMiaoStatue = "搜索完成";
                 List<BlueBean> blueBeanList = new ArrayList<>();
                 for (int i = 0; i < scanResultList.size(); i++) {
-                    BlueBean blueBean = new BlueBean(scanResultList.get(i),  0);
+                    BlueBean blueBean = new BlueBean(scanResultList.get(i), 0);
                     blueBeanList.add(blueBean);
                 }
                 adapter.addAll(blueBeanList);
                 adapter.notifyDataSetChanged();
-                if (adapter.getAllData().size()==0){
-                    MyDialog.showTipDialog(getContext(),"没有发现设备，请确认设备是否开机");
-                    jieMian=0;
+                if (adapter.getAllData().size() == 0) {
+                    MyDialog.showTipDialog(getContext(), "没有发现设备，请确认设备是否开机");
+                    jieMian = 0;
                     recyclerView.setVisibility(View.GONE);
                     viewKaiShiJC.setVisibility(View.VISIBLE);
+                    viewNaoBo.setVisibility(View.GONE);
                 }
             }
         });
@@ -316,7 +346,28 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         if (jieMian == 1) {
             jieMian = 0;
             recyclerView.setVisibility(View.GONE);
+            viewNaoBo.setVisibility(View.GONE);
             viewKaiShiJC.setVisibility(View.VISIBLE);
+            return true;
+        } else if (jieMian == 2) {
+            final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(getActivity(), "是否终止测试？", "是", "否");
+            twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+                @Override
+                public void doConfirm() {
+                    lanYaViewHolder.closeNotify();
+                    recyclerView.setVisibility(View.VISIBLE);
+                    viewNaoBo.setVisibility(View.GONE);
+                    viewKaiShiJC.setVisibility(View.GONE);
+                    twoBtnDialog.dismiss();
+                }
+
+                @Override
+                public void doCancel() {
+                    twoBtnDialog.dismiss();
+                }
+            });
+            twoBtnDialog.show();
             return true;
         } else {
             return super.onBackPressed();

@@ -3,8 +3,11 @@ package com.sxmoc.bq.customview;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.Shader;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -17,19 +20,23 @@ import com.sxmoc.bq.util.DpUtils;
  * @author ZhangJieBo
  */
 
-public class NaoBoTu extends View{
+public class NaoBoTu extends View {
     /**
      * 横线画笔
      */
     private Paint paintHengXian;
     /**
-     * 文字画笔
+     * 底部文字画笔
      */
-    private Paint paintWenZi;
+    private Paint paintWenZiDiBu;
+    /**
+     * 右边文字画笔
+     */
+    private Paint paintWenZiYouBian;
     /**
      * 横线数量
      */
-    int hengXianNum = 5;
+    int hengXianNum = 7;
     /**
      * 底部字体占用高度
      */
@@ -39,7 +46,24 @@ public class NaoBoTu extends View{
      */
     float youBianZiWidth;
     /**
+     * 右边文字margin
+     */
+    private float youBianTextMargin;
+
+    /**
      * 底部文字
+     */
+    String[] strYouBian = new String[]{
+            "128",
+            "256",
+            "384",
+            "512",
+            "640",
+            "768",
+            "896",
+    };
+    /**
+     * 右边文字
      */
     String[] strDiBu = new String[]{
             "10",
@@ -48,11 +72,48 @@ public class NaoBoTu extends View{
             "40",
             "50",
             "60",
+            "70",
+            "80",
     };
-    float diBuHengXianWidth ;
-    float qiTaHengXianWidth ;
-    float diBuTextSize ;
+    /**
+     * 底部横线宽度
+     */
+    float diBuHengXianWidth;
+    /**
+     * 其他横线宽度
+     */
+    float qiTaHengXianWidth;
+    /**
+     * 底部文字大小
+     */
+    float diBuTextSize;
     private Rect rectDiBu;
+
+    /**
+     * 右边文字大小
+     */
+    float youBianTextSize;
+    private Rect rectYouBian;
+    /**
+     * 脑波数据
+     */
+    int[] naoBoShuJuArr = new int[]{
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+    };
+    /**
+     * 脑波画笔
+     */
+    private Paint paintNaoBo;
+    Path path = new Path();
+    private Paint paintBaiDian;
+    private float naoBoLineWidth;
 
     public NaoBoTu(Context context) {
         super(context);
@@ -67,11 +128,13 @@ public class NaoBoTu extends View{
         /**
          * 初始化距离
          */
-        diBuZiHeght = DpUtils.convertDpToPixel(50f, context);
-        youBianZiWidth = DpUtils.convertDpToPixel(60f, context);
+        diBuZiHeght = DpUtils.convertDpToPixel(30f, context);
+        youBianZiWidth = DpUtils.convertDpToPixel(50f, context);
         diBuHengXianWidth = DpUtils.convertDpToPixel(1.2f, context);
         qiTaHengXianWidth = DpUtils.convertDpToPixel(0.8f, context);
         diBuTextSize = DpUtils.convertDpToPixel(12f, context);
+        youBianTextSize = DpUtils.convertDpToPixel(8f, context);
+        youBianTextMargin = DpUtils.convertDpToPixel(24f, context);
 
         setLayerType(LAYER_TYPE_SOFTWARE, null);
         /**
@@ -81,12 +144,40 @@ public class NaoBoTu extends View{
         /**
          * 初始化文字画笔
          */
-        paintWenZi = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paintWenZi.setColor(Color.parseColor("#b3d7fa"));
-        paintWenZi.setStyle(Paint.Style.FILL);
-        paintWenZi.setTextSize(diBuTextSize);
+        paintWenZiDiBu = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintWenZiDiBu.setColor(Color.parseColor("#b3d7fa"));
+        paintWenZiDiBu.setStyle(Paint.Style.FILL);
+        paintWenZiDiBu.setTextSize(diBuTextSize);
         rectDiBu = new Rect();
-        paintHengXian.getTextBounds(strDiBu[0], 0, strDiBu[0].length(), rectDiBu);
+        paintWenZiDiBu.getTextBounds(strDiBu[0], 0, strDiBu[0].length(), rectDiBu);
+
+        paintWenZiYouBian = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintWenZiYouBian.setColor(Color.parseColor("#62adf5"));
+        paintWenZiYouBian.setStyle(Paint.Style.FILL);
+        paintWenZiYouBian.setTextSize(diBuTextSize);
+        rectYouBian = new Rect();
+        paintWenZiYouBian.getTextBounds(strYouBian[0], 0, strDiBu[0].length(), rectYouBian);
+
+        /**
+         * 初始化脑波曲线画笔
+         */
+        paintNaoBo = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintNaoBo.setStyle(Paint.Style.STROKE);
+        naoBoLineWidth = DpUtils.convertDpToPixel(2f, context);
+        paintNaoBo.setStrokeWidth(naoBoLineWidth);
+//        paintNaoBo.setColor(Color.parseColor("#ffb662"));
+        Shader shader = new LinearGradient(getWidth(), 0, 0, getHeight(), Color.parseColor("#ffb06d"),
+                Color.parseColor("#ffff54"), Shader.TileMode.MIRROR);
+        paintNaoBo.setShader(shader);
+        /**
+         * 初始化白点画笔
+         */
+        paintBaiDian = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintBaiDian.setStyle(Paint.Style.STROKE);
+        paintBaiDian.setStrokeWidth(DpUtils.convertDpToPixel(5,context));
+        paintBaiDian.setColor(Color.WHITE);
+        paintBaiDian.setStrokeCap(Paint.Cap.ROUND);
+
     }
 
     @Override
@@ -97,26 +188,58 @@ public class NaoBoTu extends View{
          */
         paintHengXian.setColor(Color.parseColor("#88b3d7fa"));
         paintHengXian.setStrokeWidth(diBuHengXianWidth);
-        canvas.drawLine(0,getHeight()-diBuZiHeght,getWidth(),getHeight()-diBuZiHeght, paintHengXian);
+        canvas.drawLine(0, getHeight() - diBuZiHeght, getWidth(), getHeight() - diBuZiHeght+naoBoLineWidth, paintHengXian);
         /**
          * 画其他横线
          */
         paintHengXian.setColor(Color.parseColor("#55b3d7fa"));
         paintHengXian.setStrokeWidth(qiTaHengXianWidth);
         //高度间隔
-        float gaoDuJianGe = (getHeight() - diBuZiHeght)/(hengXianNum+1);
+        float gaoDuJianGe = (getHeight() - diBuZiHeght) / (hengXianNum + 1);
         for (int i = 0; i < hengXianNum; i++) {
-            canvas.drawLine(0, getHeight() - diBuZiHeght- gaoDuJianGe* (i+1), getWidth()-youBianZiWidth, getHeight() - diBuZiHeght- gaoDuJianGe* (i+1), paintHengXian);
+            canvas.drawLine(0, getHeight() - diBuZiHeght - gaoDuJianGe * (i + 1), getWidth() - youBianZiWidth, getHeight() - diBuZiHeght - gaoDuJianGe * (i + 1)+naoBoLineWidth, paintHengXian);
         }
         /**
          * 画底部文字
          */
         //宽度间隔
-        float kuanDuJianGe = (getWidth()-youBianZiWidth)/strDiBu.length;
+        float kuanDuJianGe = (getWidth() - youBianZiWidth) / strDiBu.length;
         for (int i = 0; i < strDiBu.length; i++) {
-            canvas.drawText(strDiBu[i],i*kuanDuJianGe+0.5f*kuanDuJianGe-0.5f*rectDiBu.width(),getHeight()-diBuZiHeght/2,paintWenZi);
+            canvas.drawText(strDiBu[i], i * kuanDuJianGe + 0.5f * kuanDuJianGe - 0.5f * rectDiBu.width(), getHeight() - diBuZiHeght / 2 + rectDiBu.height() / 2+naoBoLineWidth, paintWenZiDiBu);
         }
-        ;
-//        kuanDuJianGe*(1+1)-rectDiBu.width()/2;
+
+        /**
+         * 画右边文字
+         */
+        for (int i = 0; i < strYouBian.length; i++) {
+            canvas.drawText(strYouBian[i], getWidth() - rectYouBian.width() - youBianTextMargin, getHeight() - diBuZiHeght - gaoDuJianGe * (i + 1) + rectYouBian.height() / 2+naoBoLineWidth, paintWenZiYouBian);
+        }
+
+        /**
+         * 画脑波
+         */
+        canvas.save();
+        path.reset();
+        path.moveTo(getWidth()-youBianZiWidth,(getHeight()-diBuZiHeght)-(getHeight()-diBuZiHeght)*((float) naoBoShuJuArr[0]/1024f)+naoBoLineWidth*2);
+        for (int i = 0; i < naoBoShuJuArr.length; i++) {
+            path.lineTo((getWidth()-youBianZiWidth)-((float) i/64f)*((getWidth()-youBianZiWidth)),(getHeight()-diBuZiHeght)-(getHeight()-diBuZiHeght)*((float)naoBoShuJuArr[i]/1024f)+naoBoLineWidth*2);
+        }
+        canvas.drawPath(path,paintNaoBo);
+        canvas.restore();
+
+        /**
+         * 画开始的白点
+         */
+        canvas.drawPoint(getWidth()-youBianZiWidth,(getHeight()-diBuZiHeght)-(getHeight()-diBuZiHeght)*((float) naoBoShuJuArr[0]/1024f)+naoBoLineWidth*2,paintBaiDian);
+    }
+
+    public void setNaoBoPoint(int value){
+        int[] naoBoShuJuArrX = new int[64];
+        naoBoShuJuArrX[0] = value;
+        for (int i = 0; i < naoBoShuJuArr.length-1; i++) {
+            naoBoShuJuArrX[i+1] = naoBoShuJuArr[i];
+        }
+        naoBoShuJuArr = naoBoShuJuArrX;
+        invalidate();
     }
 }

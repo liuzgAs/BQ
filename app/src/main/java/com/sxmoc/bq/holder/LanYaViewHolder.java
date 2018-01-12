@@ -44,6 +44,11 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
     int num = 0;
     int index = 0;
 
+    public interface OnNaoBoListener {
+        void setNaoBo(int value01, int value02);
+        void success();
+    }
+
     public LanYaViewHolder(ViewGroup parent, @LayoutRes int res) {
         super(parent, res);
         textName = $(R.id.textName);
@@ -68,15 +73,21 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    private void closeNotify() {
+    public void closeNotify() {
         BluetoothGatt bluetoothGatt = BleManager.getInstance().getBluetoothGatt(data.getBleDevice());
-        final List<BluetoothGattService> services = bluetoothGatt.getServices();
-        List<BluetoothGattCharacteristic> characteristics = services.get(2).getCharacteristics();
-        final BluetoothGattCharacteristic bluetoothGattCharacteristic = characteristics.get(0);
-        BleManager.getInstance().stopNotify(data.getBleDevice(), bluetoothGattCharacteristic.getService().getUuid().toString(),
-                bluetoothGattCharacteristic.getUuid().toString());
-        data.setStatue(1);
-        btnLianJie.setText("测试");
+        if (bluetoothGatt!=null){
+            final List<BluetoothGattService> services = bluetoothGatt.getServices();
+            List<BluetoothGattCharacteristic> characteristics = services.get(2).getCharacteristics();
+            final BluetoothGattCharacteristic bluetoothGattCharacteristic = characteristics.get(0);
+            BleManager.getInstance().stopNotify(data.getBleDevice(), bluetoothGattCharacteristic.getService().getUuid().toString(),
+                    bluetoothGattCharacteristic.getUuid().toString());
+            data.setStatue(1);
+            btnLianJie.setText("测试");
+        }else {
+            textStatue.setVisibility(View.GONE);
+            btnLianJie.setText("连接");
+            data.setStatue(0);
+        }
     }
 
     /**
@@ -103,6 +114,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                         LogUtil.LogShitou("MainActivity--onNotifySuccess", "打开通知操作成功");
                         data.setStatue(2);
                         btnLianJie.setText("取消测试");
+                        onNaoBoListener.success();
                     }
 
                     @Override
@@ -130,18 +142,21 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                             if (split[i].length() == 10) {
                                 LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "截取后" + split[i]);
                                 byte[] bytes = HexUtil.hexStringToBytes(split[i]);
-                                int zuoNao = ByteUtils.bytesUInt(bytes[1])*256+ByteUtils.bytesUInt(bytes[2]);
-                                int youNao = ByteUtils.bytesUInt(bytes[3])*256+ByteUtils.bytesUInt(bytes[4]);
-                                LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "左脑"+zuoNao);
-                                LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "右脑"+youNao);
-                                naoBoList.get(index).add(new NaoBo(zuoNao,youNao));
+                                int zuoNao = ByteUtils.bytesUInt(bytes[1]) * 256 + ByteUtils.bytesUInt(bytes[2]);
+                                int youNao = ByteUtils.bytesUInt(bytes[3]) * 256 + ByteUtils.bytesUInt(bytes[4]);
+                                LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "左脑" + zuoNao);
+                                LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "右脑" + youNao);
+                                naoBoList.get(index).add(new NaoBo(zuoNao, youNao));
+                                if (num % 4 == 0) {
+                                    onNaoBoListener.setNaoBo( zuoNao, youNao);
+                                }
                                 num++;
-                                LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "num"+num);
+                                LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "num" + num);
                                 if (num == 256) {
                                     num = 0;
                                     index++;
-                                    LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "index"+index);
-                                    if (index==120){
+                                    LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "index" + index);
+                                    if (index == 120) {
                                         index = 0;
                                         closeNotify();
                                         /**
@@ -153,7 +168,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                                             public void doWhat() {
                                                 singleBtnDialog.dismiss();
                                                 for (int j = 0; j < naoBoList.size(); j++) {
-                                                    LogUtil.LogShitou("LanYaViewHolder--doWhat", ""+naoBoList.get(j).size());
+                                                    LogUtil.LogShitou("LanYaViewHolder--doWhat", "" + naoBoList.get(j).size());
                                                 }
                                             }
                                         });
@@ -164,6 +179,12 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                         }
                     }
                 });
+    }
+
+    public OnNaoBoListener onNaoBoListener;
+
+    public void setOnNaoBoListener(OnNaoBoListener onNaoBoListener) {
+        this.onNaoBoListener = onNaoBoListener;
     }
 
     @Override
