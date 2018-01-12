@@ -1,6 +1,9 @@
 package com.sxmoc.bq.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -50,6 +53,20 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
     private RecyclerArrayAdapter<GoodsInfo.DesListBean> adapter;
     private GoodsInfo.DataBean data;
     private Button textReserve;
+    private BroadcastReceiver reciver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case Constant.BroadcastCode.ZHI_FU_CG:
+                    finish();
+                    break;
+                default:
+
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -280,5 +297,19 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
                 recyclerView.showError();
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.BroadcastCode.ZHI_FU_CG);
+        registerReceiver(reciver, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(reciver);
     }
 }

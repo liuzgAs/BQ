@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sxmoc.bq">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:name=".application.MyApplication"
         android:allowBackup="true"
@@ -14,6 +16,35 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!-- 支付宝h5 -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!-- 支付宝h5 -->
+        <!-- wechat callback -->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
@@ -39,9 +70,15 @@
         <activity
             android:name=".activity.YinDaoActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".activity.ChanPinXQActivity" />
-        <activity android:name=".activity.LiJiZFActivity" />
-        <activity android:name=".activity.QueRenDDActivity"></activity>
+        <activity
+            android:name=".activity.ChanPinXQActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.LiJiZFActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.QueRenDDActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

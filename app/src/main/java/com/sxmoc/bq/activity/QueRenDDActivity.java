@@ -1,6 +1,9 @@
 package com.sxmoc.bq.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +39,20 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
     private RecyclerArrayAdapter<OrderCreateorder> adapter;
     public TextView textSum;
     private OrderCreateorder orderCreateorder;
+    private BroadcastReceiver reciver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case Constant.BroadcastCode.ZHI_FU_CG:
+                    finish();
+                    break;
+                default:
+
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +182,7 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
                     Toast.makeText(QueRenDDActivity.this, "没有收货地址", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (orderCreateorder.getNum()==0){
+                if (orderCreateorder.getNum() == 0) {
                     Toast.makeText(QueRenDDActivity.this, "商品数量必须大于1", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -189,14 +206,14 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
-        params.put("id",id+"");
-        params.put("num",orderCreateorder.getNum()+"");
-        params.put("type_id","1");
-        params.put("phone",orderCreateorder.getPhone());
-        params.put("address",orderCreateorder.getAddress());
-        params.put("consignee",orderCreateorder.getConsignee());
+        params.put("id", id + "");
+        params.put("num", orderCreateorder.getNum() + "");
+        params.put("type_id", "1");
+        params.put("phone", orderCreateorder.getPhone());
+        params.put("address", orderCreateorder.getAddress());
+        params.put("consignee", orderCreateorder.getConsignee());
         return new OkObject(params, url);
     }
 
@@ -209,23 +226,23 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
-                LogUtil.LogShitou("QueRenDDActivity--onSuccess",s+ "");
+                LogUtil.LogShitou("QueRenDDActivity--onSuccess", s + "");
                 try {
                     OrderSubmitorder orderSubmitorder = GsonUtils.parseJSON(s, OrderSubmitorder.class);
-                    if (orderSubmitorder.getStatus()==1){
+                    if (orderSubmitorder.getStatus() == 1) {
                         Intent intent = new Intent();
-                        intent.putExtra(Constant.IntentKey.ORDER,orderSubmitorder.getOrder_no());
+                        intent.putExtra(Constant.IntentKey.ORDER, orderSubmitorder.getOrder_no());
                         Double price = Arith.mul((double) orderCreateorder.getNum(), Double.parseDouble(orderCreateorder.getGoods_price()));
-                        intent.putExtra(Constant.IntentKey.VALUE,price);
+                        intent.putExtra(Constant.IntentKey.VALUE, price);
                         intent.setClass(QueRenDDActivity.this, LiJiZFActivity.class);
                         startActivity(intent);
-                    }else if (orderSubmitorder.getStatus()==3){
+                    } else if (orderSubmitorder.getStatus() == 3) {
                         MyDialog.showReLoginDialog(QueRenDDActivity.this);
-                    }else {
+                    } else {
                         Toast.makeText(QueRenDDActivity.this, orderSubmitorder.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(QueRenDDActivity.this,"数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QueRenDDActivity.this, "数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -235,5 +252,19 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
                 Toast.makeText(QueRenDDActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.BroadcastCode.ZHI_FU_CG);
+        registerReceiver(reciver, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(reciver);
     }
 }

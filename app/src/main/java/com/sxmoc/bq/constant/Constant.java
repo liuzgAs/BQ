@@ -5,7 +5,7 @@ package com.sxmoc.bq.constant;
  * Created by zjb on 2016/6/12.
  */
 public class Constant {
-    public static String HOST = "http://bq.sxmoc.com/api";
+    public static String HOST = "http://api.qizhibq.com";
     /**
      * 判断数据是否有改变
      */
@@ -81,6 +81,10 @@ public class Constant {
          * 我的
          */
         public static final String USER_BUYERINDEX = "/User/buyerIndex";
+        /**
+         * 支付宝支付
+         */
+        public static final String PAY_ALIPAY = "/pay/alipay";
     }
 
     public static class IntentKey {
@@ -114,6 +118,12 @@ public class Constant {
 
     public static class BroadcastCode {
         public static final String CHE_LIANG_BIAN_JI_DIALOG = "che_liang_bian_ji_dialog";
+        public static final String PAY_RECEIVER = "pay_receiver";
+        public static final String WX_LOGIN = "wxLogin";
+        public static final String WX_SHARE = "wxShare";
+        public static final String WX_LOGIN_FAIL = "wxLoginFail";
+        public static final String WX_SHARE_FAIL = "wxShareFail";
+        public static final String ZHI_FU_CG = "zhiFuCG";
     }
 
 
