@@ -70,9 +70,12 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     private TextView textLeftTime;
     private TextView textZuoNaoDis;
     private TextView textYouNaoDis;
-    private View[] viewJieMian = new View[4];
+    private View[] viewJieMian = new View[5];
     private RelativeLayout viewShangChuan;
     private RoateImg roateImg;
+    private RelativeLayout viewDuQuBG;
+    ObjectAnimator[] animator = new ObjectAnimator[5];
+    private TextView textShangChuanStatue;
 
     public CeYiCeFragment() {
         // Required empty public constructor
@@ -118,8 +121,11 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         textZuoNaoDis = mInflate.findViewById(R.id.textZuoNaoDis);
         textYouNaoDis = mInflate.findViewById(R.id.textYouNaoDis);
         viewShangChuan = mInflate.findViewById(R.id.viewShangChuan);
+        viewDuQuBG = mInflate.findViewById(R.id.viewDuQuBG);
         viewJieMian[3] = mInflate.findViewById(R.id.viewShangChuan);
+        viewJieMian[4] = mInflate.findViewById(R.id.viewDuQuBG);
         roateImg = mInflate.findViewById(R.id.roateImg);
+        textShangChuanStatue = mInflate.findViewById(R.id.textShangChuanStatue);
     }
 
     @SuppressLint("WrongConstant")
@@ -128,35 +134,32 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         initRecycler();
         viewJieMian[0].setPadding(0, ScreenUtils.getStatusBarHeight(getActivity()), 0, 0);
 
-
-
-
         int screenWidth = ScreenUtils.getScreenWidth(getActivity());
         ImageView imageView1 = new ImageView(getActivity());
         imageView1.setImageResource(R.mipmap.jianbianquan);
-        RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams((int)((float)screenWidth*0.6f),(int)((float)screenWidth*0.6f));
+        RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams((int) ((float) screenWidth * 0.6f), (int) ((float) screenWidth * 0.6f));
         layoutParams1.addRule(RelativeLayout.CENTER_IN_PARENT);
         viewShangChuan.addView(imageView1, layoutParams1);
         for (int i = 0; i < 5; i++) {
             final ImageView imageView = new ImageView(getActivity());
             imageView.setImageResource(R.mipmap.jianbianquan);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int)((float)screenWidth*0.6f),(int)((float)screenWidth*0.6f));
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int) ((float) screenWidth * 0.6f), (int) ((float) screenWidth * 0.6f));
             layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
             viewShangChuan.addView(imageView, layoutParams);
-            if (i>0){
+            if (i > 0) {
                 imageView.setVisibility(View.GONE);
             }
-            PropertyValuesHolder holder01 = PropertyValuesHolder.ofFloat("scaleX", 1f,3f);
-            PropertyValuesHolder holder02 = PropertyValuesHolder.ofFloat("scaleY", 1f,3f);
-            PropertyValuesHolder holder03 = PropertyValuesHolder.ofFloat("alpha", 1f,0f);
-            ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(imageView, holder01, holder02, holder03);
-            animator.setInterpolator(new LinearInterpolator());
-            animator.setDuration(4000);
-            animator.setStartDelay(0+1000*i);
-            animator.setRepeatCount(ValueAnimator.INFINITE);
-            animator.setRepeatMode(ValueAnimator.INFINITE);
-            animator.start();
-            animator.addListener(new AnimatorListenerAdapter() {
+            PropertyValuesHolder holder01 = PropertyValuesHolder.ofFloat("scaleX", 1f, 3f);
+            PropertyValuesHolder holder02 = PropertyValuesHolder.ofFloat("scaleY", 1f, 3f);
+            PropertyValuesHolder holder03 = PropertyValuesHolder.ofFloat("alpha", 1f, 0f);
+            animator[i] = ObjectAnimator.ofPropertyValuesHolder(imageView, holder01, holder02, holder03);
+            animator[i].setInterpolator(new LinearInterpolator());
+            animator[i].setDuration(4000);
+            animator[i].setStartDelay(0 + 1000 * i);
+            animator[i].setRepeatCount(ValueAnimator.INFINITE);
+            animator[i].setRepeatMode(ValueAnimator.INFINITE);
+            animator[i].start();
+            animator[i].addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationStart(Animator animation) {
                     super.onAnimationStart(animation);
@@ -164,6 +167,21 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
                 }
             });
         }
+
+        ImageView imageView3 = new ImageView(getActivity());
+        imageView3.setImageResource(R.mipmap.jianbianquan);
+        RelativeLayout.LayoutParams layoutParams3 = new RelativeLayout.LayoutParams((int) ((float) screenWidth * 0.8f), (int) ((float) screenWidth * 0.8f));
+        layoutParams3.addRule(RelativeLayout.CENTER_IN_PARENT);
+        viewDuQuBG.addView(imageView3, layoutParams3);
+        imageView3.setAlpha(0.4f);
+
+        ImageView imageView2 = new ImageView(getActivity());
+        imageView2.setImageResource(R.mipmap.jianbianquan);
+        RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams((int) ((float) screenWidth * 1f), (int) ((float) screenWidth * 1f));
+        layoutParams2.addRule(RelativeLayout.CENTER_IN_PARENT);
+        viewDuQuBG.addView(imageView2, layoutParams2);
+        imageView2.setAlpha(0.2f);
+
     }
 
     /**
@@ -249,14 +267,18 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.roateImg:
+                textShangChuanStatue.setText("上传完成");
+                for (int i = 0; i < animator.length; i++) {
+                    animator[i].end();
+                }
                 roateImg.stopAnim();
-                PropertyValuesHolder holder01 = PropertyValuesHolder.ofFloat("scaleY", 1f,0.6f);
-                PropertyValuesHolder holder03 = PropertyValuesHolder.ofFloat("scaleX", 1f,1.4f);
+                PropertyValuesHolder holder01 = PropertyValuesHolder.ofFloat("scaleY", 1f, 0.6f);
+                PropertyValuesHolder holder03 = PropertyValuesHolder.ofFloat("scaleX", 1f, 1.4f);
                 ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(roateImg, holder01, holder03);
                 animator.setInterpolator(new LinearInterpolator());
                 animator.setDuration(500);
-                PropertyValuesHolder holder04 = PropertyValuesHolder.ofFloat("scaleY", 0.6f,1f);
-                PropertyValuesHolder holder05 = PropertyValuesHolder.ofFloat("scaleX", 1.4f,1f);
+                PropertyValuesHolder holder04 = PropertyValuesHolder.ofFloat("scaleY", 0.6f, 1f);
+                PropertyValuesHolder holder05 = PropertyValuesHolder.ofFloat("scaleX", 1.4f, 1f);
                 ObjectAnimator animator2 = ObjectAnimator.ofPropertyValuesHolder(roateImg, holder04, holder05);
                 animator2.setInterpolator(new LinearInterpolator());
                 animator2.setDuration(200);
@@ -265,8 +287,15 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
                 animator1.setInterpolator(new LinearInterpolator());
                 animator1.setDuration(1000);
                 AnimatorSet animatorSet = new AnimatorSet();
-                animatorSet.playSequentially(animator,animator2,animator1);
+                animatorSet.playSequentially(animator, animator2, animator1);
                 animatorSet.start();
+                animatorSet.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        setJieMian(4);
+                    }
+                });
                 break;
             case R.id.btnKaiShiJC:
                 boolean supportBle = BleManager.getInstance().isSupportBle();
