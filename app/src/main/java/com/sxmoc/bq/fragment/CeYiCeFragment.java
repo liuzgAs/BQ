@@ -2,6 +2,13 @@ package com.sxmoc.bq.fragment;
 
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +26,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +44,7 @@ import com.sxmoc.bq.R;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.customview.NaoBoTu;
+import com.sxmoc.bq.customview.RoateImg;
 import com.sxmoc.bq.customview.TwoBtnDialog;
 import com.sxmoc.bq.holder.LanYaViewHolder;
 import com.sxmoc.bq.model.BlueBean;
@@ -59,7 +70,9 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     private TextView textLeftTime;
     private TextView textZuoNaoDis;
     private TextView textYouNaoDis;
-    private View[] viewJieMian = new View[3];
+    private View[] viewJieMian = new View[4];
+    private RelativeLayout viewShangChuan;
+    private RoateImg roateImg;
 
     public CeYiCeFragment() {
         // Required empty public constructor
@@ -104,12 +117,53 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         textLeftTime = mInflate.findViewById(R.id.textLeftTime);
         textZuoNaoDis = mInflate.findViewById(R.id.textZuoNaoDis);
         textYouNaoDis = mInflate.findViewById(R.id.textYouNaoDis);
+        viewShangChuan = mInflate.findViewById(R.id.viewShangChuan);
+        viewJieMian[3] = mInflate.findViewById(R.id.viewShangChuan);
+        roateImg = mInflate.findViewById(R.id.roateImg);
     }
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void initViews() {
         initRecycler();
         viewJieMian[0].setPadding(0, ScreenUtils.getStatusBarHeight(getActivity()), 0, 0);
+
+
+
+
+        int screenWidth = ScreenUtils.getScreenWidth(getActivity());
+        ImageView imageView1 = new ImageView(getActivity());
+        imageView1.setImageResource(R.mipmap.jianbianquan);
+        RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams((int)((float)screenWidth*0.6f),(int)((float)screenWidth*0.6f));
+        layoutParams1.addRule(RelativeLayout.CENTER_IN_PARENT);
+        viewShangChuan.addView(imageView1, layoutParams1);
+        for (int i = 0; i < 5; i++) {
+            final ImageView imageView = new ImageView(getActivity());
+            imageView.setImageResource(R.mipmap.jianbianquan);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int)((float)screenWidth*0.6f),(int)((float)screenWidth*0.6f));
+            layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+            viewShangChuan.addView(imageView, layoutParams);
+            if (i>0){
+                imageView.setVisibility(View.GONE);
+            }
+            PropertyValuesHolder holder01 = PropertyValuesHolder.ofFloat("scaleX", 1f,3f);
+            PropertyValuesHolder holder02 = PropertyValuesHolder.ofFloat("scaleY", 1f,3f);
+            PropertyValuesHolder holder03 = PropertyValuesHolder.ofFloat("alpha", 1f,0f);
+            ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(imageView, holder01, holder02, holder03);
+            animator.setInterpolator(new LinearInterpolator());
+            animator.setDuration(4000);
+            animator.setStartDelay(0+1000*i);
+            animator.setRepeatCount(ValueAnimator.INFINITE);
+            animator.setRepeatMode(ValueAnimator.INFINITE);
+            animator.start();
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    super.onAnimationStart(animation);
+                    imageView.setVisibility(View.VISIBLE);
+                }
+            });
+        }
     }
 
     /**
@@ -183,6 +237,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     @Override
     protected void setListeners() {
         mInflate.findViewById(R.id.btnKaiShiJC).setOnClickListener(this);
+        roateImg.setOnClickListener(this);
     }
 
     @Override
@@ -193,6 +248,26 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.roateImg:
+                roateImg.stopAnim();
+                PropertyValuesHolder holder01 = PropertyValuesHolder.ofFloat("scaleY", 1f,0.6f);
+                PropertyValuesHolder holder03 = PropertyValuesHolder.ofFloat("scaleX", 1f,1.4f);
+                ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(roateImg, holder01, holder03);
+                animator.setInterpolator(new LinearInterpolator());
+                animator.setDuration(500);
+                PropertyValuesHolder holder04 = PropertyValuesHolder.ofFloat("scaleY", 0.6f,1f);
+                PropertyValuesHolder holder05 = PropertyValuesHolder.ofFloat("scaleX", 1.4f,1f);
+                ObjectAnimator animator2 = ObjectAnimator.ofPropertyValuesHolder(roateImg, holder04, holder05);
+                animator2.setInterpolator(new LinearInterpolator());
+                animator2.setDuration(200);
+                PropertyValuesHolder holder02 = PropertyValuesHolder.ofFloat("translationY", -1500);
+                ObjectAnimator animator1 = ObjectAnimator.ofPropertyValuesHolder(roateImg, holder02);
+                animator1.setInterpolator(new LinearInterpolator());
+                animator1.setDuration(1000);
+                AnimatorSet animatorSet = new AnimatorSet();
+                animatorSet.playSequentially(animator,animator2,animator1);
+                animatorSet.start();
+                break;
             case R.id.btnKaiShiJC:
                 boolean supportBle = BleManager.getInstance().isSupportBle();
                 if (!supportBle) {

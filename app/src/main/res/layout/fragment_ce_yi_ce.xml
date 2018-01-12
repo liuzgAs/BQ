@@ -10,7 +10,7 @@
         android:id="@+id/viewKaiShiJC"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="match_parent"
@@ -125,4 +125,23 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
     </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/viewShangChuan"
+        android:background="@drawable/shape_basic_jian_bian"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:textSize="18dp"
+            android:text="数据上传中……"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.sxmoc.bq.customview.RoateImg
+            android:id="@+id/roateImg"
+            android:layout_centerInParent="true"
+            android:layout_width="80dp"
+            android:layout_height="149dp" />
+    </RelativeLayout>
 </RelativeLayout>
