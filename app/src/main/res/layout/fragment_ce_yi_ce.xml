@@ -49,6 +49,7 @@
         android:background="@drawable/shape_basic_jian_bian"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/textLeftTime"
             android:text="120"
             android:gravity="center"
             android:textSize="30dp"

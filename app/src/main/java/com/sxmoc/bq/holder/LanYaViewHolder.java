@@ -47,6 +47,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
     public interface OnNaoBoListener {
         void setNaoBo(int value01, int value02);
         void success();
+        void leftTime(int leftTime);
     }
 
     public LanYaViewHolder(ViewGroup parent, @LayoutRes int res) {
@@ -155,6 +156,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                                 if (num == 256) {
                                     num = 0;
                                     index++;
+                                    onNaoBoListener.leftTime(index);
                                     LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "index" + index);
                                     if (index == 120) {
                                         index = 0;

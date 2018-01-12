@@ -37,7 +37,6 @@ import com.sxmoc.bq.customview.NaoBoTu;
 import com.sxmoc.bq.customview.TwoBtnDialog;
 import com.sxmoc.bq.holder.LanYaViewHolder;
 import com.sxmoc.bq.model.BlueBean;
-import com.sxmoc.bq.util.LogUtil;
 import com.sxmoc.bq.util.ScreenUtils;
 
 import java.util.ArrayList;
@@ -50,15 +49,17 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
 
 
     private View mInflate;
-    private View viewKaiShiJC;
     private EasyRecyclerView recyclerView;
     private RecyclerArrayAdapter<BlueBean> adapter;
     private String saoMiaoStatue = "正在搜索……";
     private int jieMian = 0;
-    private View viewNaoBo;
     private NaoBoTu naoBo01;
     private NaoBoTu naoBo02;
     private LanYaViewHolder lanYaViewHolder;
+    private TextView textLeftTime;
+    private TextView textZuoNaoDis;
+    private TextView textYouNaoDis;
+    private View[] viewJieMian = new View[3];
 
     public CeYiCeFragment() {
         // Required empty public constructor
@@ -94,17 +95,21 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
 
     @Override
     protected void findID() {
-        viewKaiShiJC = mInflate.findViewById(R.id.viewKaiShiJC);
+        viewJieMian[0] = mInflate.findViewById(R.id.viewKaiShiJC);
         recyclerView = mInflate.findViewById(R.id.recyclerView);
-        viewNaoBo = mInflate.findViewById(R.id.viewNaoBo);
+        viewJieMian[1] = mInflate.findViewById(R.id.recyclerView);
+        viewJieMian[2] = mInflate.findViewById(R.id.viewNaoBo);
         naoBo01 = mInflate.findViewById(R.id.naoBo01);
         naoBo02 = mInflate.findViewById(R.id.naoBo02);
+        textLeftTime = mInflate.findViewById(R.id.textLeftTime);
+        textZuoNaoDis = mInflate.findViewById(R.id.textZuoNaoDis);
+        textYouNaoDis = mInflate.findViewById(R.id.textYouNaoDis);
     }
 
     @Override
     protected void initViews() {
         initRecycler();
-        viewNaoBo.setPadding(0, ScreenUtils.getStatusBarHeight(getActivity()), 0, 0);
+        viewJieMian[0].setPadding(0, ScreenUtils.getStatusBarHeight(getActivity()), 0, 0);
     }
 
     /**
@@ -124,16 +129,20 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
                 lanYaViewHolder.setOnNaoBoListener(new LanYaViewHolder.OnNaoBoListener() {
                     @Override
                     public void setNaoBo(int value01, int value02) {
-                        naoBo01.setNaoBoPoint( value01);
-                        naoBo02.setNaoBoPoint( value02);
+                        naoBo01.setNaoBoPoint(value01);
+                        naoBo02.setNaoBoPoint(value02);
+                        textZuoNaoDis.setText(String.valueOf(value01));
+                        textYouNaoDis.setText(String.valueOf(value02));
                     }
 
                     @Override
                     public void success() {
-                        viewNaoBo.setVisibility(View.VISIBLE);
-                        viewKaiShiJC.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.GONE);
-                        jieMian = 2;
+                        setJieMian(2);
+                    }
+
+                    @Override
+                    public void leftTime(int leftTime) {
+                        textLeftTime.setText(String.valueOf(120 - leftTime));
                     }
 
                 });
@@ -161,6 +170,14 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
             public void onItemClick(int position) {
             }
         });
+    }
+
+    private void setJieMian(int jieMianIndex) {
+        jieMian = jieMianIndex;
+        for (int i = 0; i < viewJieMian.length; i++) {
+            viewJieMian[i].setVisibility(View.GONE);
+        }
+        viewJieMian[jieMianIndex].setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -287,9 +304,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         }
         adapter.clear();
         adapter.addAll(blueBeanList);
-        viewKaiShiJC.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
-        jieMian = 1;
+        setJieMian(1);
         showLoadingDialog();
         BleScanRuleConfig scanRuleConfig = new BleScanRuleConfig.Builder()
                 /**
@@ -332,10 +347,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
                 adapter.notifyDataSetChanged();
                 if (adapter.getAllData().size() == 0) {
                     MyDialog.showTipDialog(getContext(), "没有发现设备，请确认设备是否开机");
-                    jieMian = 0;
-                    recyclerView.setVisibility(View.GONE);
-                    viewKaiShiJC.setVisibility(View.VISIBLE);
-                    viewNaoBo.setVisibility(View.GONE);
+                    setJieMian(0);
                 }
             }
         });
@@ -344,10 +356,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     @Override
     public boolean onBackPressed() {
         if (jieMian == 1) {
-            jieMian = 0;
-            recyclerView.setVisibility(View.GONE);
-            viewNaoBo.setVisibility(View.GONE);
-            viewKaiShiJC.setVisibility(View.VISIBLE);
+            setJieMian(0);
             return true;
         } else if (jieMian == 2) {
             final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(getActivity(), "是否终止测试？", "是", "否");
@@ -356,9 +365,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
                 @Override
                 public void doConfirm() {
                     lanYaViewHolder.closeNotify();
-                    recyclerView.setVisibility(View.VISIBLE);
-                    viewNaoBo.setVisibility(View.GONE);
-                    viewKaiShiJC.setVisibility(View.GONE);
+                    setJieMian(1);
                     twoBtnDialog.dismiss();
                 }
 
