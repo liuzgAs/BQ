@@ -119,6 +119,7 @@
         <activity
             android:name=".activity.ChengShiXZActivity"
             android:launchMode="singleTop" />
+        <activity android:name=".activity.ShouYiMxActivity"></activity>
     </application>
 
 </manifest>

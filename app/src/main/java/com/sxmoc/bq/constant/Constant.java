@@ -147,6 +147,10 @@ public class Constant {
          * 升级事业合伙人
          */
         public static final String USER_UPGRADE = "/User/upGrade";
+        /**
+         * 收益明细
+         */
+        public static final String USER_PROFITDETAILED = "/user/profitDetailed";
     }
 
     public static class IntentKey {

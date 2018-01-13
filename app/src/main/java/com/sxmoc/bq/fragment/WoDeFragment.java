@@ -19,6 +19,7 @@ import com.sxmoc.bq.activity.CeShiLSActivity;
 import com.sxmoc.bq.activity.GeRenXXActivity;
 import com.sxmoc.bq.activity.HeHuoRenActivity;
 import com.sxmoc.bq.activity.SheZhiActivity;
+import com.sxmoc.bq.activity.ShouYiMxActivity;
 import com.sxmoc.bq.activity.WoDeDDActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
@@ -119,6 +120,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         mInflate.findViewById(R.id.viewWoDeDD).setOnClickListener(this);
         mInflate.findViewById(R.id.viewGeRenXX).setOnClickListener(this);
         mInflate.findViewById(R.id.viewHeHuoRen).setOnClickListener(this);
+        mInflate.findViewById(R.id.viewWoDeSY).setOnClickListener(this);
     }
 
     /**
@@ -178,10 +180,12 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
-            case R.id.viewHeHuoRen:
-                Intent intent1 = new Intent();
-                intent1.setClass(getActivity(), HeHuoRenActivity.class);
-                startActivity(intent1);
+            case R.id.viewWoDeSY:
+                intent.setClass(getActivity(), ShouYiMxActivity.class);
+                startActivity(intent);
+                break;  case R.id.viewHeHuoRen:
+                intent.setClass(getActivity(), HeHuoRenActivity.class);
+                startActivity(intent);
                 break;
             case R.id.viewGeRenXX:
                 intent.setClass(getActivity(), GeRenXXActivity.class);
