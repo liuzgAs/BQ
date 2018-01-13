@@ -19,7 +19,7 @@ import com.clj.fastble.exception.BleException;
 import com.clj.fastble.utils.HexUtil;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.sxmoc.bq.R;
-import com.sxmoc.bq.activity.MainActivity;
+import com.sxmoc.bq.activity.NaoBoActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.model.BlueBean;
 import com.sxmoc.bq.model.NaoBo;
@@ -42,14 +42,6 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
     BlueBean data;
     int num = 0;
     int index = 0;
-
-    public interface OnNaoBoListener {
-        void setNaoBo(int value01, int value02);
-        void success();
-        void leftTime(int leftTime);
-        void upLoad(List<String> naoBoDataList);
-    }
-
     public LanYaViewHolder(ViewGroup parent, @LayoutRes int res) {
         super(parent, res);
         textName = $(R.id.textName);
@@ -60,7 +52,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
             @Override
             public void onClick(View view) {
                 if (data.getStatue() == 0) {
-                    ((MainActivity) getContext()).showLoadingDialog();
+                    ((NaoBoActivity) getContext()).showLoadingDialog();
                     connect();
                 } else if (data.getStatue() == 1) {
                     caoZuo();
@@ -115,15 +107,15 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                     @Override
                     public void onNotifySuccess() {
                         // 打开通知操作成功
-                        LogUtil.LogShitou("MainActivity--onNotifySuccess", "打开通知操作成功");
+                        LogUtil.LogShitou("NaoBoActivity--onNotifySuccess", "打开通知操作成功");
                         data.setStatue(2);
                         btnLianJie.setText("取消测试");
-                        onNaoBoListener.success();
+                        ((NaoBoActivity)getContext()).success();
                     }
 
                     @Override
                     public void onNotifyFailure(BleException exception) {
-                        LogUtil.LogShitou("MainActivity--onNotifyFailure", "打开通知操作失败");
+                        LogUtil.LogShitou("NaoBoActivity--onNotifyFailure", "打开通知操作失败");
                         // 打开通知操作失败
                         MyDialog.showTipDialog(getContext(), "打开通知操作失败");
                     }
@@ -138,7 +130,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                          * 000000000000000004a55a02
                          */
                         String hexString = HexUtil.formatHexString(data, false);
-                        LogUtil.LogShitou("MainActivity--onCharacteristicChanged", hexString);
+                        LogUtil.LogShitou("NaoBoActivity--onCharacteristicChanged", hexString);
                         String replace = hexString.replace("000000000000000f04a55a02", "000000000000000004a55a02");
                         String[] split = replace.split("000000000000000004a55a02");
                         for (int i = 0; i < split.length; i++) {
@@ -152,14 +144,14 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                                 LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "右脑" + youNao);
                                 naoBoList.get(index).add(new NaoBo(zuoNao, youNao));
                                 if (num % 4 == 0) {
-                                    onNaoBoListener.setNaoBo( zuoNao, youNao);
+                                    ((NaoBoActivity)getContext()).setNaoBo( zuoNao, youNao);
                                 }
                                 num++;
                                 LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "num" + num);
                                 if (num == 256) {
                                     num = 0;
                                     index++;
-                                    onNaoBoListener.leftTime(index);
+                                    ((NaoBoActivity)getContext()).leftTime(index);
                                     LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "index" + index);
                                     if (index == 120) {
                                         index = 0;
@@ -188,19 +180,13 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                                             naoBoDataList.add(youNaoData.toString());
                                         }
                                         LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", ""+naoBoDataList.size());
-                                        onNaoBoListener.upLoad(naoBoDataList);
+                                        ((NaoBoActivity)getContext()).upLoad(naoBoDataList);
                                     }
                                 }
                             }
                         }
                     }
                 });
-    }
-
-    public OnNaoBoListener onNaoBoListener;
-
-    public void setOnNaoBoListener(OnNaoBoListener onNaoBoListener) {
-        this.onNaoBoListener = onNaoBoListener;
     }
 
     @Override
@@ -227,14 +213,14 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
             @Override
             public void onStartConnect() {
                 // 开始连接
-                LogUtil.LogShitou("MainActivity--onStartConnect", "开始连接");
+                LogUtil.LogShitou("NaoBoActivity--onStartConnect", "开始连接");
             }
 
             @Override
             public void onConnectFail(BleException exception) {
                 // 连接失败
-                LogUtil.LogShitou("MainActivity--onConnectFail", "连接失败");
-                ((MainActivity) getContext()).cancelLoadingDialog();
+                LogUtil.LogShitou("NaoBoActivity--onConnectFail", "连接失败");
+                ((NaoBoActivity) getContext()).cancelLoadingDialog();
                 try {
                     MyDialog.showTipDialog(getContext(), "连接失败");
                 } catch (Exception e) {
@@ -247,14 +233,14 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                 data.setStatue(1);
                 textStatue.setVisibility(View.VISIBLE);
                 btnLianJie.setText("测试");
-                ((MainActivity) getContext()).cancelLoadingDialog();
+                ((NaoBoActivity) getContext()).cancelLoadingDialog();
             }
 
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
             @Override
             public void onDisConnected(boolean isActiveDisConnected, BleDevice bleDevice, BluetoothGatt gatt, int status) {
                 // 连接中断，isActiveDisConnected表示是否是主动调用了断开连接方法
-                LogUtil.LogShitou("MainActivity--onDisConnected", "连接中断");
+                LogUtil.LogShitou("NaoBoActivity--onDisConnected", "连接中断");
                 data.setStatue(0);
                 textStatue.setVisibility(View.GONE);
                 btnLianJie.setText("连接");

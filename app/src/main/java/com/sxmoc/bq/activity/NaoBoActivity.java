@@ -1,6 +1,5 @@
 package com.sxmoc.bq.activity;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -8,18 +7,11 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,7 +75,6 @@ public class NaoBoActivity extends ZjbBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nao_bo);
         BleManager.getInstance().init(getApplication());
-        startCeShi();
         init();
     }
 
@@ -95,7 +86,7 @@ public class NaoBoActivity extends ZjbBaseActivity {
     @Override
     protected void initIntent() {
         Intent intent = getIntent();
-        id = intent.getIntExtra(Constant.IntentKey.ID, 0);
+        id = intent.getIntExtra(Constant.IntentKey.ID, 1);
     }
 
     @Override
@@ -185,34 +176,7 @@ public class NaoBoActivity extends ZjbBaseActivity {
             @Override
             public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
                 int layout = R.layout.item_lanya;
-                lanYaViewHolder = new LanYaViewHolder(parent, layout);
-                lanYaViewHolder.setOnNaoBoListener(new LanYaViewHolder.OnNaoBoListener() {
-                    @Override
-                    public void setNaoBo(int value01, int value02) {
-                        naoBo01.setNaoBoPoint(value01);
-                        naoBo02.setNaoBoPoint(value02);
-                        textZuoNaoDis.setText(String.valueOf(value01));
-                        textYouNaoDis.setText(String.valueOf(value02));
-                    }
-
-                    @Override
-                    public void success() {
-                        setJieMian(2);
-                    }
-
-                    @Override
-                    public void leftTime(int leftTime) {
-                        textLeftTime.setText(String.valueOf(120 - leftTime));
-                    }
-
-                    @Override
-                    public void upLoad(List<String> naoBoDataList) {
-                        upLoadData(naoBoDataList);
-                        setJieMian(3);
-                    }
-
-                });
-                return lanYaViewHolder;
+                return new LanYaViewHolder(parent, layout);
             }
         });
         adapter.addHeader(new RecyclerArrayAdapter.ItemView() {
@@ -250,7 +214,7 @@ public class NaoBoActivity extends ZjbBaseActivity {
             params.put("uid", userInfo.getUid());
             params.put("tokenTime", tokenTime);
         }
-        params.put("bid", id+"");
+        params.put("bid", id + "");
         List<String> naoBoDataList00 = new ArrayList<>();
         List<String> naoBoDataList01 = new ArrayList<>();
         List<String> naoBoDataList02 = new ArrayList<>();
@@ -373,106 +337,10 @@ public class NaoBoActivity extends ZjbBaseActivity {
 
     @Override
     protected void initData() {
-
+        adapter.addAll(new ArrayList<BlueBean>());
+        startScan();
     }
 
-    private void startCeShi() {
-        boolean supportBle = BleManager.getInstance().isSupportBle();
-        if (!supportBle) {
-            MyDialog.showTipDialog(NaoBoActivity.this, "该设备不支持蓝牙");
-            return;
-        }
-        final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (!bluetoothAdapter.isEnabled()) {
-            final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(NaoBoActivity.this, "某个应用要打开你的蓝牙", "允许", "拒绝");
-            twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
-                @Override
-                public void doConfirm() {
-                    twoBtnDialog.dismiss();
-                    BleManager.getInstance().enableBluetooth();
-                }
-
-                @Override
-                public void doCancel() {
-                    twoBtnDialog.dismiss();
-                }
-            });
-            twoBtnDialog.show();
-        } else {
-            checkPermissions();
-        }
-    }
-
-    private static final int REQUEST_CODE_OPEN_GPS = 1;
-    private static final int REQUEST_CODE_PERMISSION_LOCATION = 2;
-
-    private void checkPermissions() {
-        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (!bluetoothAdapter.isEnabled()) {
-            Toast.makeText(NaoBoActivity.this, getString(R.string.please_open_blue), Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
-        List<String> permissionDeniedList = new ArrayList<>();
-        for (String permission : permissions) {
-            int permissionCheck = ContextCompat.checkSelfPermission(NaoBoActivity.this, permission);
-            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                onPermissionGranted(permission);
-            } else {
-                permissionDeniedList.add(permission);
-            }
-        }
-        if (!permissionDeniedList.isEmpty()) {
-            String[] deniedPermissions = permissionDeniedList.toArray(new String[permissionDeniedList.size()]);
-            ActivityCompat.requestPermissions(NaoBoActivity.this, deniedPermissions, REQUEST_CODE_PERMISSION_LOCATION);
-        }
-    }
-
-    private void onPermissionGranted(String permission) {
-        switch (permission) {
-            case Manifest.permission.ACCESS_FINE_LOCATION:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !checkGPSIsOpen()) {
-                    final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(NaoBoActivity.this, NaoBoActivity.this.getResources().getString(R.string.gpsNotifyMsg), NaoBoActivity.this.getResources().getString(R.string.setting), NaoBoActivity.this.getResources().getString(R.string.cancel));
-                    twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
-                        @Override
-                        public void doConfirm() {
-                            twoBtnDialog.dismiss();
-                        }
-
-                        @Override
-                        public void doCancel() {
-                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                            startActivityForResult(intent, REQUEST_CODE_OPEN_GPS);
-                        }
-                    });
-                    twoBtnDialog.show();
-                } else {
-                    startScan();
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    private boolean checkGPSIsOpen() {
-        LocationManager locationManager = (LocationManager) NaoBoActivity.this.getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager == null) {
-            return false;
-        }
-        return locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_OPEN_GPS) {
-            if (checkGPSIsOpen()) {
-                startScan();
-            }
-        }
-    }
 
     private void startScan() {
         List<BleDevice> allConnectedDevice = BleManager.getInstance().getAllConnectedDevice();
@@ -532,11 +400,29 @@ public class NaoBoActivity extends ZjbBaseActivity {
         });
     }
 
+    public void setNaoBo(int value01, int value02) {
+        naoBo01.setNaoBoPoint(value01);
+        naoBo02.setNaoBoPoint(value02);
+        textZuoNaoDis.setText(String.valueOf(value01));
+        textYouNaoDis.setText(String.valueOf(value02));
+    }
+
+    public void success() {
+        setJieMian(1);
+    }
+
+    public void leftTime(int leftTime) {
+        textLeftTime.setText(String.valueOf(120 - leftTime));
+    }
+
+    public void upLoad(List<String> naoBoDataList) {
+        upLoadData(naoBoDataList);
+        setJieMian(2);
+    }
+
     @Override
     public void onBackPressed() {
         if (jieMian == 1) {
-            setJieMian(0);
-        } else if (jieMian == 2) {
             final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(NaoBoActivity.this, "是否终止测试？", "是", "否");
             twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
                 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
