@@ -167,6 +167,10 @@ public class Constant {
          * 文章列表
          */
         public static final String ARTICLE = "/Article";
+        /**
+         * 用户中心
+         */
+        public static final String USER_MSG = "/User/msg";
     }
 
     public static class IntentKey {

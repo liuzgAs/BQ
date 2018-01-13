@@ -119,10 +119,21 @@
         <activity
             android:name=".activity.ChengShiXZActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".activity.ShouYiMxActivity" />
-        <activity android:name=".activity.WoDeSYActivity" />
-        <activity android:name=".activity.TiXianActivity" />
-        <activity android:name=".activity.WenZhangLBActivity"></activity>
+        <activity
+            android:name=".activity.ShouYiMxActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.WoDeSYActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.TiXianActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.WenZhangLBActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.GongGaoActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>
