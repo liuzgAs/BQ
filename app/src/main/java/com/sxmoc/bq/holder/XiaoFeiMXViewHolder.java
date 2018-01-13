@@ -6,12 +6,13 @@ import android.widget.TextView;
 
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.model.UserProfitdetailed;
 
 
 /**
  * Created by Administrator on 2017/3/28 0028.
  */
-public class XiaoFeiMXViewHolder extends BaseViewHolder<Integer> {
+public class XiaoFeiMXViewHolder extends BaseViewHolder<UserProfitdetailed.DataBean> {
 
     private final TextView textDes;
     private final TextView textCreatetime;
@@ -25,11 +26,11 @@ public class XiaoFeiMXViewHolder extends BaseViewHolder<Integer> {
     }
 
     @Override
-    public void setData(Integer data) {
+    public void setData(UserProfitdetailed.DataBean data) {
         super.setData(data);
-//        textDes.setText(data.getTitle());
-//        textCreatetime.setText(data.getCreate_time());
-//        textPrice.setText("¥"+data.getPrice());
+        textDes.setText(data.getTitle());
+        textCreatetime.setText(data.getCreate_time());
+        textPrice.setText("¥"+data.getMoney());
     }
 
 }

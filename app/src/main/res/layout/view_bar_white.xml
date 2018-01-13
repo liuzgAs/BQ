@@ -46,7 +46,7 @@
             tools:text="右边"
             android:background="@drawable/white_selector"
             android:textSize="@dimen/normal_textsize"
-            android:textColor="@color/light_black"
+            android:textColor="@color/basic_color"
             android:paddingRight="10dp"
             android:paddingLeft="15dp"
             android:gravity="center_vertical"

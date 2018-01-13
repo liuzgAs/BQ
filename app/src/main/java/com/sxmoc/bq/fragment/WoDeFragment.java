@@ -19,8 +19,8 @@ import com.sxmoc.bq.activity.CeShiLSActivity;
 import com.sxmoc.bq.activity.GeRenXXActivity;
 import com.sxmoc.bq.activity.HeHuoRenActivity;
 import com.sxmoc.bq.activity.SheZhiActivity;
-import com.sxmoc.bq.activity.ShouYiMxActivity;
 import com.sxmoc.bq.activity.WoDeDDActivity;
+import com.sxmoc.bq.activity.WoDeSYActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.constant.Constant;
@@ -60,6 +60,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
             }
         }
     };
+    private UserBuyerindex userBuyerindex;
 
     public WoDeFragment() {
         // Required empty public constructor
@@ -147,7 +148,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                 cancelLoadingDialog();
                 LogUtil.LogShitou("WoDeFragment--onSuccess", s + "");
                 try {
-                    UserBuyerindex userBuyerindex = GsonUtils.parseJSON(s, UserBuyerindex.class);
+                    userBuyerindex = GsonUtils.parseJSON(s, UserBuyerindex.class);
                     if (userBuyerindex.getStatus() == 1) {
                         GlideApp.with(getActivity())
                                 .asBitmap()
@@ -181,7 +182,8 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.viewWoDeSY:
-                intent.setClass(getActivity(), ShouYiMxActivity.class);
+                intent.putExtra(Constant.IntentKey.VALUE,userBuyerindex.getMoney());
+                intent.setClass(getActivity(), WoDeSYActivity.class);
                 startActivity(intent);
                 break;  case R.id.viewHeHuoRen:
                 intent.setClass(getActivity(), HeHuoRenActivity.class);
