@@ -17,7 +17,7 @@
         android:id="@+id/viewNaoBo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/shape_basic_jian_bian"
+        android:background="@drawable/shape_basic_jian_bian180"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -113,7 +113,7 @@
         android:id="@+id/viewShangChuan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/shape_basic_jian_bian"
+        android:background="@drawable/shape_basic_jian_bian180"
         android:visibility="gone">
 
         <TextView
@@ -138,7 +138,7 @@
         android:id="@+id/viewDuQuBG"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/shape_basic_jian_bian"
+        android:background="@drawable/shape_basic_jian_bian180"
         android:visibility="gone">
         <RelativeLayout
             android:gravity="center"

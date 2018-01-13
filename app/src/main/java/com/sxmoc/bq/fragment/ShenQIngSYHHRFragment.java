@@ -40,7 +40,6 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
 
 
     private View mInflate;
-    UserApplybefore userApplybefore;
     private TextView textBaoZhengJin;
     private int grade = -1;
     private TextView textShiYeHHR;
@@ -53,6 +52,8 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
     private EditText textAddressDetail;
     private CheckBox checkBox;
     private EditText editCompany;
+    private UserApplybefore userApplybefore;
+    private View[] jieMian = new View[2];
 
     public ShenQIngSYHHRFragment() {
         // Required empty public constructor
@@ -102,6 +103,23 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
         textAddressDetail = mInflate.findViewById(R.id.textAddressDetail);
         checkBox = mInflate.findViewById(R.id.checkBox);
         editCompany = mInflate.findViewById(R.id.editCompany);
+        jieMian[0] = mInflate.findViewById(R.id.viewZiLiaoTX);
+        jieMian[1] = mInflate.findViewById(R.id.viewShenHeZhong);
+    }
+
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
+    private OkObject getShenQingQianOkObject() {
+        String url = Constant.HOST + Constant.Url.USER_APPLYBEFORE;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime", tokenTime);
+        }
+        return new OkObject(params, url);
     }
 
     @Override
@@ -118,7 +136,55 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
 
     @Override
     protected void initData() {
+        showLoadingDialog();
+        ApiClient.post(getActivity(), getShenQingQianOkObject(), new ApiClient.CallBack() {
+            @Override
+            public void onSuccess(String s) {
+                cancelLoadingDialog();
+                LogUtil.LogShitou("WoDeFragment--onSuccess", s + "");
+                try {
+                    userApplybefore = GsonUtils.parseJSON(s, UserApplybefore.class);
+                    if (userApplybefore.getStatus() == 1) {
+                        switch (userApplybefore.getState()) {
+                            case 0:
+                                setJieMian(1);
+                                break;
+                            case 1:
+                                setJieMian(1);
+                                break;
+                            case 2:
+                                setJieMian(0);
+                                break;
+                            case 3:
+                                setJieMian(1);
+                                break;
+                            default:
+                                setJieMian(0);
+                                break;
+                        }
+                    } else if (userApplybefore.getStatus() == 3) {
+                        MyDialog.showReLoginDialog(getActivity());
+                    } else {
+                        Toast.makeText(getActivity(), userApplybefore.getInfo(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onError() {
+                cancelLoadingDialog();
+                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void setJieMian(int index) {
+        for (int i = 0; i < jieMian.length; i++) {
+            jieMian[i].setVisibility(View.GONE);
+        }
+        jieMian[index].setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -164,7 +230,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                     Toast.makeText(getActivity(), "请填写寄货详细地址", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!checkBox.isChecked()){
+                if (!checkBox.isChecked()) {
                     Toast.makeText(getActivity(), "请阅读并同意《合作协议》", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -209,16 +275,16 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
-        params.put("company",editCompany.getText().toString().trim());
-        params.put("name",editRealName.getText().toString().trim());
-        params.put("mobile",editPhone.getText().toString().trim());
-        params.put("card",editCard.getText().toString().trim());
-        params.put("address",textAddressDetail.getText().toString().trim());
-        params.put("did",did);
-        params.put("grade",grade+"");
-        params.put("area",cityBeanName+"");
+        params.put("company", editCompany.getText().toString().trim());
+        params.put("name", editRealName.getText().toString().trim());
+        params.put("mobile", editPhone.getText().toString().trim());
+        params.put("card", editCard.getText().toString().trim());
+        params.put("address", textAddressDetail.getText().toString().trim());
+        params.put("did", did);
+        params.put("grade", grade + "");
+        params.put("area", cityBeanName + "");
         return new OkObject(params, url);
     }
 
@@ -231,18 +297,18 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
-                LogUtil.LogShitou("ShenQIngSYHHRFragment--onSuccess",s+ "");
+                LogUtil.LogShitou("ShenQIngSYHHRFragment--onSuccess", s + "");
                 try {
                     UserApply userApply = GsonUtils.parseJSON(s, UserApply.class);
-                    if (userApply.getStatus()==1){
+                    if (userApply.getStatus() == 1) {
 
-                    }else if (userApply.getStatus()==3){
+                    } else if (userApply.getStatus() == 3) {
                         MyDialog.showReLoginDialog(getActivity());
-                    }else {
+                    } else {
                         Toast.makeText(getActivity(), userApply.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(),"数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
 

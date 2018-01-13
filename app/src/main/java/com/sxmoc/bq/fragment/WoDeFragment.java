@@ -24,7 +24,6 @@ import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.model.OkObject;
-import com.sxmoc.bq.model.UserApplybefore;
 import com.sxmoc.bq.model.UserBuyerindex;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.GlideApp;
@@ -175,55 +174,14 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         });
     }
 
-    /**
-     * des： 网络请求参数
-     * author： ZhangJieBo
-     * date： 2017/8/28 0028 上午 9:55
-     */
-    private OkObject getShenQingQianOkObject() {
-        String url = Constant.HOST + Constant.Url.USER_APPLYBEFORE;
-        HashMap<String, String> params = new HashMap<>();
-        if (isLogin) {
-            params.put("uid", userInfo.getUid());
-            params.put("tokenTime", tokenTime);
-        }
-        return new OkObject(params, url);
-    }
-
     @Override
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.viewHeHuoRen:
-                showLoadingDialog();
-                ApiClient.post(getActivity(), getShenQingQianOkObject(), new ApiClient.CallBack() {
-                    @Override
-                    public void onSuccess(String s) {
-                        cancelLoadingDialog();
-                        LogUtil.LogShitou("WoDeFragment--onSuccess", s + "");
-                        try {
-                            UserApplybefore userApplybefore = GsonUtils.parseJSON(s, UserApplybefore.class);
-                            if (userApplybefore.getStatus() == 1) {
-                                Intent intent1 = new Intent();
-                                intent1.putExtra(Constant.IntentKey.BEAN,userApplybefore);
-                                intent1.setClass(getActivity(), HeHuoRenActivity.class);
-                                startActivity(intent1);
-                            } else if (userApplybefore.getStatus() == 3) {
-                                MyDialog.showReLoginDialog(getActivity());
-                            } else {
-                                Toast.makeText(getActivity(), userApplybefore.getInfo(), Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onError() {
-                        cancelLoadingDialog();
-                        Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                Intent intent1 = new Intent();
+                intent1.setClass(getActivity(), HeHuoRenActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.viewGeRenXX:
                 intent.setClass(getActivity(), GeRenXXActivity.class);

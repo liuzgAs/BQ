@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/shape_basic_jian_bian"
+                android:background="@drawable/shape_basic_jian_bian180"
                 android:text="确认订单"
                 android:textColor="@color/white"
                 android:textSize="@dimen/bigText" />

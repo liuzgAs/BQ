@@ -25,7 +25,7 @@
                     android:id="@+id/viewBar"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:background="@drawable/shape_basic_jian_bian"
+                    android:background="@drawable/shape_basic_jian_bian180"
                     android:orientation="vertical">
 
                     <RelativeLayout
