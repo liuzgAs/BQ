@@ -122,6 +122,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         mInflate.findViewById(R.id.viewGeRenXX).setOnClickListener(this);
         mInflate.findViewById(R.id.viewHeHuoRen).setOnClickListener(this);
         mInflate.findViewById(R.id.viewWoDeSY).setOnClickListener(this);
+        mInflate.findViewById(R.id.imageXiaoXi).setOnClickListener(this);
         textBlance.setOnClickListener(this);
     }
 
@@ -182,6 +183,9 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
+            case R.id.imageXiaoXi:
+
+                break;
             case R.id.textBlance:
                 toWoDeSY(intent);
                 break;

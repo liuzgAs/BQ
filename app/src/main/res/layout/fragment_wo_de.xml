@@ -29,10 +29,10 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
-                        android:id="@+id/viewGeRenXX"
                         android:layout_width="match_parent"
                         android:layout_height="100dp">
                         <RelativeLayout
+                            android:id="@+id/viewGeRenXX"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent">
                             <com.sxmoc.bq.customview.CircleImageView
@@ -79,6 +79,7 @@
                             android:id="@+id/imageSheZhi"
                             android:layout_height="45dp" />
                         <ImageView
+                            android:id="@+id/imageXiaoXi"
                             android:paddingLeft="10dp"
                             android:paddingRight="@dimen/leftAndRight"
                             android:layout_centerVertical="true"
