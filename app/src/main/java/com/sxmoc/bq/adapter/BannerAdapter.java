@@ -1,6 +1,7 @@
 package com.sxmoc.bq.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.activity.WebActivity;
+import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.model.IndexFindindex;
 import com.sxmoc.bq.util.GlideApp;
 
@@ -39,11 +42,11 @@ public class BannerAdapter extends PagerAdapter{
         inflate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent();
-//                intent.setClass(mContext, WebActivity.class);
-//                intent.putExtra(Constant.IntentKey.TITLE, imgList.get(position%imgList.size()).getTitle());
-//                intent.putExtra(Constant.IntentKey.URL, imgList.get(position%imgList.size()).getShare_url());
-//                mContext.startActivity(intent);
+                Intent intent = new Intent();
+                intent.setClass(mContext, WebActivity.class);
+                intent.putExtra(Constant.IntentKey.TITLE, imgList.get(position%imgList.size()).getTitle());
+                intent.putExtra(Constant.IntentKey.URL, imgList.get(position%imgList.size()).getUrl());
+                mContext.startActivity(intent);
             }
         });
         ImageView imageImg = inflate.findViewById(R.id.imageImg);

@@ -106,6 +106,8 @@ public class Constant {
         public static final String ID = "id";
         public static final String VALUE = "value";
         public static final String ORDER = "order";
+        public static final String URL = "url";
+        public static final String TITLE = "title";
     }
 
     public static class RequestResultCode {

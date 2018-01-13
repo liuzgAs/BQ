@@ -80,7 +80,12 @@
         <activity
             android:name=".activity.QueRenDDActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".activity.XinXiTXActivity"></activity>
+        <activity
+            android:name=".activity.XinXiTXActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".activity.WebActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

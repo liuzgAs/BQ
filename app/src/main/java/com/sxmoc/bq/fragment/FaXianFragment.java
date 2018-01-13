@@ -1,6 +1,7 @@
 package com.sxmoc.bq.fragment;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.DividerDecoration;
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.activity.WebActivity;
 import com.sxmoc.bq.adapter.BannerAdapter;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
@@ -90,7 +92,7 @@ public class FaXianFragment extends ZjbBaseFragment implements SwipeRefreshLayou
     @Override
     protected void initViews() {
         ViewGroup.LayoutParams layoutParams = viewBar.getLayoutParams();
-        layoutParams.height = (int)DpUtils.convertDpToPixel(70,getActivity())+ScreenUtils.getStatusBarHeight(getActivity());
+        layoutParams.height = (int) DpUtils.convertDpToPixel(70, getActivity()) + ScreenUtils.getStatusBarHeight(getActivity());
         viewBar.setLayoutParams(layoutParams);
         initRecycler();
     }
@@ -115,6 +117,7 @@ public class FaXianFragment extends ZjbBaseFragment implements SwipeRefreshLayou
             private TextView textPaiDangTitle;
             private ViewPager id_viewpager;
             private ConvenientBanner banner;
+
             @Override
             public View onCreateView(ViewGroup parent) {
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.header_fa_xian, null);
@@ -123,7 +126,7 @@ public class FaXianFragment extends ZjbBaseFragment implements SwipeRefreshLayou
                 banner.startTurning(3000);
                 textPaiDangTitle = view.findViewById(R.id.textPaiDangTitle);
                 id_viewpager = view.findViewById(R.id.id_viewpager);
-                new BannerSettingUtil(id_viewpager,(int)DpUtils.convertDpToPixel(8,getActivity()),false).set();
+                new BannerSettingUtil(id_viewpager, (int) DpUtils.convertDpToPixel(8, getActivity()), false).set();
                 id_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -170,7 +173,7 @@ public class FaXianFragment extends ZjbBaseFragment implements SwipeRefreshLayou
                 ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
                     @Override
                     public void onSuccess(String s) {
-                        LogUtil.LogShitou("DingDanGLActivity--加载更多", s+"");
+                        LogUtil.LogShitou("DingDanGLActivity--加载更多", s + "");
                         try {
                             page++;
                             IndexFindindex indexFindindex = GsonUtils.parseJSON(s, IndexFindindex.class);
@@ -224,6 +227,11 @@ public class FaXianFragment extends ZjbBaseFragment implements SwipeRefreshLayou
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), WebActivity.class);
+                intent.putExtra(Constant.IntentKey.TITLE, adapter.getItem(position).getTitle());
+                intent.putExtra(Constant.IntentKey.URL, adapter.getItem(position).getUrl());
+                startActivity(intent);
             }
         });
         recyclerView.setRefreshListener(this);
@@ -239,7 +247,8 @@ public class FaXianFragment extends ZjbBaseFragment implements SwipeRefreshLayou
         onRefresh();
     }
 
-    int page =1;
+    int page = 1;
+
     /**
      * des： 网络请求参数
      * author： ZhangJieBo
@@ -250,16 +259,16 @@ public class FaXianFragment extends ZjbBaseFragment implements SwipeRefreshLayou
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
-        params.put("p",String.valueOf(page));
+        params.put("p", String.valueOf(page));
         return new OkObject(params, url);
     }
 
 
     @Override
     public void onRefresh() {
-        page=1;
+        page = 1;
         ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
@@ -273,7 +282,7 @@ public class FaXianFragment extends ZjbBaseFragment implements SwipeRefreshLayou
                         List<IndexFindindex.DataBean> dataBeanList = indexFindindex.getData();
                         adapter.clear();
                         adapter.addAll(dataBeanList);
-                    } else if (indexFindindex.getStatus()== 3) {
+                    } else if (indexFindindex.getStatus() == 3) {
                         MyDialog.showReLoginDialog(getActivity());
                     } else {
                         showError(indexFindindex.getInfo());
@@ -287,6 +296,7 @@ public class FaXianFragment extends ZjbBaseFragment implements SwipeRefreshLayou
             public void onError() {
                 showError("网络出错");
             }
+
             /**
              * 错误显示
              * @param msg
