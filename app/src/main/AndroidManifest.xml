@@ -120,7 +120,8 @@
             android:name=".activity.ChengShiXZActivity"
             android:launchMode="singleTop" />
         <activity android:name=".activity.ShouYiMxActivity" />
-        <activity android:name=".activity.WoDeSYActivity"></activity>
+        <activity android:name=".activity.WoDeSYActivity" />
+        <activity android:name=".activity.TiXianActivity"></activity>
     </application>
 
 </manifest>

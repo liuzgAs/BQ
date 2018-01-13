@@ -151,6 +151,18 @@ public class Constant {
          * 收益明细
          */
         public static final String USER_PROFITDETAILED = "/user/profitDetailed";
+        /**
+         * 提现请求
+         */
+        public static final String WITHDRAW_ADDBEFORE = "/Withdraw/addBefore";
+        /**
+         * 体现提交
+         */
+        public static final String WITHDRAW_ADDDONE = "/Withdraw/addDone";
+        /**
+         * 银行卡列表
+         */
+        public static final String BANK_CARDLIST = "/Bank/cardList";
     }
 
     public static class IntentKey {

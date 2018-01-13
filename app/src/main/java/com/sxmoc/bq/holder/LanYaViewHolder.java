@@ -143,7 +143,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                                 LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "左脑" + zuoNao);
                                 LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "右脑" + youNao);
                                 naoBoList.get(index).add(new NaoBo(zuoNao, youNao));
-                                if (num % 4 == 0) {
+                                if (num % 32 == 0) {
                                     ((NaoBoActivity)getContext()).setNaoBo( zuoNao, youNao);
                                 }
                                 num++;

@@ -236,15 +236,16 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.btnLiJiTX:
-
+                intent.setClass(this,TiXianActivity.class);
+                startActivity(intent);
                 break;
             case R.id.imageBack:
                 finish();
                 break;
             case R.id.textViewRight:
-                Intent intent = new Intent();
                 intent.setClass(this, ShouYiMxActivity.class);
                 startActivity(intent);
                 break;

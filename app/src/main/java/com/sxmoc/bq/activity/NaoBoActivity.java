@@ -447,7 +447,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                 @Override
                 public void doConfirm() {
                     lanYaViewHolder.closeNotify();
-                    setJieMian(1);
+                    setJieMian(0);
                     twoBtnDialog.dismiss();
                 }
 
