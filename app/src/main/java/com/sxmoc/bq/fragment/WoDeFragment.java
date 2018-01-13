@@ -1,6 +1,7 @@
 package com.sxmoc.bq.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.activity.CeShiLSActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.constant.Constant;
@@ -27,7 +29,7 @@ import java.util.HashMap;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WoDeFragment extends ZjbBaseFragment {
+public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListener {
 
 
     private View mInflate;
@@ -92,7 +94,7 @@ public class WoDeFragment extends ZjbBaseFragment {
 
     @Override
     protected void setListeners() {
-
+        mInflate.findViewById(R.id.viewJianCeJL).setOnClickListener(this);
     }
 
     /**
@@ -146,5 +148,18 @@ public class WoDeFragment extends ZjbBaseFragment {
                 Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent();
+        switch (view.getId()){
+            case R.id.viewJianCeJL:
+                intent.setClass(getActivity(), CeShiLSActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
     }
 }

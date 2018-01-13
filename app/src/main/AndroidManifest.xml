@@ -86,7 +86,12 @@
         <activity
             android:name=".activity.WebActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".activity.NaoBoActivity"></activity>
+        <activity
+            android:name=".activity.NaoBoActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.CeShiLSActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

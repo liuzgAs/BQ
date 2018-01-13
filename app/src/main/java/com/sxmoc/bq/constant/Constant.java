@@ -97,6 +97,10 @@ public class Constant {
          * 发现
          */
         public static final String INDEX_FINDINDEX = "/Index/findIndex";
+        /**
+         * 测试历史
+         */
+        public static final String PRODUCT_QUERYHISTORY = "/product/queryHistory";
     }
 
     public static class IntentKey {

@@ -332,6 +332,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp">
                 <RelativeLayout
+                    android:id="@+id/viewJianCeJL"
+                    android:background="@drawable/layout_selector_white_system_gray"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:gravity="center_vertical"
