@@ -94,8 +94,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnKaiShiJC:
-                startTest();
-
+                startCeShi();
                 break;
             default:
                 break;

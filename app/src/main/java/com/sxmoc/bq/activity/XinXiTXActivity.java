@@ -99,16 +99,7 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 LogUtil.LogShitou("XinXiTXActivity--onClick", "" + i);
                                 textSex.setText(strings[i]);
-                                switch (i) {
-                                    case 0:
-                                        sex = 1;
-                                        break;
-                                    case 1:
-                                        sex = 2;
-                                        break;
-                                    default:
-                                        break;
-                                }
+                                sex = i;
                             }
                         })
                         .show();

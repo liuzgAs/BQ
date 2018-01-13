@@ -41,6 +41,7 @@ import com.sxmoc.bq.holder.LanYaViewHolder;
 import com.sxmoc.bq.model.BlueBean;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.SimpleInfo;
+import com.sxmoc.bq.model.UserBuyerindex;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
@@ -50,7 +51,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class NaoBoActivity extends ZjbBaseActivity {
+public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListener {
     private View[] viewJieMian = new View[4];
     private EasyRecyclerView recyclerView;
     private RecyclerArrayAdapter<BlueBean> adapter;
@@ -58,7 +59,6 @@ public class NaoBoActivity extends ZjbBaseActivity {
     private int jieMian = 0;
     private NaoBoTu naoBo01;
     private NaoBoTu naoBo02;
-    private LanYaViewHolder lanYaViewHolder;
     private TextView textLeftTime;
     private TextView textZuoNaoDis;
     private TextView textYouNaoDis;
@@ -69,6 +69,7 @@ public class NaoBoActivity extends ZjbBaseActivity {
     private TextView textShangChuanStatue;
     private int screenWidth;
     private int id;
+    private LanYaViewHolder lanYaViewHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,7 +177,8 @@ public class NaoBoActivity extends ZjbBaseActivity {
             @Override
             public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
                 int layout = R.layout.item_lanya;
-                return new LanYaViewHolder(parent, layout);
+                lanYaViewHolder = new LanYaViewHolder(parent, layout);
+                return lanYaViewHolder;
             }
         });
         adapter.addHeader(new RecyclerArrayAdapter.ItemView() {
@@ -332,7 +334,7 @@ public class NaoBoActivity extends ZjbBaseActivity {
 
     @Override
     protected void setListeners() {
-
+        findViewById(R.id.btnDuQuBG).setOnClickListener(this);
     }
 
     @Override
@@ -400,6 +402,11 @@ public class NaoBoActivity extends ZjbBaseActivity {
         });
     }
 
+    /**
+     * 刷新脑波图
+     * @param value01
+     * @param value02
+     */
     public void setNaoBo(int value01, int value02) {
         naoBo01.setNaoBoPoint(value01);
         naoBo02.setNaoBoPoint(value02);
@@ -407,14 +414,25 @@ public class NaoBoActivity extends ZjbBaseActivity {
         textYouNaoDis.setText(String.valueOf(value02));
     }
 
+    /**
+     * 打开通知成功
+     */
     public void success() {
         setJieMian(1);
     }
 
+    /**
+     * 刷新剩余时间
+     * @param leftTime
+     */
     public void leftTime(int leftTime) {
         textLeftTime.setText(String.valueOf(120 - leftTime));
     }
 
+    /**
+     * 上传
+     * @param naoBoDataList
+     */
     public void upLoad(List<String> naoBoDataList) {
         upLoadData(naoBoDataList);
         setJieMian(2);
@@ -444,4 +462,70 @@ public class NaoBoActivity extends ZjbBaseActivity {
         }
     }
 
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
+    private OkObject getBaoGaoOkObject() {
+        String url = Constant.HOST + Constant.Url.USER_BUYERINDEX;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime",tokenTime);
+        }
+        return new OkObject(params, url);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btnDuQuBG:
+                showLoadingDialog();
+                ApiClient.post(NaoBoActivity.this, getBaoGaoOkObject(), new ApiClient.CallBack() {
+                    @Override
+                    public void onSuccess(String s) {
+                        cancelLoadingDialog();
+                        LogUtil.LogShitou("CeYiCeFragment--onSuccess",s+ "");
+                        try {
+                            UserBuyerindex userBuyerindex = GsonUtils.parseJSON(s, UserBuyerindex.class);
+                            if (userBuyerindex.getStatus()==1){
+                                String report_num = userBuyerindex.getReport_num();
+                                if (Integer.parseInt(report_num)>0){
+                                }else {
+                                    TwoBtnDialog twoBtnDialog = new TwoBtnDialog(NaoBoActivity.this, "您已没有多余的报告可使用", "购买", "取消");
+                                    twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
+                                        @Override
+                                        public void doConfirm() {
+
+                                        }
+
+                                        @Override
+                                        public void doCancel() {
+
+                                        }
+                                    });
+                                    twoBtnDialog.show();
+                                }
+                            }else if (userBuyerindex.getStatus()==3){
+                                MyDialog.showReLoginDialog(NaoBoActivity.this);
+                            }else {
+                                Toast.makeText(NaoBoActivity.this, userBuyerindex.getInfo(), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(NaoBoActivity.this,"数据出错", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onError() {
+                        cancelLoadingDialog();
+                        Toast.makeText(NaoBoActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+            default:
+                break;
+        }
+    }
 }
