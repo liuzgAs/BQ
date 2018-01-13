@@ -119,6 +119,18 @@ public class Constant {
          * 我的订单列表
          */
         public static final String ORDER = "/order";
+        /**
+         * 个人信息
+         */
+        public static final String USER_PROFILE = "/User/profile";
+        /**
+         * 单图上传
+         */
+        public static final String RESPOND_APPIMGADD = "/Respond/appImgAdd";
+        /**
+         * 修改昵称和头像
+         */
+        public static final String USER_SVAEINFO = "/User/svaeInfo";
     }
 
     public static class IntentKey {
@@ -130,6 +142,7 @@ public class Constant {
         public static final String ORDER = "order";
         public static final String URL = "url";
         public static final String TITLE = "title";
+        public static final String NICKNAME = "nickName";
     }
 
     public static class RequestResultCode {
@@ -161,6 +174,7 @@ public class Constant {
         public static final String WX_LOGIN_FAIL = "wxLoginFail";
         public static final String WX_SHARE_FAIL = "wxShareFail";
         public static final String ZHI_FU_CG = "zhiFuCG";
+        public static final String USERINFO = "userInfo";
     }
 
 

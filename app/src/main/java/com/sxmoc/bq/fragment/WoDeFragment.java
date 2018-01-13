@@ -1,7 +1,10 @@
 package com.sxmoc.bq.fragment;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.CeShiLSActivity;
+import com.sxmoc.bq.activity.GeRenXXActivity;
 import com.sxmoc.bq.activity.SheZhiActivity;
 import com.sxmoc.bq.activity.WoDeDDActivity;
 import com.sxmoc.bq.base.MyDialog;
@@ -41,6 +45,19 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
     private TextView textBlance;
     private TextView textBaoGaoNum;
     private TextView textGradeName;
+    private BroadcastReceiver reciver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case Constant.BroadcastCode.USERINFO:
+                    initData();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     public WoDeFragment() {
         // Required empty public constructor
@@ -99,6 +116,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         mInflate.findViewById(R.id.viewJianCeJL).setOnClickListener(this);
         mInflate.findViewById(R.id.imageSheZhi).setOnClickListener(this);
         mInflate.findViewById(R.id.viewWoDeDD).setOnClickListener(this);
+        mInflate.findViewById(R.id.viewGeRenXX).setOnClickListener(this);
     }
 
     /**
@@ -158,6 +176,10 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
+            case R.id.viewGeRenXX:
+                intent.setClass(getActivity(), GeRenXXActivity.class);
+                startActivity(intent);
+                break;
             case R.id.viewWoDeDD:
                 intent.setClass(getActivity(), WoDeDDActivity.class);
                 startActivity(intent);
@@ -173,5 +195,19 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.BroadcastCode.USERINFO);
+        getActivity().registerReceiver(reciver, filter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(reciver);
     }
 }

@@ -8,6 +8,9 @@
     <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".application.MyApplication"
@@ -104,7 +107,12 @@
         <activity
             android:name=".activity.YiJianFKActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".activity.WoDeDDActivity"></activity>
+        <activity
+            android:name=".activity.WoDeDDActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.GeRenXXActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>
