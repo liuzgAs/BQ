@@ -150,13 +150,13 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                                 setJieMian(1);
                                 break;
                             case 1:
-                                setJieMian(1);
+                                setJieMian(0);
                                 break;
                             case 2:
                                 setJieMian(0);
                                 break;
                             case 3:
-                                setJieMian(1);
+                                setJieMian(0);
                                 break;
                             default:
                                 setJieMian(0);

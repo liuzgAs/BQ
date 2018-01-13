@@ -15,6 +15,7 @@ import com.sxmoc.bq.R;
 import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.fragment.ShenQIngSYHHRFragment;
+import com.sxmoc.bq.fragment.ShengJiSYHHRFragment;
 import com.sxmoc.bq.model.UserApplybefore;
 
 import java.util.ArrayList;
@@ -109,7 +110,7 @@ public class HeHuoRenActivity extends ZjbBaseActivity implements View.OnClickLis
                 case 0:
                     return new ShenQIngSYHHRFragment(userApplybefore);
                 case 1:
-                    return new ShenQIngSYHHRFragment(userApplybefore);
+                    return new ShengJiSYHHRFragment();
 
                 default:
                     return new ShenQIngSYHHRFragment(userApplybefore);

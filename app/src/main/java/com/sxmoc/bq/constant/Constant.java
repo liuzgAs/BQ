@@ -143,6 +143,10 @@ public class Constant {
          * 申请合伙人提交
          */
         public static final String USER_APPLY = "/User/apply";
+        /**
+         * 升级事业合伙人
+         */
+        public static final String USER_UPGRADE = "/User/upGrade";
     }
 
     public static class IntentKey {
