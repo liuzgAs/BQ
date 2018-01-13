@@ -93,6 +93,10 @@ public class Constant {
          * 宝宝信息填写
          */
         public static final String BUYER_ADDINFO = "/buyer/addInfo";
+        /**
+         * 发现
+         */
+        public static final String INDEX_FINDINDEX = "/Index/findIndex";
     }
 
     public static class IntentKey {
