@@ -163,6 +163,10 @@ public class Constant {
          * 银行卡列表
          */
         public static final String BANK_CARDLIST = "/Bank/cardList";
+        /**
+         * 文章列表
+         */
+        public static final String ARTICLE = "/Article";
     }
 
     public static class IntentKey {

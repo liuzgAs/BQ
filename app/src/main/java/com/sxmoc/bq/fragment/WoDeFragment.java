@@ -122,6 +122,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         mInflate.findViewById(R.id.viewGeRenXX).setOnClickListener(this);
         mInflate.findViewById(R.id.viewHeHuoRen).setOnClickListener(this);
         mInflate.findViewById(R.id.viewWoDeSY).setOnClickListener(this);
+        textBlance.setOnClickListener(this);
     }
 
     /**
@@ -181,11 +182,13 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
+            case R.id.textBlance:
+                toWoDeSY(intent);
+                break;
             case R.id.viewWoDeSY:
-                intent.putExtra(Constant.IntentKey.VALUE,userBuyerindex.getMoney());
-                intent.setClass(getActivity(), WoDeSYActivity.class);
-                startActivity(intent);
-                break;  case R.id.viewHeHuoRen:
+                toWoDeSY(intent);
+                break;
+            case R.id.viewHeHuoRen:
                 intent.setClass(getActivity(), HeHuoRenActivity.class);
                 startActivity(intent);
                 break;
@@ -208,6 +211,12 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
             default:
                 break;
         }
+    }
+
+    private void toWoDeSY(Intent intent) {
+        intent.putExtra(Constant.IntentKey.VALUE, userBuyerindex.getMoney());
+        intent.setClass(getActivity(), WoDeSYActivity.class);
+        startActivity(intent);
     }
 
     @Override

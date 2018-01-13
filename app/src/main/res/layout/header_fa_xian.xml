@@ -12,7 +12,7 @@
         <com.bigkoo.convenientbanner.ConvenientBanner
             android:id="@+id/banner"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="@dimen/wenzhang"
             android:layout_marginBottom="20dp"
             android:background="@color/white"
             android:layout_marginLeft="@dimen/leftAndRight"
@@ -31,6 +31,7 @@
             android:text="推荐阅读" />
 
         <TextView
+            android:id="@+id/textMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

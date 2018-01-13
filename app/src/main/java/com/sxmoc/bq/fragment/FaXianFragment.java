@@ -21,6 +21,7 @@ import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.DividerDecoration;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.WebActivity;
+import com.sxmoc.bq.activity.WenZhangLBActivity;
 import com.sxmoc.bq.adapter.BannerAdapter;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
@@ -143,6 +144,14 @@ public class FaXianFragment extends ZjbBaseFragment implements SwipeRefreshLayou
                     @Override
                     public void onPageScrollStateChanged(int state) {
 
+                    }
+                });
+                view.findViewById(R.id.textMore).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setClass(getActivity(), WenZhangLBActivity.class);
+                        startActivity(intent);
                     }
                 });
                 return view;

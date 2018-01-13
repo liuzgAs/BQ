@@ -15,4 +15,5 @@
     <dimen name="bannerHeight">190dp</dimen>
     <dimen name="top">5dp</dimen>
     <dimen name="side_letter_bar_width">36dp</dimen>
+    <dimen name="wenzhang">180dp</dimen>
 </resources>
