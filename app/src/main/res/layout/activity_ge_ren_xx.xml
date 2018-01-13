@@ -85,6 +85,8 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/viewRealName"
+            android:background="@drawable/layout_selector_white_system_gray"
             android:layout_width="match_parent"
             android:layout_height="@dimen/normalItemHeight">
 
@@ -118,6 +120,8 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/viewSex"
+            android:background="@drawable/layout_selector_white_system_gray"
             android:layout_width="match_parent"
             android:layout_height="@dimen/normalItemHeight"
             android:visibility="visible">
@@ -151,6 +155,8 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/viewBirthday"
+            android:background="@drawable/layout_selector_white_system_gray"
             android:layout_width="match_parent"
             android:layout_height="@dimen/normalItemHeight"
             android:visibility="visible">

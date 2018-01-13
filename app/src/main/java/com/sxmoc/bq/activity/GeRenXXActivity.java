@@ -1,12 +1,13 @@
 package com.sxmoc.bq.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,16 +20,20 @@ import com.sxmoc.bq.R;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
+import com.sxmoc.bq.customview.EditDialog;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.RespondAppimgadd;
 import com.sxmoc.bq.model.SimpleInfo;
 import com.sxmoc.bq.model.UserProfile;
 import com.sxmoc.bq.util.ApiClient;
+import com.sxmoc.bq.util.DateTransforam;
 import com.sxmoc.bq.util.GlideApp;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.ImgToBase64;
 import com.sxmoc.bq.util.LogUtil;
 
+import java.text.ParseException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,22 +43,6 @@ public class GeRenXXActivity extends ZjbBaseActivity implements View.OnClickList
     private ImageView imageHeadimg;
     private TextView textNickname;
     private TextView textRealName;
-    private BroadcastReceiver reciver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            switch (action) {
-                case Constant.BroadcastCode.USERINFO:
-                    String username = intent.getStringExtra(Constant.IntentKey.NICKNAME);
-                    if (!TextUtils.isEmpty(username)) {
-                        textNickname.setText(username);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
     private TextView textSex;
     private TextView textBirthday;
     private UserProfile userProfile;
@@ -94,6 +83,9 @@ public class GeRenXXActivity extends ZjbBaseActivity implements View.OnClickList
         findViewById(R.id.imageBack).setOnClickListener(this);
         findViewById(R.id.viewNickName).setOnClickListener(this);
         findViewById(R.id.viewHeadImg).setOnClickListener(this);
+        findViewById(R.id.viewRealName).setOnClickListener(this);
+        findViewById(R.id.viewSex).setOnClickListener(this);
+        findViewById(R.id.viewBirthday).setOnClickListener(this);
     }
 
     /**
@@ -179,7 +171,7 @@ public class GeRenXXActivity extends ZjbBaseActivity implements View.OnClickList
                     try {
                         RespondAppimgadd respondAppimgadd = GsonUtils.parseJSON(s, RespondAppimgadd.class);
                         if (respondAppimgadd.getStatus() == 1) {
-                            edit("headimg",String.valueOf(respondAppimgadd.getImgId()));
+                            edit("headimg", String.valueOf(respondAppimgadd.getImgId()));
                         } else if (respondAppimgadd.getStatus() == 3) {
                             MyDialog.showReLoginDialog(GeRenXXActivity.this);
                         } else {
@@ -209,11 +201,11 @@ public class GeRenXXActivity extends ZjbBaseActivity implements View.OnClickList
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
         params.put("code", "headimg");
         params.put("img", ImgToBase64.toBase64(path));
-        params.put("type","png");
+        params.put("type", "png");
         return new OkObject(params, url);
     }
 
@@ -222,23 +214,24 @@ public class GeRenXXActivity extends ZjbBaseActivity implements View.OnClickList
      * author： ZhangJieBo
      * date： 2017/8/28 0028 上午 9:55
      */
-    private OkObject getEditOkObject(String key,String value) {
+    private OkObject getEditOkObject(String key, String value) {
         String url = Constant.HOST + Constant.Url.USER_SVAEINFO;
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
         params.put("key", key);
         params.put("value", value);
         return new OkObject(params, url);
     }
+
     /**
      * 修改
      */
-    private void edit(String key,String value) {
+    private void edit(String key, String value) {
         showLoadingDialog();
-        ApiClient.post(GeRenXXActivity.this, getEditOkObject(key,value), new ApiClient.CallBack() {
+        ApiClient.post(GeRenXXActivity.this, getEditOkObject(key, value), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
@@ -246,7 +239,7 @@ public class GeRenXXActivity extends ZjbBaseActivity implements View.OnClickList
                 try {
                     SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
                     if (simpleInfo.getStatus() == 1) {
-                        onStart();
+                        initData();
                         Intent intent = new Intent();
                         intent.setAction(Constant.BroadcastCode.USERINFO);
                         sendBroadcast(intent);
@@ -267,7 +260,6 @@ public class GeRenXXActivity extends ZjbBaseActivity implements View.OnClickList
             }
         });
     }
-
 
 
     /**
@@ -314,6 +306,33 @@ public class GeRenXXActivity extends ZjbBaseActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.viewBirthday:
+                Calendar c = Calendar.getInstance();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        try {
+                            String birthday = DateTransforam.dateToStamp(year + "-" + (month + 1) + "-" + dayOfMonth);
+                            edit("birthday",birthday);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                datePickerDialog.show();
+                break;
+            case R.id.viewSex:
+                final String[] strings = {"男", "女"};
+                new AlertDialog.Builder(this)
+                        .setItems(strings, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                edit("sex",i+"");
+                            }
+                        })
+                        .show();
+                break;
             case R.id.viewHeadImg:
                 if (TextUtils.isEmpty(userProfile.getHeadImg())) {
                     chooseHead();
@@ -332,11 +351,37 @@ public class GeRenXXActivity extends ZjbBaseActivity implements View.OnClickList
                     });
                 }
                 break;
+            case R.id.viewRealName:
+                final EditDialog editDialog1 = new EditDialog(this, "修改真实姓名", userProfile.getReal_name(), "确认", "取消");
+                editDialog1.setClicklistener(new EditDialog.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm(String intro) {
+                        editDialog1.dismiss();
+                        edit("real_name", intro);
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        editDialog1.dismiss();
+                    }
+                });
+                editDialog1.show();
+                break;
             case R.id.viewNickName:
-//                Intent intent = new Intent();
-//                intent.putExtra(Constant.IntentKey.VALUE, userProfile.getNickname());
-//                intent.setClass(this, EditActivity.class);
-//                startActivity(intent);
+                final EditDialog editDialog = new EditDialog(this, "修改昵称", userProfile.getNickname(), "确认", "取消");
+                editDialog.setClicklistener(new EditDialog.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm(String intro) {
+                        editDialog.dismiss();
+                        edit("nickname", intro);
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        editDialog.dismiss();
+                    }
+                });
+                editDialog.show();
                 break;
             case R.id.imageBack:
                 finish();
@@ -346,17 +391,4 @@ public class GeRenXXActivity extends ZjbBaseActivity implements View.OnClickList
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Constant.BroadcastCode.USERINFO);
-        registerReceiver(reciver, filter);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(reciver);
-    }
 }
