@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    tools:context=".activity.YiJianFKActivity">
+
+    <include layout="@layout/view_bar_white" />
+
+    <EditText
+        android:id="@+id/editEmail"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/normalItemHeight"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:hint="请输入您的邮箱地址"
+        android:paddingLeft="15dp"
+        android:textSize="@dimen/normal_textsize" />
+
+    <TextView
+        android:background="@color/line_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <EditText
+        android:id="@+id/editContent"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/white"
+        android:gravity="top|left"
+        android:hint="请输入您的反馈意见"
+        android:padding="15dp"
+        android:textSize="@dimen/normal_textsize" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/btnTiJiao"
+            android:text="提交"
+            style="@style/bottomBtn"/>
+    </RelativeLayout>
+</LinearLayout>

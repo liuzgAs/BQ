@@ -6,6 +6,7 @@ package com.sxmoc.bq.constant;
  */
 public class Constant {
     public static String HOST = "http://api.qizhibq.com";
+    public static String WEB_HOST = "http://www.qizhibq.com/api";
     /**
      * 判断数据是否有改变
      */
@@ -25,6 +26,7 @@ public class Constant {
     public static String QQ_KEY = "HcA9s2rpKkLO2M5w";
 
     public static class Url {
+        public static final String ABOUT =WEB_HOST+"/Article/info/type/about";
         /**
          * 升级
          */
@@ -101,6 +103,18 @@ public class Constant {
          * 测试历史
          */
         public static final String PRODUCT_QUERYHISTORY = "/product/queryHistory";
+        /**
+         * 常见问题
+         */
+        public static final String FAQ = "/Faq";
+        /**
+         * 修改密码
+         */
+        public static final String USER_PWDSAVE = "/User/pwdSave";
+        /**
+         * 意见反馈
+         */
+        public static final String USER_FEEDBACK = "/User/feedback";
     }
 
     public static class IntentKey {

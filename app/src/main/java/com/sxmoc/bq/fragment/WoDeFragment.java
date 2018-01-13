@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.CeShiLSActivity;
+import com.sxmoc.bq.activity.SheZhiActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.constant.Constant;
@@ -83,7 +84,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
 
     @Override
     protected void initViews() {
-        viewBar.setPadding(0, ScreenUtils.getStatusBarHeight(getActivity()),0,0);
+        viewBar.setPadding(0, ScreenUtils.getStatusBarHeight(getActivity()), 0, 0);
         GlideApp.with(getActivity())
                 .asBitmap()
                 .load(userInfo.getHeadImg())
@@ -95,6 +96,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
     @Override
     protected void setListeners() {
         mInflate.findViewById(R.id.viewJianCeJL).setOnClickListener(this);
+        mInflate.findViewById(R.id.imageSheZhi).setOnClickListener(this);
     }
 
     /**
@@ -107,7 +109,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
         return new OkObject(params, url);
     }
@@ -119,10 +121,10 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
-                LogUtil.LogShitou("WoDeFragment--onSuccess",s+ "");
+                LogUtil.LogShitou("WoDeFragment--onSuccess", s + "");
                 try {
                     UserBuyerindex userBuyerindex = GsonUtils.parseJSON(s, UserBuyerindex.class);
-                    if (userBuyerindex.getStatus()==1){
+                    if (userBuyerindex.getStatus() == 1) {
                         GlideApp.with(getActivity())
                                 .asBitmap()
                                 .load(userBuyerindex.getHeadimg())
@@ -130,15 +132,15 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                                 .into(imageHead);
                         textName.setText(userBuyerindex.getNickname());
                         textBaoGaoNum.setText(userBuyerindex.getReport_num());
-                        textBlance.setText(userBuyerindex.getMoney()+"");
+                        textBlance.setText(userBuyerindex.getMoney() + "");
                         textGradeName.setText(userBuyerindex.getGrade_name());
-                    }else if (userBuyerindex.getStatus()==3){
+                    } else if (userBuyerindex.getStatus() == 3) {
                         MyDialog.showReLoginDialog(getActivity());
-                    }else {
+                    } else {
                         Toast.makeText(getActivity(), userBuyerindex.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(),"数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -153,9 +155,13 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         Intent intent = new Intent();
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.viewJianCeJL:
                 intent.setClass(getActivity(), CeShiLSActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.imageSheZhi:
+                intent.setClass(getActivity(), SheZhiActivity.class);
                 startActivity(intent);
                 break;
             default:

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.CeShiLSActivity">
+    android:background="@color/background"
+    tools:context=".activity.ChangJianWenTiActivity">
 
     <include layout="@layout/view_bar_white" />
 

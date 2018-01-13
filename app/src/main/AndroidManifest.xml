@@ -92,6 +92,18 @@
         <activity
             android:name=".activity.CeShiLSActivity"
             android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.ChangJianWenTiActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.SheZhiActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.XiuGaiMMActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.YiJianFKActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

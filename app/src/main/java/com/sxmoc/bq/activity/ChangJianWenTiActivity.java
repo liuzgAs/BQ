@@ -17,25 +17,28 @@ import com.sxmoc.bq.R;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
-import com.sxmoc.bq.holder.MyBaseViewHolder;
+import com.sxmoc.bq.holder.ChangJianWenTiViewHolder;
+import com.sxmoc.bq.model.Faq;
 import com.sxmoc.bq.model.OkObject;
-import com.sxmoc.bq.model.SimpleInfo;
 import com.sxmoc.bq.util.ApiClient;
+import com.sxmoc.bq.util.DpUtils;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class CeShiLSActivity extends ZjbBaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+
+public class ChangJianWenTiActivity extends ZjbBaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private EasyRecyclerView recyclerView;
-    private RecyclerArrayAdapter<Integer> adapter;
+    private RecyclerArrayAdapter<Faq.DataBean> adapter;
+    private int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ce_shi_ls);
+        setContentView(R.layout.activity_chang_jian_wen_ti);
         init();
     }
 
@@ -56,7 +59,7 @@ public class CeShiLSActivity extends ZjbBaseActivity implements View.OnClickList
 
     @Override
     protected void initViews() {
-        ((TextView)findViewById(R.id.textViewTitle)).setText("测试历史");
+        ((TextView) findViewById(R.id.textViewTitle)).setText("常见问题");
         initRecycler();
     }
 
@@ -65,21 +68,45 @@ public class CeShiLSActivity extends ZjbBaseActivity implements View.OnClickList
      */
     private void initRecycler() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        DividerDecoration itemDecoration = new DividerDecoration(Color.TRANSPARENT, (int) getResources().getDimension(R.dimen.line_width), 0, 0);
+        DividerDecoration itemDecoration = new DividerDecoration(Color.TRANSPARENT, (int) DpUtils.convertDpToPixel(5, ChangJianWenTiActivity.this), 0, 0);
         itemDecoration.setDrawLastItem(false);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setRefreshingColorResources(R.color.basic_color);
-        recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<Integer>(CeShiLSActivity.this) {
+        recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<Faq.DataBean>(ChangJianWenTiActivity.this) {
             @Override
             public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
-                int layout = R.layout.item_ceshi_ls;
-                return new MyBaseViewHolder(parent, layout);
+                int layout = R.layout.item_chang_jian_wen_ti;
+                return new ChangJianWenTiViewHolder(parent, layout);
             }
         });
         adapter.setMore(R.layout.view_more, new RecyclerArrayAdapter.OnMoreListener() {
             @Override
             public void onMoreShow() {
+               ApiClient.post(ChangJianWenTiActivity.this, getOkObject(), new ApiClient.CallBack() {
+                   @Override
+                   public void onSuccess(String s) {
+                       try {
+                           page++;
+                           Faq faq = GsonUtils.parseJSON(s, Faq.class);
+                           int status = faq.getStatus();
+                           if (status == 1) {
+                               List<Faq.DataBean> userMoneylogData = faq.getData();
+                               adapter.addAll(userMoneylogData);
+                           } else if (status == 3) {
+                               MyDialog.showReLoginDialog(ChangJianWenTiActivity.this);
+                           } else {
+                               adapter.pauseMore();
+                           }
+                       } catch (Exception e) {
+                           adapter.pauseMore();
+                       }
+                   }
 
+                   @Override
+                   public void onError() {
+                       adapter.pauseMore();
+                   }
+               });
             }
 
             @Override
@@ -128,7 +155,7 @@ public class CeShiLSActivity extends ZjbBaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.imageBack:
                 finish();
                 break;
@@ -143,35 +170,34 @@ public class CeShiLSActivity extends ZjbBaseActivity implements View.OnClickList
      * date： 2017/8/28 0028 上午 9:55
      */
     private OkObject getOkObject() {
-        String url = Constant.HOST + Constant.Url.PRODUCT_QUERYHISTORY;
+        String url = Constant.HOST + Constant.Url.FAQ;
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
             params.put("tokenTime",tokenTime);
         }
-        params.put("p",String.valueOf(page));
+        params.put("p",page+"");
         return new OkObject(params, url);
     }
 
-
-    int page =1;
-
     @Override
     public void onRefresh() {
-        page =1;
+        page=1;
         ApiClient.post(this, getOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
-                LogUtil.LogShitou("测试历史", s);
+                LogUtil.LogShitou("常见问题", s);
                 try {
                     page++;
-                    SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
-                    if (simpleInfo.getStatus() == 1) {
-                        adapter.addAll(new ArrayList<Integer>());
-                    } else if (simpleInfo.getStatus()== 3) {
-                        MyDialog.showReLoginDialog(CeShiLSActivity.this);
+                    Faq faq = GsonUtils.parseJSON(s, Faq.class);
+                    if (faq.getStatus() == 1) {
+                        List<Faq.DataBean> dataBeanList = faq.getData();
+                        adapter.clear();
+                        adapter.addAll(dataBeanList);
+                    } else if (faq.getStatus()== 3) {
+                        MyDialog.showReLoginDialog(ChangJianWenTiActivity.this);
                     } else {
-                        showError(simpleInfo.getInfo());
+                        showError(faq.getInfo());
                     }
                 } catch (Exception e) {
                     showError("数据出错");
@@ -187,7 +213,7 @@ public class CeShiLSActivity extends ZjbBaseActivity implements View.OnClickList
              * @param msg
              */
             private void showError(String msg) {
-                View viewLoader = LayoutInflater.from(CeShiLSActivity.this).inflate(R.layout.view_loaderror, null);
+                View viewLoader = LayoutInflater.from(ChangJianWenTiActivity.this).inflate(R.layout.view_loaderror, null);
                 TextView textMsg = viewLoader.findViewById(R.id.textMsg);
                 textMsg.setText(msg);
                 viewLoader.findViewById(R.id.buttonReLoad).setOnClickListener(new View.OnClickListener() {
