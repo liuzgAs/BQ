@@ -217,7 +217,7 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
                     if (buyerAddinfo.getStatus() == 1) {
                         Intent intent = new Intent();
                         intent.putExtra(Constant.IntentKey.ID, buyerAddinfo.getBid());
-                        setResult(Constant.RequestResultCode.KAI_SHI_CE_SHI, intent);
+                        startActivity(intent);
                         finish();
                     } else if (buyerAddinfo.getStatus() == 3) {
                         MyDialog.showReLoginDialog(XinXiTXActivity.this);
