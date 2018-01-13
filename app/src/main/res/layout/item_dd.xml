@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/layout_selector_white_system_gray">
+
+    <TextView
+        android:layout_marginBottom="15dp"
+        android:id="@+id/textOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/leftAndRight"
+        android:layout_marginTop="15dp"
+        android:text="订单号：45746546541321321"
+        android:textColor="@color/light_black"
+        android:textSize="@dimen/moreLitterText" />
+
+    <com.jude.easyrecyclerview.EasyRecyclerView
+        android:layout_below="@+id/textOrder"
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_empty="@layout/view_empty"
+        app:layout_progress="@layout/view_progress"
+        app:scrollbarStyle="insideOverlay" />
+
+    <TextView
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/recyclerView"
+        android:layout_marginLeft="@dimen/leftAndRight"
+        android:layout_marginRight="@dimen/leftAndRight"
+        android:background="@color/background" />
+
+    <Button
+        android:id="@+id/btnPingJia"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/line"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="@dimen/leftAndRight"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_basic01_25dp_jian_bian"
+        android:text="立即评价"
+        android:textColor="@color/white"
+        android:textSize="@dimen/normal_textsize" />
+
+    <TextView
+        android:id="@+id/textCancle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnPingJia"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/btnPingJia"
+        android:padding="10dp"
+        android:text="取消订单" />
+</RelativeLayout>

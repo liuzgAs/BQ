@@ -104,6 +104,7 @@
         <activity
             android:name=".activity.YiJianFKActivity"
             android:launchMode="singleTop" />
+        <activity android:name=".activity.WoDeDDActivity"></activity>
     </application>
 
 </manifest>

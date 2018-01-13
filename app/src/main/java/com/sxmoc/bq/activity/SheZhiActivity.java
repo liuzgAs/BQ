@@ -13,7 +13,6 @@ import com.sxmoc.bq.base.ToLoginActivity;
 import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.customview.TwoBtnDialog;
-import com.sxmoc.bq.util.ACache;
 import com.sxmoc.bq.util.DataCleanManager;
 import com.sxmoc.bq.util.DpUtils;
 import com.sxmoc.bq.util.GlideApp;
@@ -95,10 +94,7 @@ public class SheZhiActivity extends ZjbBaseActivity implements View.OnClickListe
                             @Override
                             public void doConfirm() {
                                 twoBtnDialog.dismiss();
-                                ACache aCache = ACache.get(SheZhiActivity.this, Constant.Acache.APP);
-                                aCache.clear();
-                                Constant.changeControl++;
-                                finish();
+                                ToLoginActivity.toLoginActivity(SheZhiActivity.this);
                             }
 
                             @Override

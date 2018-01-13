@@ -115,6 +115,10 @@ public class Constant {
          * 意见反馈
          */
         public static final String USER_FEEDBACK = "/User/feedback";
+        /**
+         * 我的订单列表
+         */
+        public static final String ORDER = "/order";
     }
 
     public static class IntentKey {

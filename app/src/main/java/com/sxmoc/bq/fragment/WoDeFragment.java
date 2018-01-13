@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.CeShiLSActivity;
 import com.sxmoc.bq.activity.SheZhiActivity;
+import com.sxmoc.bq.activity.WoDeDDActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.constant.Constant;
@@ -97,6 +98,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
     protected void setListeners() {
         mInflate.findViewById(R.id.viewJianCeJL).setOnClickListener(this);
         mInflate.findViewById(R.id.imageSheZhi).setOnClickListener(this);
+        mInflate.findViewById(R.id.viewWoDeDD).setOnClickListener(this);
     }
 
     /**
@@ -156,6 +158,10 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
+            case R.id.viewWoDeDD:
+                intent.setClass(getActivity(), WoDeDDActivity.class);
+                startActivity(intent);
+                break;
             case R.id.viewJianCeJL:
                 intent.setClass(getActivity(), CeShiLSActivity.class);
                 startActivity(intent);

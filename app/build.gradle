@@ -44,4 +44,5 @@ dependencies {
     compile 'com.clj.fastble:FastBleLib:2.2.1'
     implementation files('libs/alipaySdk-20170922.jar')
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    compile 'com.android.support:design:26.1.0'
 }
