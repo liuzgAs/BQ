@@ -131,6 +131,14 @@ public class Constant {
          * 修改昵称和头像
          */
         public static final String USER_SVAEINFO = "/User/svaeInfo";
+        /**
+         * 申请合伙人前请求
+         */
+        public static final String USER_APPLYBEFORE = "/User/applyBefore";
+        /**
+         * 城市列表
+         */
+        public static final String INDEX_CITYLIST = "/Index/cityList";
     }
 
     public static class IntentKey {
@@ -143,11 +151,13 @@ public class Constant {
         public static final String URL = "url";
         public static final String TITLE = "title";
         public static final String NICKNAME = "nickName";
+        public static final String BEAN = "bean";
     }
 
     public static class RequestResultCode {
         public static final int IMAGE_PICKER = 2029;
         public static final int KAI_SHI_CE_SHI = 2030;
+        public static final int CITY = 2033;
     }
 
     public static class Acache {

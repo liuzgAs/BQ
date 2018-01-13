@@ -113,6 +113,12 @@
         <activity
             android:name=".activity.GeRenXXActivity"
             android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.HeHuoRenActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.ChengShiXZActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>
