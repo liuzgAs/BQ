@@ -139,6 +139,10 @@ public class Constant {
          * 城市列表
          */
         public static final String INDEX_CITYLIST = "/Index/cityList";
+        /**
+         * 申请合伙人提交
+         */
+        public static final String USER_APPLY = "/User/apply";
     }
 
     public static class IntentKey {

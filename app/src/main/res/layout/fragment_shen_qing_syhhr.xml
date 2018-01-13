@@ -138,6 +138,31 @@
                 android:layout_height="@dimen/normalItemHeight">
 
                 <TextView
+                    android:id="@+id/text0800"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/leftAndRight"
+                    android:text="公司名称"
+                    android:textSize="@dimen/normal_textsize" />
+
+                <EditText
+                    android:id="@+id/editCompany"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/text0800"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="请填写公司名称"
+                    android:paddingRight="@dimen/leftAndRight"
+                    android:textColor="@color/light_black"
+                    android:textSize="@dimen/normal_textsize" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/normalItemHeight">
+
+                <TextView
                     android:id="@+id/text0400"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -218,6 +243,7 @@
                     android:src="@mipmap/right_big" />
             </RelativeLayout>
             <EditText
+                android:id="@+id/textAddressDetail"
                 android:gravity="start|top"
                 android:padding="@dimen/leftAndRight"
                 android:background="@null"
