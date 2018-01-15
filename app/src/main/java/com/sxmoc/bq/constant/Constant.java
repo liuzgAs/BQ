@@ -171,6 +171,10 @@ public class Constant {
          * 用户中心
          */
         public static final String USER_MSG = "/User/msg";
+        /**
+         * 我的共享
+         */
+        public static final String USER_GETMYSHARE = "/user/getMyShare";
     }
 
     public static class IntentKey {

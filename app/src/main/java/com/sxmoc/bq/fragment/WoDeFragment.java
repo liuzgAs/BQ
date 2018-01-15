@@ -21,6 +21,7 @@ import com.sxmoc.bq.activity.GongGaoActivity;
 import com.sxmoc.bq.activity.HeHuoRenActivity;
 import com.sxmoc.bq.activity.SheZhiActivity;
 import com.sxmoc.bq.activity.WoDeDDActivity;
+import com.sxmoc.bq.activity.WoDeGXActivity;
 import com.sxmoc.bq.activity.WoDeSYActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
@@ -124,6 +125,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         mInflate.findViewById(R.id.viewHeHuoRen).setOnClickListener(this);
         mInflate.findViewById(R.id.viewWoDeSY).setOnClickListener(this);
         mInflate.findViewById(R.id.imageXiaoXi).setOnClickListener(this);
+        mInflate.findViewById(R.id.viewWoDeGX).setOnClickListener(this);
         textBlance.setOnClickListener(this);
     }
 
@@ -184,6 +186,10 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
+            case R.id.viewWoDeGX:
+                intent.setClass(getActivity(), WoDeGXActivity.class);
+                startActivity(intent);
+                break;
             case R.id.imageXiaoXi:
                 intent.setClass(getActivity(), GongGaoActivity.class);
                 startActivity(intent);
