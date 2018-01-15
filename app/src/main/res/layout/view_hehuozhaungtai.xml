@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:gravity="center"
+        android:background="@mipmap/hehuozhuangtai_bg"
+        android:layout_margin="@dimen/leftAndRight"
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+        <RelativeLayout
+            android:id="@+id/viewShenHeTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/shenhechenggong"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:id="@+id/imageShenHe"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="审核成功"
+                android:textSize="25dp"
+                android:layout_toRightOf="@+id/imageShenHe"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:textColor="#FFA2F0FD"
+                android:id="@+id/textShenHeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+        <TextView
+            android:textColor="#FF9EEDFD"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/viewShenHeTitle"
+            android:textSize="@dimen/bigText"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_centerHorizontal="true"
+            android:text="您已是区级合伙人。可以升级，请先提交资料"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</RelativeLayout>
