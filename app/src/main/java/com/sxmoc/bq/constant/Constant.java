@@ -178,35 +178,35 @@ public class Constant {
         /**
          * 地址列表
          */
-        public static final String USER_ADDRESS = "&g=App&m=User&a=address";
+        public static final String USER_ADDRESS = "/User/address";
         /**
          * 地址保存
          */
-        public static final String USER_SAVEADDRESS = "&g=App&m=User&a=saveAddress";
+        public static final String USER_SAVEADDRESS = "/User/saveAddress";
         /**
          * 删除地址
          */
-        public static final String USER_DELADDRESS = "&g=App&m=User&a=delAddress";
+        public static final String USER_DELADDRESS = "/User/delAddress";
         /**
          * 地址设为默认
          */
-        public static final String USER_ADDRESSDEFAULT = "&g=App&m=User&a=addressDefault";
+        public static final String USER_ADDRESSDEFAULT = "/User/addressDefault";
         /**
          * 银行卡添加前请求
          */
-        public static final String BANK_CARDADDBEFORE = "&g=App&m=Bank&a=cardAddbefore";
+        public static final String BANK_CARDADDBEFORE = "/Bank/cardAddbefore";
         /**
          * 银行卡验证码
          */
-        public static final String LOGIN_BINDSMS = "&g=App&m=Login&a=bindSms";
+        public static final String LOGIN_BINDSMS = "/Login/bindSms";
         /**
          * 银行卡添加提交
          */
-        public static final String BANK_CARDADD = "&g=App&m=Bank&a=cardAdd";
+        public static final String BANK_CARDADD = "/Bank/cardAdd";
         /**
          * 银行卡删除
          */
-        public static final String BANK_CARDDEL = "&g=App&m=Bank&a=cardDel";
+        public static final String BANK_CARDDEL = "/Bank/cardDel";
         /**
          *  转让报告
          */
