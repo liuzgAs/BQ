@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.model.UserMsg;
+import com.sxmoc.bq.util.DateTransforam;
 
 /**
  * Created by Administrator on 2017/3/28 0028.
@@ -29,7 +30,7 @@ public class GongGaoViewHolder extends BaseViewHolder<UserMsg.DataBean> {
     public void setData(UserMsg.DataBean data) {
         super.setData(data);
         this.data=data;
-        textAddTime.setText(data.getCreate_time());
+        textAddTime.setText(DateTransforam.stampToDate(data.getCreate_time()));
         textTitle.setText(data.getTitle());
         textIntro.setText(data.getDes());
     }

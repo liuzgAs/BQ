@@ -120,7 +120,7 @@ public class UserMsg {
         private String title;
         private int id;
         private String des;
-        private int create_time;
+        private long create_time;
 
         public String getTitle() {
             return title;
@@ -146,11 +146,11 @@ public class UserMsg {
             this.des = des;
         }
 
-        public int getCreate_time() {
+        public long getCreate_time() {
             return create_time;
         }
 
-        public void setCreate_time(int create_time) {
+        public void setCreate_time(long create_time) {
             this.create_time = create_time;
         }
     }
