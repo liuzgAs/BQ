@@ -32,6 +32,7 @@ public class ShangPinFragment extends ZjbBaseFragment implements View.OnClickLis
     private GoodsIndex.DataBean dataBean;
     private ImageView imageImg;
     private TextView textTitle;
+    private TextView textUnit;
 
     public ShangPinFragment() {
         // Required empty public constructor
@@ -74,11 +75,13 @@ public class ShangPinFragment extends ZjbBaseFragment implements View.OnClickLis
         textPrice = mInflate.findViewById(R.id.textPrice);
         imageImg = mInflate.findViewById(R.id.imageImg);
         textTitle = mInflate.findViewById(R.id.textTitle);
+        textUnit = mInflate.findViewById(R.id.textUnit);
     }
 
     @Override
     protected void initViews() {
         String price = dataBean.getPrice();
+        textUnit.setText("/"+dataBean.getUnit());
         SpannableString span = new SpannableString("¥"+price);
         span.setSpan(new RelativeSizeSpan(0.6f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textPrice.setText(span);

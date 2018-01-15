@@ -61,6 +61,13 @@
             android:textColor="@color/basicText"
             android:textSize="20dp"
             android:textStyle="bold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="/份"
+            android:layout_alignBaseline="@id/textPrice"
+            android:layout_toRightOf="@id/textPrice"
+            android:id="@+id/textUnit"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
     <TextView
         android:background="@color/white"

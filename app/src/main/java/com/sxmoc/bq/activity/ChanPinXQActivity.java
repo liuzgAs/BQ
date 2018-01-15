@@ -118,6 +118,7 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
             }
         });
         adapter.addHeader(new RecyclerArrayAdapter.ItemView() {
+            private TextView textUnit;
             private ConvenientBanner banner;
             private TextView textZhiShiQi;
             private TextView textPrice;
@@ -133,6 +134,7 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
                 textPrice =  view.findViewById(R.id.textPrice);
                 textTitle =  view.findViewById(R.id.textTitle);
                 textDes =  view.findViewById(R.id.textDes);
+                textUnit = view.findViewById(R.id.textUnit);
                 banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -163,6 +165,7 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
                     }
                 }, banner1);
                 if (data!=null){
+                    textUnit.setText("/"+data.getUnit());
                     SpannableString span = new SpannableString("¥"+data.getPrice());
                     span.setSpan(new RelativeSizeSpan(0.6f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     textPrice.setText(span);

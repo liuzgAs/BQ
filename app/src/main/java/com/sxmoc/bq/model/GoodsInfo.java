@@ -74,7 +74,16 @@ public class GoodsInfo {
         private int id;
         private String title;
         private String price;
+        private String unit;
         private String priceDes;
+
+        public String getUnit() {
+            return unit;
+        }
+
+        public void setUnit(String unit) {
+            this.unit = unit;
+        }
 
         public int getId() {
             return id;

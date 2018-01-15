@@ -44,12 +44,21 @@
                 android:id="@+id/textPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/leftAndRight"
                 android:text="¥888"
                 android:textColor="@color/basicText"
+                android:layout_toLeftOf="@+id/textUnit"
                 android:textSize="18dp"
                 android:textStyle="bold" />
+            <TextView
+                android:layout_marginRight="@dimen/leftAndRight"
+                android:textColor="@color/light_black"
+                android:text="/份"
+                android:layout_alignParentRight="true"
+                android:layout_alignBaseline="@+id/textTitle"
+                android:textSize="@dimen/bigText"
+                android:id="@+id/textUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </RelativeLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

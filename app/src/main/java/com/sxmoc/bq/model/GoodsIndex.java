@@ -54,7 +54,16 @@ public class GoodsIndex {
         private String title;
         private String price;
         private String cover;
+        private String unit;
         private int id;
+
+        public String getUnit() {
+            return unit;
+        }
+
+        public void setUnit(String unit) {
+            this.unit = unit;
+        }
 
         public String getTitle() {
             return title;
