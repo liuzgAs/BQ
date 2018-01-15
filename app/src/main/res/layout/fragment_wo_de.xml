@@ -373,6 +373,7 @@
 
                 </RelativeLayout>
                 <RelativeLayout
+                    android:id="@+id/viewYinHangKa"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:gravity="center"
