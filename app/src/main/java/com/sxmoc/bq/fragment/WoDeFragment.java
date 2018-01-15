@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.CeShiLSActivity;
+import com.sxmoc.bq.activity.ChanPinXQActivity;
 import com.sxmoc.bq.activity.GeRenXXActivity;
 import com.sxmoc.bq.activity.GongGaoActivity;
 import com.sxmoc.bq.activity.GuanLiYHKActivity;
@@ -30,11 +31,14 @@ import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.UserBuyerindex;
+import com.sxmoc.bq.model.UserShare;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.GlideApp;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
 import com.sxmoc.bq.util.ScreenUtils;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.HashMap;
 
@@ -51,6 +55,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
     private TextView textBlance;
     private TextView textBaoGaoNum;
     private TextView textGradeName;
+    private boolean isShare = false;
     private BroadcastReceiver reciver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -58,6 +63,18 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
             switch (action) {
                 case Constant.BroadcastCode.USERINFO:
                     initData();
+                    break;
+                case Constant.BroadcastCode.WX_SHARE:
+                    if (isShare) {
+                        MyDialog.showTipDialog(getActivity(), "分享成功");
+                        isShare = false;
+                    }
+                    break;
+                case Constant.BroadcastCode.WX_SHARE_FAIL:
+                    if (isShare) {
+                        MyDialog.showTipDialog(getActivity(), "取消分享");
+                        isShare = false;
+                    }
                     break;
                 default:
                     break;
@@ -130,6 +147,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         mInflate.findViewById(R.id.viewWoDeGX).setOnClickListener(this);
         mInflate.findViewById(R.id.viewYinHangKa).setOnClickListener(this);
         mInflate.findViewById(R.id.viewZhuanRangBaoGao).setOnClickListener(this);
+        mInflate.findViewById(R.id.viewFenXiang).setOnClickListener(this);
         textBlance.setOnClickListener(this);
     }
 
@@ -190,6 +208,9 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
+            case R.id.viewFenXiang:
+                fenXiang();
+                break;
             case R.id.viewZhuanRangBaoGao:
                 intent.setClass(getActivity(), ZhuanRangBaoGaoActivity.class);
                 intent.putExtra(Constant.IntentKey.PHONE,userBuyerindex.getMobile());
@@ -238,6 +259,62 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         }
     }
 
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
+    private OkObject getFenXiangOkObject() {
+        String url = Constant.HOST + Constant.Url.USER_SHARE;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime",tokenTime);
+        }
+        return new OkObject(params, url);
+    }
+
+    private IWXAPI api = WXAPIFactory.createWXAPI(getActivity(), Constant.WXAPPID, true);
+
+    /**
+     * 分享推荐
+     */
+    private void fenXiang() {
+        showLoadingDialog();
+        ApiClient.post(getActivity(), getFenXiangOkObject(), new ApiClient.CallBack() {
+            @Override
+            public void onSuccess(String s) {
+                cancelLoadingDialog();
+                LogUtil.LogShitou("WoDeFragment--onSuccess",s+ "");
+                try {
+                    UserShare userShare = GsonUtils.parseJSON(s, UserShare.class);
+                    if (userShare.getStatus()==1){
+                        int can_share = userShare.getCan_share();
+                        if (can_share==1){
+                            isShare = true;
+                            MyDialog.share01(getActivity(), api, userShare.getShare_url(),getActivity().getResources().getString(R.string.app_name));
+
+                        }else {
+                            MyDialog.showTipDialog(getActivity(),userShare.getInfo());
+                        }
+                    }else if (userShare.getStatus()==3){
+                        MyDialog.showReLoginDialog(getActivity());
+                    }else {
+                        Toast.makeText(getActivity(), userShare.getInfo(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(),"数据出错", Toast.LENGTH_SHORT).show();
+                }
+            }
+        
+            @Override
+            public void onError() {
+                cancelLoadingDialog();
+                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void toWoDeSY(Intent intent) {
         intent.putExtra(Constant.IntentKey.VALUE, userBuyerindex.getMoney());
         intent.setClass(getActivity(), WoDeSYActivity.class);
@@ -249,6 +326,8 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         super.onStart();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constant.BroadcastCode.USERINFO);
+        filter.addAction(Constant.BroadcastCode.WX_SHARE);
+        filter.addAction(Constant.BroadcastCode.WX_SHARE_FAIL);
         getActivity().registerReceiver(reciver, filter);
     }
 

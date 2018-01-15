@@ -211,6 +211,10 @@ public class Constant {
          *  转让报告
          */
         public static final String USER_TRANSFER = "/user/transfer";
+        /**
+         * 分享推荐
+         */
+        public static final String USER_SHARE = "/user/share";
     }
 
     public static class IntentKey {

@@ -3,8 +3,12 @@ package com.sxmoc.bq.base;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -12,10 +16,21 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.customview.SingleBtnDialog;
 import com.sxmoc.bq.util.GlideApp;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 /**
@@ -161,4 +176,131 @@ public class MyDialog {
         dialogWindow.setAttributes(lp);
     }
 
+    public static void share01(final Context context, final IWXAPI api, final String url, final String title) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View dialog_shengji = inflater.inflate(R.layout.dianlog_share, null);
+        final AlertDialog alertDialog1 = new AlertDialog.Builder(context, R.style.dialog)
+                .setView(dialog_shengji)
+                .create();
+        alertDialog1.show();
+        dialog_shengji.findViewById(R.id.textViewCancle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog1.dismiss();
+            }
+        });
+        dialog_shengji.findViewById(R.id.weixin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!checkIsSupportedWeachatPay(api)) {
+                    Toast.makeText(context, "您暂未安装微信,请下载安装最新版本的微信", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                wxShare(context, api, 0, url, title);
+                alertDialog1.dismiss();
+            }
+        });
+        dialog_shengji.findViewById(R.id.pengyouquan).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!checkIsSupportedWeachatPay(api)) {
+                    Toast.makeText(context, "您暂未安装微信,请下载安装最新版本的微信", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                wxShare(context, api, 1, url, title);
+                alertDialog1.dismiss();
+            }
+        });
+        dialog_shengji.findViewById(R.id.relaShouCang).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                wxShare(context, api, 2, url, title);
+                alertDialog1.dismiss();
+                alertDialog1.dismiss();
+            }
+        });
+        Window dialogWindow = alertDialog1.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM);
+        dialogWindow.setWindowAnimations(R.style.dialogFenXiang);
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        DisplayMetrics d = context.getResources().getDisplayMetrics(); // 获取屏幕宽、高用
+        lp.width = (int) (d.widthPixels * 1); // 高度设置为屏幕的0.6
+        dialogWindow.setAttributes(lp);
+    }
+
+    private static String buildTransaction(final String type) {
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
+    }
+
+    /**
+     * 检查微信版本是否支付支付或是否安装可支付的微信版本
+     */
+    public static boolean checkIsSupportedWeachatPay(IWXAPI api) {
+        boolean isPaySupported = api.getWXAppSupportAPI() >= com.tencent.mm.opensdk.constants.Build.PAY_SUPPORTED_SDK_INT;
+        return isPaySupported;
+    }
+
+    public static Bitmap netPicToBmp(String src) {
+        try {
+            Log.d("FileUtil", src);
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+
+            //设置固定大小
+            //需要的大小
+            float newWidth = 200f;
+            float newHeigth = 200f;
+
+            //图片大小
+            int width = myBitmap.getWidth();
+            int height = myBitmap.getHeight();
+
+            //缩放比例
+            float scaleWidth = newWidth / width;
+            float scaleHeigth = newHeigth / height;
+            Matrix matrix = new Matrix();
+            matrix.postScale(scaleWidth, scaleHeigth);
+
+            Bitmap bitmap = Bitmap.createBitmap(myBitmap, 0, 0, width, height, matrix, true);
+            return bitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        }
+    }
+
+    private static void wxShare(Context context, final IWXAPI api, final int flag, String url, String title) {
+        api.registerApp(Constant.WXAPPID);
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = url;
+        final WXMediaMessage msg = new WXMediaMessage(webpage);
+        msg.title = title;
+        msg.description = title;
+
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.logo);
+        msg.setThumbImage(bitmap);
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = buildTransaction("webpage");
+        req.message = msg;
+        switch (flag) {
+            case 0:
+                req.scene = SendMessageToWX.Req.WXSceneSession;
+                break;
+            case 1:
+                req.scene = SendMessageToWX.Req.WXSceneTimeline;
+                break;
+            case 2:
+                req.scene = SendMessageToWX.Req.WXSceneFavorite;
+                break;
+            default:
+                break;
+        }
+        api.sendReq(req);
+    }
 }
+
+
