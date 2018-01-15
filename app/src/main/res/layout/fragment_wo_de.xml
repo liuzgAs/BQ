@@ -18,7 +18,7 @@
             <RelativeLayout
                 android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="250dp">
+                android:layout_height="240dp">
 
 
                 <LinearLayout
@@ -38,8 +38,8 @@
                             <com.sxmoc.bq.customview.CircleImageView
                                 android:layout_centerVertical="true"
                                 android:id="@+id/imageHead"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
                                 android:layout_marginLeft="@dimen/leftAndRight"
                                 android:src="@mipmap/logo"
                                 app:civ_border_color="@color/white"
@@ -54,7 +54,7 @@
                                 android:layout_toRightOf="@+id/imageHead"
                                 android:text="登录"
                                 android:textColor="@color/white"
-                                android:textSize="23dp"
+                                android:textSize="20dp"
                                 tools:text="李静儿" />
 
                             <TextView
@@ -92,8 +92,8 @@
                 <android.support.v7.widget.CardView
                     android:layout_marginBottom="5dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="@dimen/leftAndRight"
+                    android:layout_marginRight="@dimen/leftAndRight"
                     android:layout_width="match_parent"
                     android:layout_height="120dp">
                     <LinearLayout
@@ -179,7 +179,7 @@
                     android:gravity="center_vertical"
                     android:layout_height="match_parent">
                     <RelativeLayout
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <ImageView
@@ -187,9 +187,9 @@
                             android:src="@mipmap/mine01"
                             android:layout_width="wrap_content"
                             android:id="@+id/imageMine01"
-                            android:layout_height="35dp" />
+                            android:layout_height="@dimen/mine_item_height" />
                         <TextView
-                            android:textSize="@dimen/normal_textsize"
+                            android:textSize="@dimen/litterText"
                             android:layout_marginTop="10dp"
                             android:layout_centerHorizontal="true"
                             android:text="我的订单"
@@ -211,9 +211,9 @@
                         android:src="@mipmap/mine02"
                         android:layout_width="wrap_content"
                         android:id="@+id/imageMine02"
-                        android:layout_height="35dp" />
+                        android:layout_height="@dimen/mine_item_height" />
                     <TextView
-                        android:textSize="@dimen/normal_textsize"
+                        android:textSize="@dimen/litterText"
                         android:layout_marginTop="10dp"
                         android:layout_centerHorizontal="true"
                         android:text="我的收益"
@@ -228,7 +228,7 @@
                     android:gravity="center_vertical|right"
                     android:layout_height="match_parent">
                     <RelativeLayout
-                        android:layout_marginRight="30dp"
+                        android:layout_marginRight="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <ImageView
@@ -236,9 +236,9 @@
                             android:src="@mipmap/mine03"
                             android:layout_width="wrap_content"
                             android:id="@+id/imageMine03"
-                            android:layout_height="35dp" />
+                            android:layout_height="@dimen/mine_item_height" />
                         <TextView
-                            android:textSize="@dimen/normal_textsize"
+                            android:textSize="@dimen/litterText"
                             android:layout_marginTop="10dp"
                             android:layout_centerHorizontal="true"
                             android:text="我的共享"
@@ -267,7 +267,7 @@
                     android:gravity="center_vertical"
                     android:layout_height="match_parent">
                     <RelativeLayout
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <ImageView
@@ -275,9 +275,9 @@
                             android:src="@mipmap/mine04"
                             android:layout_width="wrap_content"
                             android:id="@+id/imageMine04"
-                            android:layout_height="35dp" />
+                            android:layout_height="@dimen/mine_item_height" />
                         <TextView
-                            android:textSize="@dimen/normal_textsize"
+                            android:textSize="@dimen/litterText"
                             android:layout_marginTop="10dp"
                             android:layout_centerHorizontal="true"
                             android:text="分享推荐"
@@ -299,9 +299,9 @@
                         android:src="@mipmap/mine05"
                         android:layout_width="wrap_content"
                         android:id="@+id/imageMine05"
-                        android:layout_height="35dp" />
+                        android:layout_height="@dimen/mine_item_height" />
                     <TextView
-                        android:textSize="@dimen/normal_textsize"
+                        android:textSize="@dimen/litterText"
                         android:layout_marginTop="10dp"
                         android:layout_centerHorizontal="true"
                         android:text="合伙人"
@@ -317,7 +317,7 @@
                     android:gravity="center_vertical|right"
                     android:layout_height="match_parent">
                     <RelativeLayout
-                        android:layout_marginRight="30dp"
+                        android:layout_marginRight="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <ImageView
@@ -325,9 +325,9 @@
                             android:src="@mipmap/mine06"
                             android:layout_width="wrap_content"
                             android:id="@+id/imageMine06"
-                            android:layout_height="35dp" />
+                            android:layout_height="@dimen/mine_item_height" />
                         <TextView
-                            android:textSize="@dimen/normal_textsize"
+                            android:textSize="@dimen/litterText"
                             android:layout_marginTop="10dp"
                             android:layout_centerHorizontal="true"
                             android:text="转让报告"
@@ -356,7 +356,7 @@
                     android:gravity="center_vertical"
                     android:layout_height="match_parent">
                     <RelativeLayout
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <ImageView
@@ -364,9 +364,9 @@
                             android:src="@mipmap/mine07"
                             android:layout_width="wrap_content"
                             android:id="@+id/imageMine07"
-                            android:layout_height="35dp" />
+                            android:layout_height="@dimen/mine_item_height" />
                         <TextView
-                            android:textSize="@dimen/normal_textsize"
+                            android:textSize="@dimen/litterText"
                             android:layout_marginTop="10dp"
                             android:layout_centerHorizontal="true"
                             android:text="检测记录"
@@ -387,9 +387,9 @@
                         android:src="@mipmap/mine08"
                         android:layout_width="wrap_content"
                         android:id="@+id/imageMine08"
-                        android:layout_height="35dp" />
+                        android:layout_height="@dimen/mine_item_height" />
                     <TextView
-                        android:textSize="@dimen/normal_textsize"
+                        android:textSize="@dimen/litterText"
                         android:layout_marginTop="10dp"
                         android:layout_centerHorizontal="true"
                         android:text="管理银行卡"
@@ -404,7 +404,7 @@
                     android:gravity="center_vertical|right"
                     android:layout_height="match_parent">
                     <RelativeLayout
-                        android:layout_marginRight="30dp"
+                        android:layout_marginRight="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <ImageView
@@ -412,9 +412,9 @@
                             android:src="@mipmap/mine06"
                             android:layout_width="wrap_content"
                             android:id="@+id/imageMine09"
-                            android:layout_height="35dp" />
+                            android:layout_height="@dimen/mine_item_height" />
                         <TextView
-                            android:textSize="@dimen/normal_textsize"
+                            android:textSize="@dimen/litterText"
                             android:layout_marginTop="10dp"
                             android:layout_centerHorizontal="true"
                             android:text="我的共享"
@@ -425,6 +425,12 @@
 
                 </RelativeLayout>
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/background"
+                android:layout_height="1dp" />
         </LinearLayout>
     </com.sxmoc.bq.customview.ScrollViewWithListener>
 </RelativeLayout>

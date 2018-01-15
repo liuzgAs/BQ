@@ -16,4 +16,5 @@
     <dimen name="top">5dp</dimen>
     <dimen name="side_letter_bar_width">36dp</dimen>
     <dimen name="wenzhang">180dp</dimen>
+    <dimen name="mine_item_height">25dp</dimen>
 </resources>
