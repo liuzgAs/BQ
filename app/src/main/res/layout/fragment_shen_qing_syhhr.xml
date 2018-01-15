@@ -300,11 +300,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="visible"
         android:id="@+id/viewShenHeZhong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -312,69 +312,8 @@
             android:background="@drawable/shape_basic_jian_bian225"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/viewBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fitsSystemWindows="true"
-                android:gravity="bottom"
-                android:minHeight="?attr/actionBarSize"
-                android:orientation="vertical">
 
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/titleHeight">
-
-                    <ImageView
-                        android:id="@+id/imageBack"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/white_selector"
-                        android:paddingBottom="15dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="20dp"
-                        android:paddingTop="15dp"
-                        android:src="@mipmap/left_black" />
-
-                    <TextView
-                        android:id="@+id/textViewTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:maxLength="8"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/titleSize"
-                        android:textStyle="bold"
-                        tools:text="标题" />
-
-                    <TextView
-                        android:id="@+id/textViewRight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/white_selector"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/light_black"
-                        android:textSize="@dimen/normal_textsize"
-                        tools:text="右边" />
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/line_gray" />
-            </LinearLayout>
-
-           <include layout="@layout/view_hehuozhaungtai"/>
+            <include layout="@layout/view_hehuozhaungtai" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -391,6 +330,7 @@
                     android:textSize="@dimen/normal_textsize" />
 
                 <TextView
+                    android:id="@+id/textCode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -404,9 +344,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginLeft="@dimen/leftAndRight"
-                android:layout_marginRight="@dimen/leftAndRight"
                 android:background="@color/background" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/normalItemHeight"
@@ -422,6 +361,7 @@
                     android:textSize="@dimen/normal_textsize" />
 
                 <TextView
+                    android:id="@+id/textCompany"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -435,9 +375,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginLeft="@dimen/leftAndRight"
-                android:layout_marginRight="@dimen/leftAndRight"
                 android:background="@color/background" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/normalItemHeight"
@@ -453,6 +392,7 @@
                     android:textSize="@dimen/normal_textsize" />
 
                 <TextView
+                    android:id="@+id/textAccount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -466,9 +406,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginLeft="@dimen/leftAndRight"
-                android:layout_marginRight="@dimen/leftAndRight"
                 android:background="@color/background" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/normalItemHeight"
@@ -484,6 +423,7 @@
                     android:textSize="@dimen/normal_textsize" />
 
                 <TextView
+                    android:id="@+id/textBank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -497,9 +437,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginLeft="@dimen/leftAndRight"
-                android:layout_marginRight="@dimen/leftAndRight"
                 android:background="@color/background" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/normalItemHeight"
@@ -515,6 +454,7 @@
                     android:textSize="@dimen/normal_textsize" />
 
                 <TextView
+                    android:id="@+id/textReceiving"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -528,11 +468,33 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginLeft="@dimen/leftAndRight"
-                android:layout_marginRight="@dimen/leftAndRight"
                 android:background="@color/background" />
         </LinearLayout>
 
     </LinearLayout>
 
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/viewShengHeCG"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_basic_jian_bian225"
+        android:orientation="vertical">
+
+        <include layout="@layout/view_hehuozhaungtai" />
+
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:background="#FFA2F0FD"
+            android:layout_width="1dp"
+            android:layout_height="100dp" />
+        <ImageView
+            android:id="@+id/imageChengGong"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/shengji"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+    </LinearLayout>
 </LinearLayout>

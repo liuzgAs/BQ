@@ -22,6 +22,7 @@ import com.sxmoc.bq.R;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
+import com.sxmoc.bq.holder.DiZhiGLViewHolder;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.UserAddress;
 import com.sxmoc.bq.util.ApiClient;
@@ -32,8 +33,6 @@ import com.sxmoc.bq.util.ScreenUtils;
 
 import java.util.HashMap;
 import java.util.List;
-
-import okhttp3.Response;
 
 public class DiZhiGLActivity extends ZjbBaseActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     private EasyRecyclerView recyclerView;
@@ -161,7 +160,7 @@ public class DiZhiGLActivity extends ZjbBaseActivity implements SwipeRefreshLayo
             }
 
             @Override
-            public void onError(Response response) {
+            public void onError() {
                 showError("网络出错");
             }
             public void showError(String msg) {
@@ -199,7 +198,7 @@ public class DiZhiGLActivity extends ZjbBaseActivity implements SwipeRefreshLayo
     public void onStart() {
         super.onStart();
         IntentFilter filter = new IntentFilter();
-        filter.addAction(Constant.BROADCASTCODE.address);
+        filter.addAction(Constant.BroadcastCode.address);
         registerReceiver(reciver,filter);
     }
 

@@ -23,7 +23,7 @@ import java.util.List;
 
 public class HeHuoRenActivity extends ZjbBaseActivity implements View.OnClickListener {
     private TabLayout tablayout;
-    private ViewPager viewPager;
+    public ViewPager viewPager;
     List<String> list = new ArrayList<>();
     private UserApplybefore userApplybefore;
 

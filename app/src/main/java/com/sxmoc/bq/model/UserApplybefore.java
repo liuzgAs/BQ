@@ -27,8 +27,64 @@ public class UserApplybefore implements Serializable {
     private int state;
     private int status;
     private String info;
-    private List<?> bank;
+    private Bank bank;
     private List<GradeBean> grade;
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+    public class Bank {
+        private String code;
+        private String account;
+        private String bank;
+        private String company;
+        private String receiving;
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public String getAccount() {
+            return account;
+        }
+
+        public void setAccount(String account) {
+            this.account = account;
+        }
+
+        public String getBank() {
+            return bank;
+        }
+
+        public void setBank(String bank) {
+            this.bank = bank;
+        }
+
+        public String getCompany() {
+            return company;
+        }
+
+        public void setCompany(String company) {
+            this.company = company;
+        }
+
+        public String getReceiving() {
+            return receiving;
+        }
+
+        public void setReceiving(String receiving) {
+            this.receiving = receiving;
+        }
+    }
 
     public DataBean getData() {
         return data;
@@ -76,14 +132,6 @@ public class UserApplybefore implements Serializable {
 
     public void setInfo(String info) {
         this.info = info;
-    }
-
-    public List<?> getBank() {
-        return bank;
-    }
-
-    public void setBank(List<?> bank) {
-        this.bank = bank;
     }
 
     public List<GradeBean> getGrade() {

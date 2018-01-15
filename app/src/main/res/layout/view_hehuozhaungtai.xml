@@ -32,6 +32,7 @@
 
         </RelativeLayout>
         <TextView
+            android:id="@+id/textShenHeDes"
             android:textColor="#FF9EEDFD"
             android:layout_marginTop="15dp"
             android:layout_below="@+id/viewShenHeTitle"

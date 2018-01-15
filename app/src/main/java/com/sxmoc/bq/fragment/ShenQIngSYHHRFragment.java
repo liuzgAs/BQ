@@ -13,11 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.ChengShiXZActivity;
+import com.sxmoc.bq.activity.HeHuoRenActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.constant.Constant;
@@ -53,7 +55,16 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
     private CheckBox checkBox;
     private EditText editCompany;
     private UserApplybefore userApplybefore;
-    private View[] jieMian = new View[2];
+    private View[] jieMian = new View[3];
+    private ImageView imageShenHe2;
+    private TextView textShenHeTitle2;
+    private TextView textShenHeDes2;
+    private ImageView imageChengGong;
+    private TextView textCode;
+    private TextView textCompany;
+    private TextView textAccount;
+    private TextView textBank;
+    private TextView textReceiving;
 
     public ShenQIngSYHHRFragment() {
         // Required empty public constructor
@@ -105,6 +116,16 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
         editCompany = mInflate.findViewById(R.id.editCompany);
         jieMian[0] = mInflate.findViewById(R.id.viewZiLiaoTX);
         jieMian[1] = mInflate.findViewById(R.id.viewShenHeZhong);
+        jieMian[2] = mInflate.findViewById(R.id.viewShengHeCG);
+        imageShenHe2 = jieMian[2].findViewById(R.id.imageShenHe);
+        textShenHeTitle2 = jieMian[2].findViewById(R.id.textShenHeTitle);
+        textShenHeDes2 = jieMian[2].findViewById(R.id.textShenHeDes);
+        imageChengGong = mInflate.findViewById(R.id.imageChengGong);
+        textCode = mInflate.findViewById(R.id.textCode);
+        textCompany = mInflate.findViewById(R.id.textCompany);
+        textAccount = mInflate.findViewById(R.id.textAccount);
+        textBank = mInflate.findViewById(R.id.textBank);
+        textReceiving = mInflate.findViewById(R.id.textReceiving);
     }
 
     /**
@@ -148,12 +169,40 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                         switch (userApplybefore.getState()) {
                             case 0:
                                 setJieMian(1);
+                                UserApplybefore.Bank bank = userApplybefore.getBank();
+                                if (bank != null) {
+                                    textCode.setText(bank.getCode());
+                                    textCompany.setText(bank.getCompany());
+                                    textAccount.setText(bank.getAccount());
+                                    textBank.setText(bank.getBank());
+                                    textReceiving.setText(bank.getReceiving());
+                                }
                                 break;
                             case 1:
-                                setJieMian(0);
+                                setJieMian(2);
+                                imageShenHe2.setImageResource(R.mipmap.shenhechenggong);
+                                textShenHeTitle2.setText(userApplybefore.getTipsTitle());
+                                textShenHeDes2.setText(userApplybefore.getTipsDes());
+                                imageChengGong.setImageResource(R.mipmap.shengji);
+                                imageChengGong.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        ((HeHuoRenActivity) getActivity()).viewPager.setCurrentItem(1);
+                                    }
+                                });
                                 break;
                             case 2:
-                                setJieMian(0);
+                                setJieMian(2);
+                                imageShenHe2.setImageResource(R.mipmap.shenheshibai);
+                                textShenHeTitle2.setText(userApplybefore.getTipsTitle());
+                                textShenHeDes2.setText(userApplybefore.getTipsDes());
+                                imageChengGong.setImageResource(R.mipmap.chongxinshenqing);
+                                imageChengGong.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        setJieMian(0);
+                                    }
+                                });
                                 break;
                             case 3:
                                 setJieMian(0);
