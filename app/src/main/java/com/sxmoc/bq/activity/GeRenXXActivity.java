@@ -86,6 +86,7 @@ public class GeRenXXActivity extends ZjbBaseActivity implements View.OnClickList
         findViewById(R.id.viewRealName).setOnClickListener(this);
         findViewById(R.id.viewSex).setOnClickListener(this);
         findViewById(R.id.viewBirthday).setOnClickListener(this);
+        findViewById(R.id.viewAddress).setOnClickListener(this);
     }
 
     /**
@@ -306,6 +307,11 @@ public class GeRenXXActivity extends ZjbBaseActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.viewAddress:
+                Intent intent = new Intent();
+                intent.setClass(this, DiZhiGLActivity.class);
+                startActivity(intent);
+                break;
             case R.id.viewBirthday:
                 Calendar c = Calendar.getInstance();
                 DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {

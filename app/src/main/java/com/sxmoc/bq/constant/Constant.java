@@ -175,6 +175,22 @@ public class Constant {
          * 我的共享
          */
         public static final String USER_GETMYSHARE = "/user/getMyShare";
+        /**
+         * 地址列表
+         */
+        public static final String USER_ADDRESS = "&g=App&m=User&a=address";
+        /**
+         * 地址保存
+         */
+        public static final String USER_SAVEADDRESS = "&g=App&m=User&a=saveAddress";
+        /**
+         * 删除地址
+         */
+        public static final String USER_DELADDRESS = "&g=App&m=User&a=delAddress";
+        /**
+         * 地址设为默认
+         */
+        public static final String USER_ADDRESSDEFAULT = "&g=App&m=User&a=addressDefault";
     }
 
     public static class IntentKey {
@@ -194,6 +210,7 @@ public class Constant {
         public static final int IMAGE_PICKER = 2029;
         public static final int KAI_SHI_CE_SHI = 2030;
         public static final int CITY = 2033;
+        public static final int address = 2027;
     }
 
     public static class Acache {
@@ -221,6 +238,7 @@ public class Constant {
         public static final String WX_SHARE_FAIL = "wxShareFail";
         public static final String ZHI_FU_CG = "zhiFuCG";
         public static final String USERINFO = "userInfo";
+        public static final String address = "address";
     }
 
 

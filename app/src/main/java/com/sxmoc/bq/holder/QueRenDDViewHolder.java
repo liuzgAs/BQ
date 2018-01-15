@@ -1,5 +1,6 @@
 package com.sxmoc.bq.holder;
 
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.QueRenDDActivity;
+import com.sxmoc.bq.activity.XuanZeSHDZActivity;
+import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.model.OrderCreateorder;
 import com.sxmoc.bq.util.Arith;
 import com.sxmoc.bq.util.GlideApp;
@@ -104,13 +107,29 @@ public class QueRenDDViewHolder extends BaseViewHolder<OrderCreateorder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (TextUtils.isEmpty(editable.toString())){
+                if (TextUtils.isEmpty(editable.toString())) {
                     editNum.setText("1");
                     editNum.setSelection(1);
                 }
                 data.setNum(Integer.parseInt(editNum.getText().toString().trim()));
                 Double price = Arith.mul((double) data.getNum(), Double.parseDouble(data.getGoods_price()));
-                ((QueRenDDActivity)getContext()).textSum.setText("¥"+price);
+                ((QueRenDDActivity) getContext()).textSum.setText("¥" + price);
+            }
+        });
+        viewAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(getContext(), XuanZeSHDZActivity.class);
+                ((QueRenDDActivity)getContext()).startActivityForResult(intent, Constant.RequestResultCode.address);
+            }
+        });
+        viewNoAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(getContext(), XuanZeSHDZActivity.class);
+                ((QueRenDDActivity)getContext()).startActivityForResult(intent, Constant.RequestResultCode.address);
             }
         });
     }

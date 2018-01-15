@@ -25,6 +25,7 @@ import com.sxmoc.bq.holder.QueRenDDViewHolder;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.OrderCreateorder;
 import com.sxmoc.bq.model.OrderSubmitorder;
+import com.sxmoc.bq.model.UserAddress;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.Arith;
 import com.sxmoc.bq.util.GsonUtils;
@@ -172,6 +173,17 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
                 recyclerView.showError();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constant.RequestResultCode.address && resultCode == Constant.RequestResultCode.address) {
+            UserAddress.DataBean dataBean = (UserAddress.DataBean) data.getSerializableExtra(Constant.IntentKey.VALUE);
+            orderCreateorder.setIs_deddr(1);
+            orderCreateorder.setAddress(dataBean.getArea()+"-"+dataBean.getAddress());
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override

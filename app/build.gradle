@@ -46,4 +46,5 @@ dependencies {
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     compile 'com.android.support:design:26.1.0'
     compile 'com.github.LuckSiege.PictureSelector:picture_library:v2.1.7'
+    compile 'com.contrarywind:Android-PickerView:3.2.6'
 }

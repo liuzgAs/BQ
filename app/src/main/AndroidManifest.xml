@@ -134,7 +134,18 @@
         <activity
             android:name=".activity.GongGaoActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".activity.WoDeGXActivity"></activity>
+        <activity
+            android:name=".activity.WoDeGXActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.DiZhiGLActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.XinZengDZActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.XuanZeSHDZActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>
