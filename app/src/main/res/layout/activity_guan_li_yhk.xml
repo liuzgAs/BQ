@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".activity.GuanLiYHKActivity">
+
+    <include layout="@layout/view_bar_white" />
+
+    <TextView
+        android:id="@+id/textShanChu"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/textYellow"
+        android:gravity="center"
+        android:text="长按删除银行卡~"
+        android:textColor="@color/white"
+        android:textSize="@dimen/normal_textsize"
+        android:visibility="visible" />
+
+    <com.jude.easyrecyclerview.EasyRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_empty="@layout/view_empty"
+        app:layout_progress="@layout/view_progress"
+        app:scrollbarStyle="insideOverlay" />
+</LinearLayout>

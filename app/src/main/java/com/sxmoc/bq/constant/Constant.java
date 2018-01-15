@@ -191,6 +191,22 @@ public class Constant {
          * 地址设为默认
          */
         public static final String USER_ADDRESSDEFAULT = "&g=App&m=User&a=addressDefault";
+        /**
+         * 银行卡添加前请求
+         */
+        public static final String BANK_CARDADDBEFORE = "&g=App&m=Bank&a=cardAddbefore";
+        /**
+         * 银行卡验证码
+         */
+        public static final String LOGIN_BINDSMS = "&g=App&m=Login&a=bindSms";
+        /**
+         * 银行卡添加提交
+         */
+        public static final String BANK_CARDADD = "&g=App&m=Bank&a=cardAdd";
+        /**
+         * 银行卡删除
+         */
+        public static final String BANK_CARDDEL = "&g=App&m=Bank&a=cardDel";
     }
 
     public static class IntentKey {
@@ -207,10 +223,11 @@ public class Constant {
     }
 
     public static class RequestResultCode {
+        public static final int XIN_YONG_KA = 2023;
+        public static final int address = 2027;
         public static final int IMAGE_PICKER = 2029;
         public static final int KAI_SHI_CE_SHI = 2030;
         public static final int CITY = 2033;
-        public static final int address = 2027;
     }
 
     public static class Acache {
