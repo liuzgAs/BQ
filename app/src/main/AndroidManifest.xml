@@ -149,6 +149,7 @@
         <activity
             android:name=".activity.GuanLiYHKActivity"
             android:launchMode="singleTop" />
+        <activity android:name=".activity.ZhuanRangBaoGaoActivity"></activity>
     </application>
 
 </manifest>

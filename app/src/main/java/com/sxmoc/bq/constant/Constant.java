@@ -207,6 +207,10 @@ public class Constant {
          * 银行卡删除
          */
         public static final String BANK_CARDDEL = "&g=App&m=Bank&a=cardDel";
+        /**
+         *  转让报告
+         */
+        public static final String USER_TRANSFER = "/user/transfer";
     }
 
     public static class IntentKey {
