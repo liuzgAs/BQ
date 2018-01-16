@@ -31,5 +31,22 @@
             android:text="开始检测"
             android:textColor="@color/ceyice"
             android:textSize="@dimen/MoreBigText" />
+        <TextView
+            android:layout_marginLeft="@dimen/leftAndRight"
+            android:layout_marginTop="50dp"
+            android:text="测一测"
+            android:textSize="@dimen/MoreBigText"
+            android:textColor="#a8ecfe"
+            android:id="@+id/textCeyice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_marginBottom="3dp"
+            android:layout_alignBottom="@+id/textCeyice"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/wenhao"
+            android:layout_toRightOf="@+id/textCeyice"
+            android:layout_width="15dp"
+            android:layout_height="15dp" />
     </RelativeLayout>
 </RelativeLayout>

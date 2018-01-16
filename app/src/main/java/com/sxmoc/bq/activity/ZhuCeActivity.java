@@ -98,6 +98,7 @@ public class ZhuCeActivity extends ZjbBaseActivity implements View.OnClickListen
         }
         textSms.setOnClickListener(this);
         imageAgreement.setOnClickListener(this);
+        findViewById(R.id.textXieYi).setOnClickListener(this);
     }
 
     @Override
@@ -121,6 +122,13 @@ public class ZhuCeActivity extends ZjbBaseActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.textXieYi:
+                Intent intent = new Intent();
+                intent.setClass(this,WebActivity.class);
+                intent.putExtra(Constant.IntentKey.TITLE,"用户协议");
+                intent.putExtra(Constant.IntentKey.URL,Constant.Url.ABOUT);
+                startActivity(intent);
+                break;
             case R.id.imageAgreement:
                 isAgreement = !isAgreement;
                 setAgreement();
