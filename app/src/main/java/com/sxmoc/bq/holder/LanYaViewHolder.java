@@ -38,10 +38,13 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
     private final TextView textDes;
     private final Button btnLianJie;
     private final TextView textStatue;
+    private int pingJie = 0;
+    private String pingJieStr = "";
     private List<List<NaoBo>> naoBoList = new ArrayList<>();
     BlueBean data;
     int num = 0;
     int index = 0;
+
     public LanYaViewHolder(ViewGroup parent, @LayoutRes int res) {
         super(parent, res);
         textName = $(R.id.textName);
@@ -68,11 +71,11 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void closeNotify() {
         BleManager.getInstance().disconnectAllDevice();
-        ((NaoBoActivity)getContext()).initNaoBo();
+        ((NaoBoActivity) getContext()).initNaoBo();
         num = 0;
         index = 0;
         BluetoothGatt bluetoothGatt = BleManager.getInstance().getBluetoothGatt(data.getBleDevice());
-        if (bluetoothGatt!=null){
+        if (bluetoothGatt != null) {
             final List<BluetoothGattService> services = bluetoothGatt.getServices();
             List<BluetoothGattCharacteristic> characteristics = services.get(2).getCharacteristics();
             final BluetoothGattCharacteristic bluetoothGattCharacteristic = characteristics.get(0);
@@ -80,7 +83,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                     bluetoothGattCharacteristic.getUuid().toString());
             data.setStatue(1);
             btnLianJie.setText("测试");
-        }else {
+        } else {
             textStatue.setVisibility(View.GONE);
             btnLianJie.setText("连接");
             data.setStatue(0);
@@ -92,8 +95,8 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
      */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void caoZuo() {
-        num=0;
-        index=0;
+        num = 0;
+        index = 0;
         naoBoList.clear();
         for (int i = 0; i < 120; i++) {
             List<NaoBo> stringList = new ArrayList<>();
@@ -114,7 +117,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                         LogUtil.LogShitou("NaoBoActivity--onNotifySuccess", "打开通知操作成功");
                         data.setStatue(2);
                         btnLianJie.setText("取消测试");
-                        ((NaoBoActivity)getContext()).success();
+                        ((NaoBoActivity) getContext()).success();
                     }
 
                     @Override
@@ -137,7 +140,13 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                          * 000000000000000004a55a02
                          */
                         String hexString = HexUtil.formatHexString(data, false);
-                        LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged截取前", ""+hexString);
+                        LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged截取前", "" + hexString);
+                        pingJie++;
+                        pingJieStr = pingJieStr + hexString;
+                        if (pingJie==8){
+                            pingJie=0;
+                            pingJieStr = "";
+                        }
                         String[] split = hexString.split("a55a02");
                         for (int i = 0; i < split.length; i++) {
 
@@ -150,59 +159,59 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                                 LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "右脑" + youNao);
                                 naoBoList.get(index).add(new NaoBo(zuoNao, youNao));
                                 if (num % 8 == 0) {
-                                    ((NaoBoActivity)getContext()).setNaoBo( zuoNao, youNao);
+                                    ((NaoBoActivity) getContext()).setNaoBo(zuoNao, youNao);
                                 }
                                 num++;
                                 LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "num" + num);
                                 if (num == 256) {
                                     num = 0;
                                     index++;
-                                    ((NaoBoActivity)getContext()).leftTime(index);
+                                    ((NaoBoActivity) getContext()).leftTime(index);
                                     LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "index" + index);
                                     if (index == 120) {
                                         index = 0;
                                         closeNotify();
                                         List<String> naoBoDataList = new ArrayList<>();
                                         for (int j = 0; j < naoBoList.size(); j++) {
-                                            naoBoDataList.add("A  "+j*256);
+                                            naoBoDataList.add("A  " + j * 256);
                                             StringBuffer zuoNaoData = new StringBuffer();
-                                            for (int k = 0; k <naoBoList.get(j).size(); k++) {
-                                                if (k<naoBoList.get(j).size()-1){
-                                                    if (naoBoList.get(j).get(k).getZuoNao()>1000){
+                                            for (int k = 0; k < naoBoList.get(j).size(); k++) {
+                                                if (k < naoBoList.get(j).size() - 1) {
+                                                    if (naoBoList.get(j).get(k).getZuoNao() > 700) {
                                                         zuoNaoData.append("1000,");
-                                                    }else {
-                                                        zuoNaoData.append(String.valueOf(naoBoList.get(j).get(k).getZuoNao()+","));
+                                                    } else {
+                                                        zuoNaoData.append(String.valueOf(naoBoList.get(j).get(k).getZuoNao() + ","));
                                                     }
-                                                }else {
-                                                    if (naoBoList.get(j).get(k).getZuoNao()>1000){
+                                                } else {
+                                                    if (naoBoList.get(j).get(k).getZuoNao() > 700) {
                                                         zuoNaoData.append("1000,");
-                                                    }else {
+                                                    } else {
                                                         zuoNaoData.append(String.valueOf(naoBoList.get(j).get(k).getZuoNao()));
                                                     }
                                                 }
                                             }
                                             naoBoDataList.add(zuoNaoData.toString());
-                                            naoBoDataList.add("B  "+j*256);
+                                            naoBoDataList.add("B  " + j * 256);
                                             StringBuffer youNaoData = new StringBuffer();
-                                            for (int k = 0; k <naoBoList.get(j).size(); k++) {
-                                                if (k<naoBoList.get(j).size()-1){
-                                                    if (naoBoList.get(j).get(k).getYouNao()>1000){
+                                            for (int k = 0; k < naoBoList.get(j).size(); k++) {
+                                                if (k < naoBoList.get(j).size() - 1) {
+                                                    if (naoBoList.get(j).get(k).getYouNao() > 700) {
                                                         youNaoData.append("1000,");
-                                                    }else {
-                                                        youNaoData.append(String.valueOf(naoBoList.get(j).get(k).getYouNao()+","));
+                                                    } else {
+                                                        youNaoData.append(String.valueOf(naoBoList.get(j).get(k).getYouNao() + ","));
                                                     }
-                                                }else {
-                                                    if (naoBoList.get(j).get(k).getYouNao()>1000){
+                                                } else {
+                                                    if (naoBoList.get(j).get(k).getYouNao() > 700) {
                                                         youNaoData.append("1000,");
-                                                    }else {
+                                                    } else {
                                                         youNaoData.append(String.valueOf(naoBoList.get(j).get(k).getYouNao()));
                                                     }
                                                 }
                                             }
                                             naoBoDataList.add(youNaoData.toString());
                                         }
-                                        LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", ""+naoBoDataList.size());
-                                        ((NaoBoActivity)getContext()).upLoad(naoBoDataList);
+                                        LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "" + naoBoDataList.size());
+                                        ((NaoBoActivity) getContext()).upLoad(naoBoDataList);
                                     }
                                 }
                             }
