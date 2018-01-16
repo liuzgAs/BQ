@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.clj.fastble.BleManager;
 import com.sxmoc.bq.R;
-import com.sxmoc.bq.activity.NaoBoActivity;
+import com.sxmoc.bq.activity.XinXiTXActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.customview.TwoBtnDialog;
@@ -102,12 +102,12 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     }
 
     private void startTest() {
-        //                Intent intent = new Intent();
-//                intent.setClass(getActivity(), XinXiTXActivity.class);
-//                startActivity(intent);
         Intent intent = new Intent();
-        intent.setClass(getActivity(), NaoBoActivity.class);
+        intent.setClass(getActivity(), XinXiTXActivity.class);
         startActivity(intent);
+//        Intent intent = new Intent();
+//        intent.setClass(getActivity(), NaoBoActivity.class);
+//        startActivity(intent);
     }
 
 

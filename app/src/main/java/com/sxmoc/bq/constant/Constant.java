@@ -223,6 +223,10 @@ public class Constant {
          * 确认收货
          */
         public static final String ORDER_CONFIRMORDER = "/order/confirmOrder";
+        /**
+         * 转让记录
+         */
+        public static final String USER_TRANSFERRECODE = "/user/transferRecode";
     }
 
     public static class IntentKey {

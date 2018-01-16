@@ -19,6 +19,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <!-- 测试推送 -->
         <meta-data
             android:name="com.alibaba.app.appkey"
@@ -289,10 +290,11 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".activity.ZhuanRangBaoGaoActivity"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
         <activity
             android:name=".activity.XinZengYHKActivity"
             android:launchMode="singleTop" />
+        <activity android:name=".activity.ZhuanRangLLActivity"></activity>
     </application>
 
 </manifest>

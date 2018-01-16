@@ -26,6 +26,7 @@ public class ZhuanRangBaoGaoActivity extends ZjbBaseActivity implements View.OnC
     private String phone;
     private EditText editToPhone;
     private EditText editNum;
+    private TextView textViewRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +51,13 @@ public class ZhuanRangBaoGaoActivity extends ZjbBaseActivity implements View.OnC
         textPhone = (TextView) findViewById(R.id.textPhone);
         editToPhone = (EditText) findViewById(R.id.editToPhone);
         editNum = (EditText) findViewById(R.id.editNum);
+        textViewRight = (TextView) findViewById(R.id.textViewRight);
     }
 
     @Override
     protected void initViews() {
         ((TextView) findViewById(R.id.textViewTitle)).setText("转让报告");
+        textViewRight.setText("转让记录");
         textPhone.setText(phone);
     }
 
@@ -62,6 +65,7 @@ public class ZhuanRangBaoGaoActivity extends ZjbBaseActivity implements View.OnC
     protected void setListeners() {
         findViewById(R.id.imageBack).setOnClickListener(this);
         findViewById(R.id.btnZhuanRang).setOnClickListener(this);
+        textViewRight.setOnClickListener(this);
     }
 
     @Override
@@ -72,6 +76,11 @@ public class ZhuanRangBaoGaoActivity extends ZjbBaseActivity implements View.OnC
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.textViewRight:
+                Intent intent = new Intent();
+                intent.setClass(this,ZhuanRangLLActivity.class);
+                startActivity(intent);
+                break;
             case R.id.btnZhuanRang:
                 if (TextUtils.isEmpty(editToPhone.getText().toString().trim())) {
                     Toast.makeText(ZhuanRangBaoGaoActivity.this, "请输入要转入的手机号", Toast.LENGTH_SHORT).show();
