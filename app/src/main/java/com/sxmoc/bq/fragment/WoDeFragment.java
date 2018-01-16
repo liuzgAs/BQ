@@ -21,6 +21,7 @@ import com.sxmoc.bq.activity.GongGaoActivity;
 import com.sxmoc.bq.activity.GuanLiYHKActivity;
 import com.sxmoc.bq.activity.HeHuoRenActivity;
 import com.sxmoc.bq.activity.SheZhiActivity;
+import com.sxmoc.bq.activity.ShouYiMxActivity;
 import com.sxmoc.bq.activity.WoDeDDActivity;
 import com.sxmoc.bq.activity.WoDeGXActivity;
 import com.sxmoc.bq.activity.WoDeSYActivity;
@@ -195,10 +196,13 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.textBlance:
-                toWoDeSY(intent);
+                intent.setClass(getActivity(), ShouYiMxActivity.class);
+                startActivity(intent);
                 break;
             case R.id.viewWoDeSY:
-                toWoDeSY(intent);
+                intent.putExtra(Constant.IntentKey.VALUE, userBuyerindex.getMoney());
+                intent.setClass(getActivity(), WoDeSYActivity.class);
+                startActivity(intent);
                 break;
             case R.id.viewHeHuoRen:
                 intent.setClass(getActivity(), HeHuoRenActivity.class);
@@ -281,11 +285,6 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         });
     }
 
-    private void toWoDeSY(Intent intent) {
-        intent.putExtra(Constant.IntentKey.VALUE, userBuyerindex.getMoney());
-        intent.setClass(getActivity(), WoDeSYActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     public void onResume() {

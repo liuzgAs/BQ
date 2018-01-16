@@ -70,6 +70,7 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
     protected void initViews() {
         ((TextView) findViewById(R.id.textViewTitle)).setText("我的收益");
         textViewRight.setText("收益明细");
+        textViewRight.setVisibility(View.GONE);
         SpannableString span = new SpannableString("¥"+money);
         span.setSpan(new RelativeSizeSpan(0.4f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textShouYi.setText(span);
