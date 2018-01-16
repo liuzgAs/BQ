@@ -138,15 +138,20 @@ public class QueRenDDViewHolder extends BaseViewHolder<OrderCreateorder> {
     public void setData(OrderCreateorder data) {
         super.setData(data);
         this.data = data;
-        if (data.getIs_deddr() == 1) {
-            viewAddress.setVisibility(View.VISIBLE);
-            viewNoAddress.setVisibility(View.GONE);
-            textShouHuoRen.setText("收货人：" + data.getConsignee());
-            textAddress.setText(data.getAddress());
-            textPhone.setText(data.getPhone());
-        } else {
+        if (data.getType_id()==2){
             viewAddress.setVisibility(View.GONE);
-            viewNoAddress.setVisibility(View.VISIBLE);
+            viewNoAddress.setVisibility(View.GONE);
+        }else {
+            if (data.getIs_deddr() == 1) {
+                viewAddress.setVisibility(View.VISIBLE);
+                viewNoAddress.setVisibility(View.GONE);
+                textShouHuoRen.setText("收货人：" + data.getConsignee());
+                textAddress.setText(data.getAddress());
+                textPhone.setText(data.getPhone());
+            } else {
+                viewAddress.setVisibility(View.GONE);
+                viewNoAddress.setVisibility(View.VISIBLE);
+            }
         }
         GlideApp.with(getContext())
                 .asBitmap()

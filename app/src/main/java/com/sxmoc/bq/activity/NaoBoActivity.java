@@ -560,21 +560,25 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                         cancelLoadingDialog();
                         LogUtil.LogShitou("CeYiCeFragment--onSuccess", s + "");
                         try {
-                            UserBuyerindex userBuyerindex = GsonUtils.parseJSON(s, UserBuyerindex.class);
+                            final UserBuyerindex userBuyerindex = GsonUtils.parseJSON(s, UserBuyerindex.class);
                             if (userBuyerindex.getStatus() == 1) {
                                 String report_num = userBuyerindex.getReport_num();
                                 if (Integer.parseInt(report_num) > 0) {
                                 } else {
-                                    TwoBtnDialog twoBtnDialog = new TwoBtnDialog(NaoBoActivity.this, "您已没有多余的报告可使用", "购买", "取消");
+                                    final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(NaoBoActivity.this, "您已没有多余的报告可使用", "购买", "取消");
                                     twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
                                         @Override
                                         public void doConfirm() {
-
+                                            twoBtnDialog.dismiss();
+                                            Intent intent = new Intent();
+                                            intent.putExtra(Constant.IntentKey.ID,userBuyerindex.getReport_id());
+                                            intent.setClass(NaoBoActivity.this, ChanPinXQActivity.class);
+                                            startActivity(intent);
                                         }
 
                                         @Override
                                         public void doCancel() {
-
+                                            twoBtnDialog.dismiss();
                                         }
                                     });
                                     twoBtnDialog.show();
@@ -599,5 +603,11 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BleManager.getInstance().cancelScan();
     }
 }

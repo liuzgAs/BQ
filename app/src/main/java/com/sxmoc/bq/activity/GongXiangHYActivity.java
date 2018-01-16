@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
@@ -18,27 +19,29 @@ import com.sxmoc.bq.R;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
-import com.sxmoc.bq.holder.GongXiangViewHolder;
+import com.sxmoc.bq.holder.GongXiangHYViewHolder;
 import com.sxmoc.bq.model.OkObject;
-import com.sxmoc.bq.model.UserGetmyshare;
+import com.sxmoc.bq.model.UserGetmyshare1;
 import com.sxmoc.bq.util.ApiClient;
+import com.sxmoc.bq.util.GlideApp;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
-
+public class GongXiangHYActivity extends ZjbBaseActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     private EasyRecyclerView recyclerView;
-    private RecyclerArrayAdapter<UserGetmyshare.DataBean> adapter;
+    private RecyclerArrayAdapter<UserGetmyshare1.DataBean> adapter;
     private TextView textGongXiangNum;
     private TextView textHeHuoRen;
+    private int id;
+    private ImageView imageImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wo_de_gx);
+        setContentView(R.layout.activity_gong_xiang_hy);
         init();
     }
 
@@ -49,7 +52,8 @@ public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListe
 
     @Override
     protected void initIntent() {
-
+        Intent intent = getIntent();
+        id = intent.getIntExtra(Constant.IntentKey.ID, 0);
     }
 
     @Override
@@ -57,6 +61,7 @@ public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListe
         recyclerView = (EasyRecyclerView) findViewById(R.id.recyclerView);
         textGongXiangNum = (TextView) findViewById(R.id.textGongXiangNum);
         textHeHuoRen = (TextView) findViewById(R.id.textHeHuoRen);
+        imageImg = (ImageView) findViewById(R.id.imageImg);
     }
 
     @Override
@@ -74,29 +79,29 @@ public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListe
         itemDecoration.setDrawLastItem(false);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setRefreshingColorResources(R.color.basic_color);
-        recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<UserGetmyshare.DataBean>(WoDeGXActivity.this) {
+        recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<UserGetmyshare1.DataBean>(GongXiangHYActivity.this) {
             @Override
             public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
                 int layout = R.layout.item_gongxiang;
-                return new GongXiangViewHolder(parent, layout);
+                return new GongXiangHYViewHolder(parent, layout);
             }
         });
         adapter.setMore(R.layout.view_more, new RecyclerArrayAdapter.OnMoreListener() {
             @Override
             public void onMoreShow() {
-                ApiClient.post(WoDeGXActivity.this, getOkObject(), new ApiClient.CallBack() {
+                ApiClient.post(GongXiangHYActivity.this, getOkObject(), new ApiClient.CallBack() {
                     @Override
                     public void onSuccess(String s) {
                         LogUtil.LogShitou("DingDanGLActivity--加载更多", s+"");
                         try {
                             page++;
-                            UserGetmyshare userGetmyshare = GsonUtils.parseJSON(s, UserGetmyshare.class);
-                            int status = userGetmyshare.getStatus();
+                            UserGetmyshare1 userGetmyshare1 = GsonUtils.parseJSON(s, UserGetmyshare1.class);
+                            int status = userGetmyshare1.getStatus();
                             if (status == 1) {
-                                List<UserGetmyshare.DataBean> dataBeanList = userGetmyshare.getData();
+                                List<UserGetmyshare1.DataBean> dataBeanList = userGetmyshare1.getData();
                                 adapter.addAll(dataBeanList);
                             } else if (status == 3) {
-                                MyDialog.showReLoginDialog(WoDeGXActivity.this);
+                                MyDialog.showReLoginDialog(GongXiangHYActivity.this);
                             } else {
                                 adapter.pauseMore();
                             }
@@ -141,10 +146,7 @@ public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListe
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent = new Intent();
-                intent.setClass(WoDeGXActivity.this,GongXiangHYActivity.class);
-                intent.putExtra(Constant.IntentKey.ID,adapter.getItem(position).getId());
-                startActivity(intent);
+
             }
         });
         recyclerView.setRefreshListener(this);
@@ -179,12 +181,13 @@ public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListe
      * date： 2017/8/28 0028 上午 9:55
      */
     private OkObject getOkObject() {
-        String url = Constant.HOST + Constant.Url.USER_GETMYSHARE;
+        String url = Constant.HOST + Constant.Url.USER_GETMYSHARE1;
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
             params.put("tokenTime",tokenTime);
         }
+        params.put("id",String.valueOf(id));
         params.put("p",String.valueOf(page));
         return new OkObject(params, url);
     }
@@ -198,17 +201,22 @@ public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListe
                 LogUtil.LogShitou("我的共享", s);
                 try {
                     page++;
-                    UserGetmyshare userGetmyshare = GsonUtils.parseJSON(s, UserGetmyshare.class);
-                    if (userGetmyshare.getStatus() == 1) {
-                        textGongXiangNum.setText(String.valueOf(userGetmyshare.getShare_num()));
-                        textHeHuoRen.setText(String.valueOf(userGetmyshare.getPartner_num()));
-                        List<UserGetmyshare.DataBean> dataBeanList = userGetmyshare.getData();
+                    UserGetmyshare1 userGetmyshare1 = GsonUtils.parseJSON(s, UserGetmyshare1.class);
+                    if (userGetmyshare1.getStatus() == 1) {
+                        GlideApp.with(GongXiangHYActivity.this)
+                                .asBitmap()
+                                .load(userGetmyshare1.getZ_img())
+                                .placeholder(R.mipmap.ic_empty)
+                                .into(imageImg);
+                        textGongXiangNum.setText(String.valueOf(userGetmyshare1.getName()));
+                        textHeHuoRen.setText(String.valueOf(userGetmyshare1.getShare_num()));
+                        List<UserGetmyshare1.DataBean> dataBeanList = userGetmyshare1.getData();
                         adapter.clear();
                         adapter.addAll(dataBeanList);
-                    } else if (userGetmyshare.getStatus() == 3) {
-                        MyDialog.showReLoginDialog(WoDeGXActivity.this);
+                    } else if (userGetmyshare1.getStatus() == 3) {
+                        MyDialog.showReLoginDialog(GongXiangHYActivity.this);
                     } else {
-                        showError(userGetmyshare.getInfo());
+                        showError(userGetmyshare1.getInfo());
                     }
                 } catch (Exception e) {
                     showError("数据出错");
@@ -225,7 +233,7 @@ public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListe
              * @param msg
              */
             private void showError(String msg) {
-                View viewLoader = LayoutInflater.from(WoDeGXActivity.this).inflate(R.layout.view_loaderror, null);
+                View viewLoader = LayoutInflater.from(GongXiangHYActivity.this).inflate(R.layout.view_loaderror, null);
                 TextView textMsg = viewLoader.findViewById(R.id.textMsg);
                 textMsg.setText(msg);
                 viewLoader.findViewById(R.id.buttonReLoad).setOnClickListener(new View.OnClickListener() {
@@ -239,5 +247,10 @@ public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListe
                 recyclerView.showError();
             }
         });
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }

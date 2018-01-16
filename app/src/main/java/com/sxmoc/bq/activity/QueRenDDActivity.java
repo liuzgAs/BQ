@@ -190,9 +190,11 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.buttonTiJiao:
-                if (orderCreateorder.getIs_deddr() == 0) {
-                    Toast.makeText(QueRenDDActivity.this, "没有收货地址", Toast.LENGTH_SHORT).show();
-                    return;
+                if (orderCreateorder.getType_id()!=2){
+                    if (orderCreateorder.getIs_deddr() == 0) {
+                        Toast.makeText(QueRenDDActivity.this, "没有收货地址", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
                 if (orderCreateorder.getNum() == 0) {
                     Toast.makeText(QueRenDDActivity.this, "商品数量必须大于1", Toast.LENGTH_SHORT).show();

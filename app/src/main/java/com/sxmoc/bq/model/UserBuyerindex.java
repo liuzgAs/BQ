@@ -27,7 +27,16 @@ public class UserBuyerindex {
     private String grade_name;
     private String mobile;
     private int status;
+    private int report_id;
     private String info;
+
+    public int getReport_id() {
+        return report_id;
+    }
+
+    public void setReport_id(int report_id) {
+        this.report_id = report_id;
+    }
 
     public double getMoney() {
         return money;

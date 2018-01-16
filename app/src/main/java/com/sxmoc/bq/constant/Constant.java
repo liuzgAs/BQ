@@ -229,6 +229,10 @@ public class Constant {
          * 转让记录
          */
         public static final String USER_TRANSFERRECODE = "/user/transferRecode";
+        /**
+         * 0进下级共享好友
+         */
+        public static final String USER_GETMYSHARE1 = "/user/getMyShare1";
     }
 
     public static class IntentKey {

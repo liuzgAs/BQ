@@ -294,7 +294,8 @@
         <activity
             android:name=".activity.XinZengYHKActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".activity.ZhuanRangLLActivity"></activity>
+        <activity android:name=".activity.ZhuanRangLLActivity" />
+        <activity android:name=".activity.GongXiangHYActivity"></activity>
     </application>
 
 </manifest>
