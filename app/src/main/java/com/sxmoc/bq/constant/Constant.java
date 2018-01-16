@@ -215,6 +215,14 @@ public class Constant {
          * 分享推荐
          */
         public static final String USER_SHARE = "/user/share";
+        /**
+         * 取消订单
+         */
+        public static final String ORDER_CANCELORDER = "/order/cancelOrder";
+        /**
+         * 确认收货
+         */
+        public static final String ORDER_CONFIRMORDER = "/order/confirmOrder";
     }
 
     public static class IntentKey {
@@ -264,6 +272,7 @@ public class Constant {
         public static final String ZHI_FU_CG = "zhiFuCG";
         public static final String USERINFO = "userInfo";
         public static final String address = "address";
+        public static final String SHUA_XIN_DD = "shuaXinDD";
     }
 
 

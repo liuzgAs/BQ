@@ -2,6 +2,10 @@ package com.sxmoc.bq.fragment;
 
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,6 +45,19 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
     private EasyRecyclerView recyclerView;
     private RecyclerArrayAdapter<Order.DataBean> adapter;
     private int page = 1;
+    private BroadcastReceiver reciver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case Constant.BroadcastCode.SHUA_XIN_DD:
+                    onRefresh();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     public DDFragment() {
         // Required empty public constructor
@@ -75,7 +92,7 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
 
     @Override
     protected void initSP() {
-        recyclerView =  mInflate.findViewById(R.id.recyclerView);
+        recyclerView = mInflate.findViewById(R.id.recyclerView);
     }
 
     @Override
@@ -105,32 +122,32 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
         adapter.setMore(R.layout.view_more, new RecyclerArrayAdapter.OnMoreListener() {
             @Override
             public void onMoreShow() {
-           ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
-               @Override
-               public void onSuccess(String s) {
-                   LogUtil.LogShitou("DingDanGLActivity--加载更多", s+"");
-                   try {
-                       page++;
-                       Order order = GsonUtils.parseJSON(s, Order.class);
-                       int status = order.getStatus();
-                       if (status == 1) {
-                           List<Order.DataBean> dataBeanList = order.getData();
-                           adapter.addAll(dataBeanList);
-                       } else if (status == 3) {
-                           MyDialog.showReLoginDialog(getActivity());
-                       } else {
-                           adapter.pauseMore();
-                       }
-                   } catch (Exception e) {
-                       adapter.pauseMore();
-                   }
-               }
+                ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
+                    @Override
+                    public void onSuccess(String s) {
+                        LogUtil.LogShitou("DingDanGLActivity--加载更多", s + "");
+                        try {
+                            page++;
+                            Order order = GsonUtils.parseJSON(s, Order.class);
+                            int status = order.getStatus();
+                            if (status == 1) {
+                                List<Order.DataBean> dataBeanList = order.getData();
+                                adapter.addAll(dataBeanList);
+                            } else if (status == 3) {
+                                MyDialog.showReLoginDialog(getActivity());
+                            } else {
+                                adapter.pauseMore();
+                            }
+                        } catch (Exception e) {
+                            adapter.pauseMore();
+                        }
+                    }
 
-               @Override
-               public void onError() {
-                   adapter.pauseMore();
-               }
-           });
+                    @Override
+                    public void onError() {
+                        adapter.pauseMore();
+                    }
+                });
             }
 
             @Override
@@ -188,20 +205,20 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
-        params.put("p",String.valueOf(page));
-        params.put("status",String.valueOf(status));
+        params.put("p", String.valueOf(page));
+        params.put("status", String.valueOf(status));
         return new OkObject(params, url);
     }
 
     @Override
     public void onRefresh() {
-        page =1;
+        page = 1;
         ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
-                LogUtil.LogShitou("订单列表"+status, s);
+                LogUtil.LogShitou("订单列表" + status, s);
                 try {
                     page++;
                     Order order = GsonUtils.parseJSON(s, Order.class);
@@ -209,7 +226,7 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
                         List<Order.DataBean> dataBeanList = order.getData();
                         adapter.clear();
                         adapter.addAll(dataBeanList);
-                    } else if (order.getStatus()== 3) {
+                    } else if (order.getStatus() == 3) {
                         MyDialog.showReLoginDialog(getActivity());
                     } else {
                         showError(order.getInfo());
@@ -223,6 +240,7 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
             public void onError() {
                 showError("网络出错");
             }
+
             /**
              * 错误显示
              * @param msg
@@ -242,5 +260,19 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
                 recyclerView.showError();
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.BroadcastCode.SHUA_XIN_DD);
+        getActivity().registerReceiver(reciver, filter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(reciver);
     }
 }
