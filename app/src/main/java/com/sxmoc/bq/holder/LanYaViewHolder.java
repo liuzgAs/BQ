@@ -241,6 +241,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
             public void onDisConnected(boolean isActiveDisConnected, BleDevice bleDevice, BluetoothGatt gatt, int status) {
                 // 连接中断，isActiveDisConnected表示是否是主动调用了断开连接方法
                 LogUtil.LogShitou("NaoBoActivity--onDisConnected", "连接中断");
+                MyDialog.dialogFinish((NaoBoActivity)getContext(), "连接中断");
                 data.setStatue(0);
                 textStatue.setVisibility(View.GONE);
                 btnLianJie.setText("连接");

@@ -30,6 +30,7 @@ import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.DividerDecoration;
+import com.luoxudong.app.threadpool.ThreadPoolHelp;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseActivity;
@@ -339,12 +340,15 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
 
     @Override
     protected void initData() {
-        adapter.addAll(new ArrayList<BlueBean>());
-        startScan();
+
     }
 
-
-    private void startScan() {
+    @Override
+    public void onStart() {
+        super.onStart();
+        setJieMian(0);
+        showLoadingDialog();
+        adapter.addAll(new ArrayList<BlueBean>());
         List<BleDevice> allConnectedDevice = BleManager.getInstance().getAllConnectedDevice();
         List<BlueBean> blueBeanList = new ArrayList<>();
         for (int i = 0; i < allConnectedDevice.size(); i++) {
@@ -353,8 +357,6 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         }
         adapter.clear();
         adapter.addAll(blueBeanList);
-        setJieMian(0);
-        showLoadingDialog();
         BleScanRuleConfig scanRuleConfig = new BleScanRuleConfig.Builder()
                 /**
                  * 只扫描指定广播名的设备，可选
@@ -366,11 +368,31 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                 .setScanTimeOut(10000)
                 .build();
         BleManager.getInstance().initScanRule(scanRuleConfig);
+        ThreadPoolHelp.Builder
+                .cached()
+                .builder()
+                .execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        startScan();
+                    }
+                });
+    }
+
+    private boolean isScan = false;
+
+    private void startScan() {
+        isScan = true;
         BleManager.getInstance().scan(new BleScanCallback() {
             @Override
             public void onScanStarted(boolean success) {
-                saoMiaoStatue = "正在搜索……";
-                adapter.notifyDataSetChanged();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        saoMiaoStatue = "正在搜索……";
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
 
             @Override
@@ -384,26 +406,32 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
             }
 
             @Override
-            public void onScanFinished(List<BleDevice> scanResultList) {
-                cancelLoadingDialog();
-                saoMiaoStatue = "搜索完成";
-                List<BlueBean> blueBeanList = new ArrayList<>();
-                for (int i = 0; i < scanResultList.size(); i++) {
-                    BlueBean blueBean = new BlueBean(scanResultList.get(i), 0);
-                    blueBeanList.add(blueBean);
-                }
-                adapter.addAll(blueBeanList);
-                adapter.notifyDataSetChanged();
-                if (adapter.getAllData().size() == 0) {
-                    MyDialog.showTipDialog(NaoBoActivity.this, "没有发现设备，请确认设备是否开机");
-                    setJieMian(0);
-                }
+            public void onScanFinished(final List<BleDevice> scanResultList) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        isScan = false;
+                        cancelLoadingDialog();
+                        saoMiaoStatue = "搜索完成";
+                        List<BlueBean> blueBeanList = new ArrayList<>();
+                        for (int i = 0; i < scanResultList.size(); i++) {
+                            BlueBean blueBean = new BlueBean(scanResultList.get(i), 0);
+                            blueBeanList.add(blueBean);
+                        }
+                        adapter.addAll(blueBeanList);
+                        adapter.notifyDataSetChanged();
+                        if (adapter.getAllData().size() == 0) {
+                            MyDialog.dialogFinish(NaoBoActivity.this, "没有发现设备，请确认设备是否开机");
+                        }
+                    }
+                });
             }
         });
     }
 
     /**
      * 刷新脑波图
+     *
      * @param value01
      * @param value02
      */
@@ -423,17 +451,22 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
 
     /**
      * 刷新剩余时间
+     *
      * @param leftTime
      */
     public void leftTime(int leftTime) {
         textLeftTime.setText(String.valueOf(120 - leftTime));
     }
 
+    private boolean isUpload = false;
+
     /**
      * 上传
+     *
      * @param naoBoDataList
      */
     public void upLoad(List<String> naoBoDataList) {
+        isUpload = true;
         upLoadData(naoBoDataList);
         setJieMian(2);
     }
@@ -457,7 +490,34 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                 }
             });
             twoBtnDialog.show();
-        } else {
+        } else if (jieMian == 0 && isScan) {
+            final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(NaoBoActivity.this, "是否终止扫描设备？", "是", "否");
+            twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
+                @Override
+                public void doConfirm() {
+                    twoBtnDialog.dismiss();
+                    BleManager.getInstance().cancelScan();
+                }
+
+                @Override
+                public void doCancel() {
+                    twoBtnDialog.dismiss();
+                }
+            });
+        }else if (jieMian==2&&isUpload){
+            final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(NaoBoActivity.this, "正在上传数据，确定要终止吗？", "是", "否");
+            twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
+                @Override
+                public void doConfirm() {
+                    twoBtnDialog.dismiss();
+                }
+
+                @Override
+                public void doCancel() {
+                    twoBtnDialog.dismiss();
+                }
+            });
+        }else {
             finish();
         }
     }
@@ -472,27 +532,27 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
         return new OkObject(params, url);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btnDuQuBG:
                 showLoadingDialog();
                 ApiClient.post(NaoBoActivity.this, getBaoGaoOkObject(), new ApiClient.CallBack() {
                     @Override
                     public void onSuccess(String s) {
                         cancelLoadingDialog();
-                        LogUtil.LogShitou("CeYiCeFragment--onSuccess",s+ "");
+                        LogUtil.LogShitou("CeYiCeFragment--onSuccess", s + "");
                         try {
                             UserBuyerindex userBuyerindex = GsonUtils.parseJSON(s, UserBuyerindex.class);
-                            if (userBuyerindex.getStatus()==1){
+                            if (userBuyerindex.getStatus() == 1) {
                                 String report_num = userBuyerindex.getReport_num();
-                                if (Integer.parseInt(report_num)>0){
-                                }else {
+                                if (Integer.parseInt(report_num) > 0) {
+                                } else {
                                     TwoBtnDialog twoBtnDialog = new TwoBtnDialog(NaoBoActivity.this, "您已没有多余的报告可使用", "购买", "取消");
                                     twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
                                         @Override
@@ -507,13 +567,13 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                                     });
                                     twoBtnDialog.show();
                                 }
-                            }else if (userBuyerindex.getStatus()==3){
+                            } else if (userBuyerindex.getStatus() == 3) {
                                 MyDialog.showReLoginDialog(NaoBoActivity.this);
-                            }else {
+                            } else {
                                 Toast.makeText(NaoBoActivity.this, userBuyerindex.getInfo(), Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
-                            Toast.makeText(NaoBoActivity.this,"数据出错", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NaoBoActivity.this, "数据出错", Toast.LENGTH_SHORT).show();
                         }
                     }
 

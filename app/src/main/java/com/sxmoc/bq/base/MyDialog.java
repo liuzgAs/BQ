@@ -38,25 +38,29 @@ import java.net.URL;
  */
 public class MyDialog {
     public static void showReLoginDialog(final Context context) {
-        final SingleBtnDialog singleBtnDialog = new SingleBtnDialog(context, "您的账号在其他设备上登录，请重新登录", "确认");
-        singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
-            @Override
-            public void doWhat() {
-                ToLoginActivity.toLoginActivity(context);
-            }
-        });
-        singleBtnDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-                    singleBtnDialog.dismiss();
+        try {
+            final SingleBtnDialog singleBtnDialog = new SingleBtnDialog(context, "您的账号在其他设备上登录，请重新登录", "确认");
+            singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
+                @Override
+                public void doWhat() {
                     ToLoginActivity.toLoginActivity(context);
                 }
-                return false;
-            }
-        });
-        singleBtnDialog.show();
+            });
+            singleBtnDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+
+                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                        singleBtnDialog.dismiss();
+                        ToLoginActivity.toLoginActivity(context);
+                    }
+                    return false;
+                }
+            });
+            singleBtnDialog.show();
+        } catch (Exception e) {
+        }
+
     }
 
     /**
@@ -65,36 +69,43 @@ public class MyDialog {
      * @param msg
      */
     public static void showTipDialog(Context context, String msg) {
-        final SingleBtnDialog singleBtnDialog = new SingleBtnDialog(context, msg, "确认");
-        singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
-            @Override
-            public void doWhat() {
-                singleBtnDialog.dismiss();
-            }
-        });
-        singleBtnDialog.show();
+        try {
+            final SingleBtnDialog singleBtnDialog = new SingleBtnDialog(context, msg, "确认");
+            singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
+                @Override
+                public void doWhat() {
+                    singleBtnDialog.dismiss();
+                }
+            });
+            singleBtnDialog.show();
+        } catch (Exception e) {
+        }
     }
 
     public static void dialogFinish(final Activity activity, String msg) {
-        SingleBtnDialog singleBtnDialog = new SingleBtnDialog(activity, msg, "确认");
-        singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
-            @Override
-            public void doWhat() {
-                activity.finish();
-            }
-        });
-        singleBtnDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-                    dialog.dismiss();
+        try {
+            SingleBtnDialog singleBtnDialog = new SingleBtnDialog(activity, msg, "确认");
+            singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
+                @Override
+                public void doWhat() {
                     activity.finish();
                 }
-                return false;
-            }
-        });
-        singleBtnDialog.setCancelable(false);
-        singleBtnDialog.show();
+            });
+            singleBtnDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                        dialog.dismiss();
+                        activity.finish();
+                    }
+                    return false;
+                }
+            });
+            singleBtnDialog.setCancelable(false);
+            singleBtnDialog.show();
+        } catch (Exception e) {
+        }
+
     }
 
 

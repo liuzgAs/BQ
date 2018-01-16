@@ -39,24 +39,30 @@
             style="@style/detail_text"
             android:layout_below="@+id/banner"
             android:layout_marginTop="5dp"
-            android:text="大脑雷达测试仪" />
+            android:text="大脑雷达测试仪大脑雷达测试仪大脑雷达测试仪大脑雷达测试仪大脑雷达测试仪" />
 
         <TextView
+            android:textSize="@dimen/litterText"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:textColor="@color/basic_color"
+            android:background="@drawable/shape_basic1dp"
             android:id="@+id/textDes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textTitle"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="@dimen/leftAndRight"
+            android:layout_alignBottom="@+id/textUnit"
+            android:layout_toRightOf="@+id/textUnit"
+            android:layout_marginLeft="5dp"
             android:text="活动价" />
 
         <TextView
+            android:layout_marginBottom="15dp"
+            android:layout_below="@+id/textTitle"
             android:id="@+id/textPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textDes"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/textDes"
+            android:layout_marginLeft="@dimen/leftAndRight"
             android:text="¥2880"
             android:textColor="@color/basicText"
             android:textSize="20dp"

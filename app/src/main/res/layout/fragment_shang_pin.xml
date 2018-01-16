@@ -24,37 +24,39 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:src="@mipmap/shouhuan" />
-
+        <TextView
+            android:layout_marginRight="@dimen/leftAndRight"
+            android:layout_marginTop="10dp"
+            android:id="@+id/textTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/leftAndRight"
+            android:text="小米手环小米手环小米手环小米手环小米手环小米手环小米手环小米手环小米手环"
+            android:textColor="@color/light_black"
+            android:textSize="18dp" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
 
-            <TextView
-                android:id="@+id/textTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/leftAndRight"
-                android:text="小米手环"
-                android:textColor="@color/light_black"
-                android:textSize="18dp" />
+
 
             <TextView
-                android:layout_alignBaseline="@+id/textTitle"
+                android:layout_marginLeft="@dimen/leftAndRight"
+                android:layout_marginTop="5dp"
                 android:id="@+id/textPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="¥888"
                 android:textColor="@color/basicText"
-                android:layout_toLeftOf="@+id/textUnit"
-                android:textSize="18dp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
             <TextView
+                android:layout_alignBaseline="@+id/textPrice"
+                android:layout_toRightOf="@+id/textPrice"
                 android:layout_marginRight="@dimen/leftAndRight"
                 android:textColor="@color/light_black"
                 android:text="/份"
-                android:layout_alignParentRight="true"
-                android:layout_alignBaseline="@+id/textTitle"
                 android:textSize="@dimen/bigText"
                 android:id="@+id/textUnit"
                 android:layout_width="wrap_content"
