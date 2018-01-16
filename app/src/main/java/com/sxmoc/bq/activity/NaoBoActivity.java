@@ -340,12 +340,6 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
 
     @Override
     protected void initData() {
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         setJieMian(0);
         showLoadingDialog();
         adapter.addAll(new ArrayList<BlueBean>());
@@ -377,6 +371,12 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                         startScan();
                     }
                 });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
     }
 
     private boolean isScan = false;
@@ -443,9 +443,21 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
     }
 
     /**
+     * 刷新脑波图
+     *
+     */
+    public void initNaoBo() {
+        naoBo01.chuShiHua();
+        naoBo02.chuShiHua();
+        textZuoNaoDis.setText("512");
+        textYouNaoDis.setText("512");
+    }
+
+    /**
      * 打开通知成功
      */
     public void success() {
+        textLeftTime.setText("120");
         setJieMian(1);
     }
 

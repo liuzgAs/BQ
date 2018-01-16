@@ -184,6 +184,8 @@ public class XinZengDZActivity extends ZjbBaseActivity implements View.OnClickLi
         params.put("tokenTime", tokenTime);
         if (value != null) {
             params.put("id", value.getId());
+        }else {
+            params.put("id", "");
         }
         params.put("consignee", editConsignee.getText().toString().trim());
         params.put("phone", editPhone.getText().toString().trim());

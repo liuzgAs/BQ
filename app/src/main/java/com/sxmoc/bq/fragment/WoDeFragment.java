@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.CeShiLSActivity;
-import com.sxmoc.bq.activity.ChanPinXQActivity;
 import com.sxmoc.bq.activity.GeRenXXActivity;
 import com.sxmoc.bq.activity.GongGaoActivity;
 import com.sxmoc.bq.activity.GuanLiYHKActivity;
@@ -168,40 +167,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
 
     @Override
     protected void initData() {
-        showLoadingDialog();
-        ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
-            @Override
-            public void onSuccess(String s) {
-                cancelLoadingDialog();
-                LogUtil.LogShitou("WoDeFragment--onSuccess", s + "");
-                try {
-                    userBuyerindex = GsonUtils.parseJSON(s, UserBuyerindex.class);
-                    if (userBuyerindex.getStatus() == 1) {
-                        GlideApp.with(getActivity())
-                                .asBitmap()
-                                .load(userBuyerindex.getHeadimg())
-                                .placeholder(R.mipmap.ic_empty)
-                                .into(imageHead);
-                        textName.setText(userBuyerindex.getNickname());
-                        textBaoGaoNum.setText(userBuyerindex.getReport_num());
-                        textBlance.setText(userBuyerindex.getMoney() + "");
-                        textGradeName.setText(userBuyerindex.getGrade_name());
-                    } else if (userBuyerindex.getStatus() == 3) {
-                        MyDialog.showReLoginDialog(getActivity());
-                    } else {
-                        Toast.makeText(getActivity(), userBuyerindex.getInfo(), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onError() {
-                cancelLoadingDialog();
-                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -319,6 +285,45 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         intent.putExtra(Constant.IntentKey.VALUE, userBuyerindex.getMoney());
         intent.setClass(getActivity(), WoDeSYActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showLoadingDialog();
+        ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
+            @Override
+            public void onSuccess(String s) {
+                cancelLoadingDialog();
+                LogUtil.LogShitou("WoDeFragment--onSuccess", s + "");
+                try {
+                    userBuyerindex = GsonUtils.parseJSON(s, UserBuyerindex.class);
+                    if (userBuyerindex.getStatus() == 1) {
+                        GlideApp.with(getActivity())
+                                .asBitmap()
+                                .load(userBuyerindex.getHeadimg())
+                                .placeholder(R.mipmap.ic_empty)
+                                .into(imageHead);
+                        textName.setText(userBuyerindex.getNickname());
+                        textBaoGaoNum.setText(userBuyerindex.getReport_num());
+                        textBlance.setText(userBuyerindex.getMoney() + "");
+                        textGradeName.setText(userBuyerindex.getGrade_name());
+                    } else if (userBuyerindex.getStatus() == 3) {
+                        MyDialog.showReLoginDialog(getActivity());
+                    } else {
+                        Toast.makeText(getActivity(), userBuyerindex.getInfo(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError() {
+                cancelLoadingDialog();
+                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

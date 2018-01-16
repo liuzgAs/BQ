@@ -106,6 +106,30 @@ public class NaoBoTu extends View {
             512, 512, 512, 512, 512, 512, 512, 512,
             512, 512, 512, 512, 512, 512, 512, 512,
             512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
+            512, 512, 512, 512, 512, 512, 512, 512,
     };
     /**
      * 脑波画笔
@@ -174,7 +198,7 @@ public class NaoBoTu extends View {
          */
         paintBaiDian = new Paint(Paint.ANTI_ALIAS_FLAG);
         paintBaiDian.setStyle(Paint.Style.STROKE);
-        paintBaiDian.setStrokeWidth(DpUtils.convertDpToPixel(5,context));
+        paintBaiDian.setStrokeWidth(DpUtils.convertDpToPixel(5, context));
         paintBaiDian.setColor(Color.WHITE);
         paintBaiDian.setStrokeCap(Paint.Cap.ROUND);
 
@@ -188,7 +212,7 @@ public class NaoBoTu extends View {
          */
         paintHengXian.setColor(Color.parseColor("#88b3d7fa"));
         paintHengXian.setStrokeWidth(diBuHengXianWidth);
-        canvas.drawLine(0, getHeight() - diBuZiHeght, getWidth(), getHeight() - diBuZiHeght+naoBoLineWidth, paintHengXian);
+        canvas.drawLine(0, getHeight() - diBuZiHeght, getWidth(), getHeight() - diBuZiHeght + naoBoLineWidth, paintHengXian);
         /**
          * 画其他横线
          */
@@ -197,7 +221,7 @@ public class NaoBoTu extends View {
         //高度间隔
         float gaoDuJianGe = (getHeight() - diBuZiHeght) / (hengXianNum + 1);
         for (int i = 0; i < hengXianNum; i++) {
-            canvas.drawLine(0, getHeight() - diBuZiHeght - gaoDuJianGe * (i + 1), getWidth() - youBianZiWidth, getHeight() - diBuZiHeght - gaoDuJianGe * (i + 1)+naoBoLineWidth, paintHengXian);
+            canvas.drawLine(0, getHeight() - diBuZiHeght - gaoDuJianGe * (i + 1), getWidth() - youBianZiWidth, getHeight() - diBuZiHeght - gaoDuJianGe * (i + 1) + naoBoLineWidth, paintHengXian);
         }
         /**
          * 画底部文字
@@ -205,14 +229,14 @@ public class NaoBoTu extends View {
         //宽度间隔
         float kuanDuJianGe = (getWidth() - youBianZiWidth) / strDiBu.length;
         for (int i = 0; i < strDiBu.length; i++) {
-            canvas.drawText(strDiBu[i], i * kuanDuJianGe + 0.5f * kuanDuJianGe - 0.5f * rectDiBu.width(), getHeight() - diBuZiHeght / 2 + rectDiBu.height() / 2+naoBoLineWidth, paintWenZiDiBu);
+            canvas.drawText(strDiBu[i], i * kuanDuJianGe + 0.5f * kuanDuJianGe - 0.5f * rectDiBu.width(), getHeight() - diBuZiHeght / 2 + rectDiBu.height() / 2 + naoBoLineWidth, paintWenZiDiBu);
         }
 
         /**
          * 画右边文字
          */
         for (int i = 0; i < strYouBian.length; i++) {
-            canvas.drawText(strYouBian[i], getWidth() - rectYouBian.width() - youBianTextMargin, getHeight() - diBuZiHeght - gaoDuJianGe * (i + 1) + rectYouBian.height() / 2+naoBoLineWidth, paintWenZiYouBian);
+            canvas.drawText(strYouBian[i], getWidth() - rectYouBian.width() - youBianTextMargin, getHeight() - diBuZiHeght - gaoDuJianGe * (i + 1) + rectYouBian.height() / 2 + naoBoLineWidth, paintWenZiYouBian);
         }
 
         /**
@@ -220,26 +244,32 @@ public class NaoBoTu extends View {
          */
         canvas.save();
         path.reset();
-        path.moveTo(getWidth()-youBianZiWidth,(getHeight()-diBuZiHeght)-(getHeight()-diBuZiHeght)*((float) naoBoShuJuArr[0]/1024f)+naoBoLineWidth*2);
+        path.moveTo(getWidth() - youBianZiWidth, (getHeight() - diBuZiHeght) - (getHeight() - diBuZiHeght) * ((float) naoBoShuJuArr[0] / 1024f) + naoBoLineWidth * 2);
         for (int i = 0; i < naoBoShuJuArr.length; i++) {
-            path.lineTo((getWidth()-youBianZiWidth)-((float) i/64f)*((getWidth()-youBianZiWidth)),(getHeight()-diBuZiHeght)-(getHeight()-diBuZiHeght)*((float)naoBoShuJuArr[i]/1024f)+naoBoLineWidth*2);
+            path.lineTo((getWidth() - youBianZiWidth) - ((float) i / 64f) * ((getWidth() - youBianZiWidth)), (getHeight() - diBuZiHeght) - (getHeight() - diBuZiHeght) * ((float) naoBoShuJuArr[i] / 1024f) + naoBoLineWidth * 2);
         }
-        canvas.drawPath(path,paintNaoBo);
+        canvas.drawPath(path, paintNaoBo);
         canvas.restore();
 
         /**
          * 画开始的白点
          */
-        canvas.drawPoint(getWidth()-youBianZiWidth,(getHeight()-diBuZiHeght)-(getHeight()-diBuZiHeght)*((float) naoBoShuJuArr[0]/1024f)+naoBoLineWidth*2,paintBaiDian);
+        canvas.drawPoint(getWidth() - youBianZiWidth, (getHeight() - diBuZiHeght) - (getHeight() - diBuZiHeght) * ((float) naoBoShuJuArr[0] / 1024f) + naoBoLineWidth * 2, paintBaiDian);
     }
 
-    public void setNaoBoPoint(int value){
-        int[] naoBoShuJuArrX = new int[64];
+    public void setNaoBoPoint(int value) {
+        int[] naoBoShuJuArrX = new int[256];
         naoBoShuJuArrX[0] = value;
-        for (int i = 0; i < naoBoShuJuArr.length-1; i++) {
-            naoBoShuJuArrX[i+1] = naoBoShuJuArr[i];
+        for (int i = 0; i < naoBoShuJuArr.length - 1; i++) {
+            naoBoShuJuArrX[i + 1] = naoBoShuJuArr[i];
         }
         naoBoShuJuArr = naoBoShuJuArrX;
         invalidate();
+    }
+
+    public void chuShiHua(){
+        for (int i = 0; i < naoBoShuJuArr.length; i++) {
+            naoBoShuJuArr[i] =512;
+        }
     }
 }

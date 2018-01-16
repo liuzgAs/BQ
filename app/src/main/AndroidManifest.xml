@@ -287,7 +287,12 @@
         <activity
             android:name=".activity.GuanLiYHKActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".activity.ZhuanRangBaoGaoActivity"></activity>
+        <activity
+            android:name=".activity.ZhuanRangBaoGaoActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".activity.XinZengYHKActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>
