@@ -233,6 +233,10 @@ public class Constant {
          * 0进下级共享好友
          */
         public static final String USER_GETMYSHARE1 = "/user/getMyShare1";
+        /**
+         * 订单详情
+         */
+        public static final String ORDER_GETORDERDETAIL = "/order/getOrderDetail";
     }
 
     public static class IntentKey {

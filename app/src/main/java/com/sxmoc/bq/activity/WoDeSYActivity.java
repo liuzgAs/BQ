@@ -177,6 +177,7 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
             params.put("tokenTime",tokenTime);
         }
         params.put("p",String.valueOf(page));
+        params.put("type_id","1");
         return new OkObject(params, url);
     }
 

@@ -21,6 +21,7 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.DividerDecoration;
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.activity.DingDanXQActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.constant.Constant;
@@ -180,7 +181,11 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), DingDanXQActivity.class);
+                intent.putExtra(Constant.IntentKey.ID,adapter.getItem(position).getId());
+                intent.putExtra(Constant.IntentKey.VALUE,adapter.getItem(position).getOrder_no());
+                startActivity(intent);
             }
         });
     }

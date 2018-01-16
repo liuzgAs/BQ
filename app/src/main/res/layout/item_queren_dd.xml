@@ -4,43 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/viewAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/top"
-        android:background="@drawable/layout_selector_white_system_gray">
-
-        <TextView
-            android:id="@+id/textShouHuoRen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/leftAndRight"
-            android:layout_marginTop="15dp"
-            android:text="收货人：李达达"
-            android:textSize="@dimen/normal_textsize" />
-
-        <TextView
-            android:id="@+id/textPhone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textShouHuoRen"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/leftAndRight"
-            android:text="15871105320"
-            android:textSize="@dimen/normal_textsize" />
-
-        <TextView
-            android:id="@+id/textAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textShouHuoRen"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="@dimen/leftAndRight"
-            android:layout_marginRight="@dimen/leftAndRight"
-            android:layout_marginTop="10dp"
-            android:text="福建省 厦门市 思明区 观音山国际商务运营中心6号楼6层互动创想" />
-    </RelativeLayout>
+    <include layout="@layout/view_address" />
 
     <RelativeLayout
         android:id="@+id/viewNoAddress"

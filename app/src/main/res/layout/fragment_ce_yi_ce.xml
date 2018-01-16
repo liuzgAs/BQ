@@ -35,7 +35,7 @@
             android:layout_marginLeft="@dimen/leftAndRight"
             android:layout_marginTop="50dp"
             android:text="测一测"
-            android:textSize="@dimen/MoreBigText"
+            android:textSize="20dp"
             android:textColor="#a8ecfe"
             android:id="@+id/textCeyice"
             android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
             android:layout_marginLeft="5dp"
             android:src="@mipmap/wenhao"
             android:layout_toRightOf="@+id/textCeyice"
-            android:layout_width="15dp"
-            android:layout_height="15dp" />
+            android:layout_width="18dp"
+            android:layout_height="18dp" />
     </RelativeLayout>
 </RelativeLayout>

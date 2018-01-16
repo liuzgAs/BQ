@@ -1,9 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
     tools:context="com.sxmoc.bq.activity.ZhuanRangLLActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/view_bar_white" />
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/viewStart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/normalItemHeight"
+            android:background="@drawable/layout_selector_white_system_gray">
+
+            <TextView
+                android:id="@+id/text01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="开始时间"
+                android:textSize="@dimen/bigText" />
+
+            <TextView
+                android:id="@+id/textStart"
+                android:hint="选择开始时间"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/text01"
+                android:layout_toRightOf="@+id/text01"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/bigText" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/right_big" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/viewEnd"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/normalItemHeight"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/layout_selector_white_system_gray">
+
+            <TextView
+                android:id="@+id/text02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="结束时间"
+                android:textSize="@dimen/bigText" />
+
+            <TextView
+                android:id="@+id/textEnd"
+                android:hint="选择结束时间"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@+id/text02"
+                android:layout_toRightOf="@+id/text02"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/bigText" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/right_big" />
+        </RelativeLayout>
+    </LinearLayout>
+    <com.jude.easyrecyclerview.EasyRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_empty="@layout/view_empty"
+        app:layout_progress="@layout/view_progress"
+        app:scrollbarStyle="insideOverlay" />
+</LinearLayout>
