@@ -33,7 +33,7 @@
             android:textSize="@dimen/MoreBigText" />
         <TextView
             android:layout_marginLeft="@dimen/leftAndRight"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:text="测一测"
             android:textSize="20dp"
             android:textColor="#a8ecfe"

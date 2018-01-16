@@ -19,9 +19,27 @@ public class GoodsInfo {
 
     private DataBean data;
     private int status;
+    private int is_vip;
     private String info;
+    private String tips;
     private List<DesListBean> desList;
     private List<BannerBean> banner;
+
+    public String getTips() {
+        return tips;
+    }
+
+    public void setTips(String tips) {
+        this.tips = tips;
+    }
+
+    public int getIs_vip() {
+        return is_vip;
+    }
+
+    public void setIs_vip(int is_vip) {
+        this.is_vip = is_vip;
+    }
 
     public DataBean getData() {
         return data;

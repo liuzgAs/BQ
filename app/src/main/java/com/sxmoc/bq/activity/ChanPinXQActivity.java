@@ -67,6 +67,7 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
             }
         }
     };
+    private GoodsInfo goodsInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,9 +243,13 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.textReserve:
-                intent.setClass(this, QueRenDDActivity.class);
-                intent.putExtra(Constant.IntentKey.ID,id);
-                startActivity(intent);
+                if (goodsInfo.getIs_vip()==1){
+                    MyDialog.showTipDialog(ChanPinXQActivity.this,goodsInfo.getTips());
+                }else {
+                    intent.setClass(this, QueRenDDActivity.class);
+                    intent.putExtra(Constant.IntentKey.ID,id);
+                    startActivity(intent);
+                }
                 break;
             default:
                 break;
@@ -256,9 +261,9 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
         ApiClient.post(this, getOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
-                LogUtil.LogShitou("", s);
+                LogUtil.LogShitou("产品详情", s);
                 try {
-                    GoodsInfo goodsInfo = GsonUtils.parseJSON(s, GoodsInfo.class);
+                    goodsInfo = GsonUtils.parseJSON(s, GoodsInfo.class);
                     if (goodsInfo.getStatus() == 1) {
                         banner1.clear();
                         banner1.addAll(goodsInfo.getBanner());

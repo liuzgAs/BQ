@@ -153,6 +153,12 @@ public class ShengJiSYHHRFragment extends ZjbBaseFragment {
                     text0301.setText(gradeBeanList.get(1).getDes());
                     text0400.setText(gradeBeanList.get(2).getName());
                     text0401.setText(gradeBeanList.get(2).getDes());
+                    btn0200.setVisibility(View.GONE);
+                    image0200.setVisibility(View.GONE);
+                    btn0300.setVisibility(View.GONE);
+                    image0300.setVisibility(View.GONE);
+                    btn0400.setVisibility(View.GONE);
+                    image0400.setVisibility(View.GONE);
                     if (gradeBeanList.get(0).getIsLock() == 1) {
                         btn0200.setVisibility(View.GONE);
                         image0200.setVisibility(View.VISIBLE);
@@ -164,6 +170,18 @@ public class ShengJiSYHHRFragment extends ZjbBaseFragment {
                     if (gradeBeanList.get(2).getIsLock() == 1) {
                         btn0400.setVisibility(View.GONE);
                         image0400.setVisibility(View.VISIBLE);
+                    }
+                    if (gradeBeanList.get(0).getIsUp() == 1) {
+                        btn0200.setVisibility(View.VISIBLE);
+                        image0200.setVisibility(View.GONE);
+                    }
+                    if (gradeBeanList.get(1).getIsUp() == 1) {
+                        btn0300.setVisibility(View.VISIBLE);
+                        image0300.setVisibility(View.GONE);
+                    }
+                    if (gradeBeanList.get(2).getIsUp() == 1) {
+                        btn0400.setVisibility(View.VISIBLE);
+                        image0400.setVisibility(View.GONE);
                     }
                     viewContent.setVisibility(View.VISIBLE);
                 } catch (Exception e) {

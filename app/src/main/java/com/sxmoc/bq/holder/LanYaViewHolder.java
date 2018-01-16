@@ -144,78 +144,79 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                         pingJie++;
                         pingJieStr = pingJieStr + hexString;
                         if (pingJie==8){
+                            String[] split = pingJieStr.split("a55a02");
                             pingJie=0;
                             pingJieStr = "";
-                        }
-                        String[] split = hexString.split("a55a02");
-                        for (int i = 0; i < split.length; i++) {
+                            for (int i = 0; i < split.length; i++) {
 
-                            if (split[i].length() == 28) {
-                                LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "截取后" + split[i]);
-                                byte[] bytes = HexUtil.hexStringToBytes(split[i]);
-                                int zuoNao = ByteUtils.bytesUInt(bytes[1]) * 256 + ByteUtils.bytesUInt(bytes[2]);
-                                int youNao = ByteUtils.bytesUInt(bytes[3]) * 256 + ByteUtils.bytesUInt(bytes[4]);
-                                LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "左脑" + zuoNao);
-                                LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "右脑" + youNao);
-                                naoBoList.get(index).add(new NaoBo(zuoNao, youNao));
-                                if (num % 8 == 0) {
-                                    ((NaoBoActivity) getContext()).setNaoBo(zuoNao, youNao);
-                                }
-                                num++;
-                                LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "num" + num);
-                                if (num == 256) {
-                                    num = 0;
-                                    index++;
-                                    ((NaoBoActivity) getContext()).leftTime(index);
-                                    LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "index" + index);
-                                    if (index == 120) {
-                                        index = 0;
-                                        closeNotify();
-                                        List<String> naoBoDataList = new ArrayList<>();
-                                        for (int j = 0; j < naoBoList.size(); j++) {
-                                            naoBoDataList.add("A  " + j * 256);
-                                            StringBuffer zuoNaoData = new StringBuffer();
-                                            for (int k = 0; k < naoBoList.get(j).size(); k++) {
-                                                if (k < naoBoList.get(j).size() - 1) {
-                                                    if (naoBoList.get(j).get(k).getZuoNao() > 700) {
-                                                        zuoNaoData.append("1000,");
+                                if (split[i].length() == 28) {
+                                    LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "截取后" + split[i]);
+                                    byte[] bytes = HexUtil.hexStringToBytes(split[i]);
+                                    int zuoNao = ByteUtils.bytesUInt(bytes[1]) * 256 + ByteUtils.bytesUInt(bytes[2]);
+                                    int youNao = ByteUtils.bytesUInt(bytes[3]) * 256 + ByteUtils.bytesUInt(bytes[4]);
+                                    LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "左脑" + zuoNao);
+                                    LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "右脑" + youNao);
+                                    naoBoList.get(index).add(new NaoBo(zuoNao, youNao));
+                                    if (num % 8 == 0) {
+                                        ((NaoBoActivity) getContext()).setNaoBo(zuoNao, youNao);
+                                    }
+                                    num++;
+                                    LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "num" + num);
+                                    if (num == 256) {
+                                        num = 0;
+                                        index++;
+                                        ((NaoBoActivity) getContext()).leftTime(index);
+                                        LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "index" + index);
+                                        if (index == 120) {
+                                            index = 0;
+                                            closeNotify();
+                                            List<String> naoBoDataList = new ArrayList<>();
+                                            for (int j = 0; j < naoBoList.size(); j++) {
+                                                naoBoDataList.add("A  " + j * 256+"\\n");
+                                                StringBuffer zuoNaoData = new StringBuffer();
+                                                for (int k = 0; k < naoBoList.get(j).size(); k++) {
+                                                    if (k < naoBoList.get(j).size() - 1) {
+                                                        if (naoBoList.get(j).get(k).getZuoNao() > 700) {
+                                                            zuoNaoData.append("1000,");
+                                                        } else {
+                                                            zuoNaoData.append(String.valueOf(naoBoList.get(j).get(k).getZuoNao() + ","));
+                                                        }
                                                     } else {
-                                                        zuoNaoData.append(String.valueOf(naoBoList.get(j).get(k).getZuoNao() + ","));
-                                                    }
-                                                } else {
-                                                    if (naoBoList.get(j).get(k).getZuoNao() > 700) {
-                                                        zuoNaoData.append("1000,");
-                                                    } else {
-                                                        zuoNaoData.append(String.valueOf(naoBoList.get(j).get(k).getZuoNao()));
-                                                    }
-                                                }
-                                            }
-                                            naoBoDataList.add(zuoNaoData.toString());
-                                            naoBoDataList.add("B  " + j * 256);
-                                            StringBuffer youNaoData = new StringBuffer();
-                                            for (int k = 0; k < naoBoList.get(j).size(); k++) {
-                                                if (k < naoBoList.get(j).size() - 1) {
-                                                    if (naoBoList.get(j).get(k).getYouNao() > 700) {
-                                                        youNaoData.append("1000,");
-                                                    } else {
-                                                        youNaoData.append(String.valueOf(naoBoList.get(j).get(k).getYouNao() + ","));
-                                                    }
-                                                } else {
-                                                    if (naoBoList.get(j).get(k).getYouNao() > 700) {
-                                                        youNaoData.append("1000,");
-                                                    } else {
-                                                        youNaoData.append(String.valueOf(naoBoList.get(j).get(k).getYouNao()));
+                                                        if (naoBoList.get(j).get(k).getZuoNao() > 700) {
+                                                            zuoNaoData.append("1000,");
+                                                        } else {
+                                                            zuoNaoData.append(String.valueOf(naoBoList.get(j).get(k).getZuoNao()));
+                                                        }
                                                     }
                                                 }
+                                                naoBoDataList.add(zuoNaoData.toString());
+                                                naoBoDataList.add("B  " + j * 256+"\\n");
+                                                StringBuffer youNaoData = new StringBuffer();
+                                                for (int k = 0; k < naoBoList.get(j).size(); k++) {
+                                                    if (k < naoBoList.get(j).size() - 1) {
+                                                        if (naoBoList.get(j).get(k).getYouNao() > 700) {
+                                                            youNaoData.append("1000,");
+                                                        } else {
+                                                            youNaoData.append(String.valueOf(naoBoList.get(j).get(k).getYouNao() + ","));
+                                                        }
+                                                    } else {
+                                                        if (naoBoList.get(j).get(k).getYouNao() > 700) {
+                                                            youNaoData.append("1000,");
+                                                        } else {
+                                                            youNaoData.append(String.valueOf(naoBoList.get(j).get(k).getYouNao()));
+                                                        }
+                                                    }
+                                                }
+                                                naoBoDataList.add(youNaoData.toString());
                                             }
-                                            naoBoDataList.add(youNaoData.toString());
+                                            LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "" + naoBoDataList.size());
+                                            ((NaoBoActivity) getContext()).upLoad(naoBoDataList);
                                         }
-                                        LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged", "" + naoBoDataList.size());
-                                        ((NaoBoActivity) getContext()).upLoad(naoBoDataList);
                                     }
                                 }
                             }
                         }
+
                     }
                 });
     }
