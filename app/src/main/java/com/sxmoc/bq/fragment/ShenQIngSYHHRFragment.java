@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.ChengShiXZActivity;
 import com.sxmoc.bq.activity.HeHuoRenActivity;
+import com.sxmoc.bq.activity.WebActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.constant.Constant;
@@ -153,6 +154,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
         mInflate.findViewById(R.id.viewShiYEHHR).setOnClickListener(this);
         mInflate.findViewById(R.id.viewAddress).setOnClickListener(this);
         mInflate.findViewById(R.id.btnTiJiao).setOnClickListener(this);
+        mInflate.findViewById(R.id.textXieYi).setOnClickListener(this);
     }
 
     @Override
@@ -248,7 +250,14 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
 
     @Override
     public void onClick(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
+            case R.id.textXieYi:
+                intent.setClass(getActivity(),WebActivity.class);
+                intent.putExtra(Constant.IntentKey.TITLE,"合作协议");
+                intent.putExtra(Constant.IntentKey.URL,Constant.Url.PRODUCT);
+                startActivity(intent);
+                break;
             case R.id.btnTiJiao:
                 if (grade == -1) {
                     Toast.makeText(getActivity(), "请选择事业合伙人等级", Toast.LENGTH_SHORT).show();
@@ -286,7 +295,6 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                 tiJiao();
                 break;
             case R.id.viewAddress:
-                Intent intent = new Intent();
                 intent.setClass(getActivity(), ChengShiXZActivity.class);
                 startActivityForResult(intent, Constant.RequestResultCode.CITY);
                 break;

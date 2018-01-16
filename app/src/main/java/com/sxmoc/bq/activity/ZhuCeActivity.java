@@ -126,7 +126,7 @@ public class ZhuCeActivity extends ZjbBaseActivity implements View.OnClickListen
                 Intent intent = new Intent();
                 intent.setClass(this,WebActivity.class);
                 intent.putExtra(Constant.IntentKey.TITLE,"用户协议");
-                intent.putExtra(Constant.IntentKey.URL,Constant.Url.ABOUT);
+                intent.putExtra(Constant.IntentKey.URL,Constant.Url.USER);
                 startActivity(intent);
                 break;
             case R.id.imageAgreement:

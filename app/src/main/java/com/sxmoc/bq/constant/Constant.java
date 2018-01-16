@@ -27,6 +27,8 @@ public class Constant {
 
     public static class Url {
         public static final String ABOUT =WEB_HOST+"/Article/info/type/about";
+        public static final String USER =WEB_HOST+"/Article/info/type/user";
+        public static final String PRODUCT =WEB_HOST+"/Article/info/type/product";
         /**
          * 升级
          */
