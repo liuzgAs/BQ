@@ -173,7 +173,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                                         closeNotify();
                                         List<String> naoBoDataList = new ArrayList<>();
                                         for (int j = 0; j < naoBoList.size(); j++) {
-                                            naoBoDataList.add("A  " + j * 256+"\r\n");
+                                            naoBoDataList.add("A  " + j * 256+"\n");
                                             StringBuffer zuoNaoData = new StringBuffer();
                                             for (int k = 0; k < naoBoList.get(j).size(); k++) {
                                                 if (k < naoBoList.get(j).size() - 1) {

@@ -66,7 +66,7 @@ public class ShouYiMxActivity extends ZjbBaseActivity implements SwipeRefreshLay
 
     @Override
     protected void initViews() {
-        ((TextView)findViewById(R.id.textViewTitle)).setText("收益明细");
+        ((TextView)findViewById(R.id.textViewTitle)).setText("交易明细");
         initRecycle();
     }
 
