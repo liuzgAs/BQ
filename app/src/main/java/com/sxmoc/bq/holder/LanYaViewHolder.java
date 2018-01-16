@@ -70,10 +70,6 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void closeNotify() {
-        BleManager.getInstance().disconnectAllDevice();
-        ((NaoBoActivity) getContext()).initNaoBo();
-        num = 0;
-        index = 0;
         BluetoothGatt bluetoothGatt = BleManager.getInstance().getBluetoothGatt(data.getBleDevice());
         if (bluetoothGatt != null) {
             final List<BluetoothGattService> services = bluetoothGatt.getServices();
@@ -88,6 +84,10 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
             btnLianJie.setText("连接");
             data.setStatue(0);
         }
+        BleManager.getInstance().disconnectAllDevice();
+        ((NaoBoActivity) getContext()).initNaoBo();
+        num = 0;
+        index = 0;
     }
 
     /**
@@ -173,7 +173,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                                         closeNotify();
                                         List<String> naoBoDataList = new ArrayList<>();
                                         for (int j = 0; j < naoBoList.size(); j++) {
-                                            naoBoDataList.add("A  " + j * 256+"\n");
+                                            naoBoDataList.add("A  " + j * 256);
                                             StringBuffer zuoNaoData = new StringBuffer();
                                             for (int k = 0; k < naoBoList.get(j).size(); k++) {
                                                 if (k < naoBoList.get(j).size() - 1) {
@@ -191,7 +191,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                                                 }
                                             }
                                             naoBoDataList.add(zuoNaoData.toString());
-                                            naoBoDataList.add("B  " + j * 256+"\r\n");
+                                            naoBoDataList.add("B  " + j * 256);
                                             StringBuffer youNaoData = new StringBuffer();
                                             for (int k = 0; k < naoBoList.get(j).size(); k++) {
                                                 if (k < naoBoList.get(j).size() - 1) {

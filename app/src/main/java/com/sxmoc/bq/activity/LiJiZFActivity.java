@@ -176,6 +176,10 @@ public class LiJiZFActivity extends ZjbBaseActivity implements View.OnClickListe
             @Override
             public void doWhat() {
                 singleBtnDialog.dismiss();
+                Intent intent1 = new Intent();
+                intent1.setClass(LiJiZFActivity.this,DingDanXQActivity.class);
+                intent1.putExtra(Constant.IntentKey.VALUE,order);
+                startActivity(intent1);
                 finish();
             }
         });

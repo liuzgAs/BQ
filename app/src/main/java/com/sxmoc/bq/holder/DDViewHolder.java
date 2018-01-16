@@ -15,6 +15,7 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.DividerDecoration;
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.activity.DingDanXQActivity;
 import com.sxmoc.bq.activity.LiJiZFActivity;
 import com.sxmoc.bq.activity.WebActivity;
 import com.sxmoc.bq.activity.WoDeDDActivity;
@@ -71,7 +72,11 @@ public class DDViewHolder extends BaseViewHolder<Order.DataBean> {
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                Intent intent = new Intent();
+                intent.setClass(getContext(), DingDanXQActivity.class);
+                intent.putExtra(Constant.IntentKey.ID,data.getId());
+                intent.putExtra(Constant.IntentKey.VALUE,data.getOrder_no());
+                getContext().startActivity(intent);
             }
         });
     }

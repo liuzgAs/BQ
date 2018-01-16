@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -76,6 +77,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nao_bo);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         BleManager.getInstance().init(getApplication());
         init();
     }
@@ -242,12 +244,66 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         for (int i = 100; i < 120; i++) {
             naoBoDataList05.add(naoBoDataList.get(i));
         }
-        params.put("raw_data1", GsonUtils.parseObject(naoBoDataList00));
-        params.put("raw_data2", GsonUtils.parseObject(naoBoDataList01));
-        params.put("raw_data3", GsonUtils.parseObject(naoBoDataList02));
-        params.put("raw_data4", GsonUtils.parseObject(naoBoDataList03));
-        params.put("raw_data5", GsonUtils.parseObject(naoBoDataList04));
-        params.put("raw_data6", GsonUtils.parseObject(naoBoDataList05));
+        String str00 = "";
+        String str01 = "";
+        String str02 = "";
+        String str03 = "";
+        String str04 = "";
+        String str05 = "";
+        for (int i = 0; i < 20; i++) {
+            if (i%2==0){
+                str00 = str00 + "\""+naoBoDataList.get(i)+ "\","+"\n";
+            }else {
+                str00 = str00 +  "\""+naoBoDataList.get(i)+ "\",";
+            }
+        }
+        for (int i = 20; i < 40; i++) {
+            if (i%2==0){
+                str01 = str01 + "\""+ naoBoDataList.get(i)+ "\","+"\n";
+            }else {
+                str01 = str01 + "\""+ naoBoDataList.get(i)+ "\",";
+            }
+        }
+        for (int i = 40; i < 60; i++) {
+            if (i%2==0){
+                str02 = str02+ "\"" + naoBoDataList.get(i)+ "\","+"\n";
+            }else {
+                str02 = str02 + "\""+ naoBoDataList.get(i)+ "\",";
+            }
+        }
+        for (int i = 60; i < 80; i++) {
+            if (i%2==0){
+                str03 = str03 + "\""+ naoBoDataList.get(i)+ "\""+"\n";
+            }else {
+                str03 = str03 + "\""+ naoBoDataList.get(i)+ "\"";
+            }
+        }
+        for (int i = 80; i < 100; i++) {
+            if (i%2==0){
+                str04 = str04 + "\""+ naoBoDataList.get(i)+ "\""+"\n";
+            }else {
+                str04 = str04 + "\""+ naoBoDataList.get(i)+ "\"";
+            }
+        }
+        for (int i = 100; i < 120; i++) {
+            if (i%2==0){
+                str05 = str05 + "\""+ naoBoDataList.get(i)+ "\""+"\n";
+            }else {
+                str05 = str05+ "\"" + naoBoDataList.get(i)+ "\"";
+            }
+        }
+//        params.put("raw_data1", GsonUtils.parseObject(naoBoDataList00));
+//        params.put("raw_data2", GsonUtils.parseObject(naoBoDataList01));
+//        params.put("raw_data3", GsonUtils.parseObject(naoBoDataList02));
+//        params.put("raw_data4", GsonUtils.parseObject(naoBoDataList03));
+//        params.put("raw_data5", GsonUtils.parseObject(naoBoDataList04));
+//        params.put("raw_data6", GsonUtils.parseObject(naoBoDataList05));
+        params.put("raw_data1", str00);
+        params.put("raw_data2", str01);
+        params.put("raw_data3", str02);
+        params.put("raw_data4", str03);
+        params.put("raw_data5", str04);
+        params.put("raw_data6", str05);
         return new OkObject(params, url);
     }
 
@@ -444,7 +500,6 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
 
     /**
      * 刷新脑波图
-     *
      */
     public void initNaoBo() {
         naoBo01.chuShiHua();
@@ -516,7 +571,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                     twoBtnDialog.dismiss();
                 }
             });
-        }else if (jieMian==2&&isUpload){
+        } else if (jieMian == 2 && isUpload) {
             final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(NaoBoActivity.this, "正在上传数据，确定要终止吗？", "是", "否");
             twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
                 @Override
@@ -529,7 +584,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                     twoBtnDialog.dismiss();
                 }
             });
-        }else {
+        } else {
             finish();
         }
     }
@@ -571,7 +626,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                                         public void doConfirm() {
                                             twoBtnDialog.dismiss();
                                             Intent intent = new Intent();
-                                            intent.putExtra(Constant.IntentKey.ID,userBuyerindex.getReport_id());
+                                            intent.putExtra(Constant.IntentKey.ID, userBuyerindex.getReport_id());
                                             intent.setClass(NaoBoActivity.this, ChanPinXQActivity.class);
                                             startActivity(intent);
                                         }
