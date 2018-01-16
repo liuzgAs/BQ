@@ -334,7 +334,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                 OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(), new OptionsPickerView.OnOptionsSelectListener() {
                     @Override
                     public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                        textAddressDetail.setText(options1Items.get(options1).getPickerViewText() + "-" + options2Items.get(options1).get(options2) + "-" + options3Items.get(options1).get(options2).get(options3));
+                        textAddress.setText(options1Items.get(options1).getPickerViewText() + "-" + options2Items.get(options1).get(options2) + "-" + options3Items.get(options1).get(options2).get(options3));
                     }
                 })
                         .setTitleText("地区选择")

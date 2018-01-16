@@ -184,6 +184,8 @@
                         android:textSize="@dimen/normal_textsize" />
 
                     <EditText
+                        android:inputType="number"
+                        android:maxLength="11"
                         android:id="@+id/editPhone"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

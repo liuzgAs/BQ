@@ -26,7 +26,7 @@ public class OrderGetorderdetail {
      */
 
     private String address;
-    private int amount;
+    private double amount;
     private String consignee;
     private String create_time;
     private String info;
@@ -39,6 +39,7 @@ public class OrderGetorderdetail {
     private int status;
     private List<GoodsInfoBean> goods_info;
 
+
     public String getAddress() {
         return address;
     }
@@ -47,11 +48,11 @@ public class OrderGetorderdetail {
         this.address = address;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -154,19 +155,28 @@ public class OrderGetorderdetail {
          * unit : 台
          */
 
-        private int amount;
+        private double amount;
         private int id;
         private String img;
         private int num;
         private String price;
         private String title;
         private String unit;
+        private int goods_type;
 
-        public int getAmount() {
+        public int getGoods_type() {
+            return goods_type;
+        }
+
+        public void setGoods_type(int goods_type) {
+            this.goods_type = goods_type;
+        }
+
+        public double getAmount() {
             return amount;
         }
 
-        public void setAmount(int amount) {
+        public void setAmount(double amount) {
             this.amount = amount;
         }
 

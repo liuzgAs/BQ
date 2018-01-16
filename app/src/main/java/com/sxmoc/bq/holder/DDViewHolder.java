@@ -71,6 +71,7 @@ public class DDViewHolder extends BaseViewHolder<Order.DataBean> {
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+
             }
         });
     }
@@ -119,19 +120,25 @@ public class DDViewHolder extends BaseViewHolder<Order.DataBean> {
                 });
                 break;
             case 2:
-                textCancle.setVisibility(View.GONE);
-                btnPingJia.setVisibility(View.VISIBLE);
-                btnPingJia.setText("查看物流");
-                btnPingJia.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent();
-                        intent.setClass(getContext(), WebActivity.class);
-                        intent.putExtra(Constant.IntentKey.TITLE, "物流信息");
-                        intent.putExtra(Constant.IntentKey.URL,data.getLogistics_url());
-                        getContext().startActivity(intent);
-                    }
-                });
+                if (data.getProducts().get(0).getGoods_type()==2){
+                    textCancle.setVisibility(View.GONE);
+                    btnPingJia.setVisibility(View.GONE);
+                }else {
+                    textCancle.setVisibility(View.GONE);
+                    btnPingJia.setVisibility(View.VISIBLE);
+                    btnPingJia.setText("查看物流");
+                    btnPingJia.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent();
+                            intent.setClass(getContext(), WebActivity.class);
+                            intent.putExtra(Constant.IntentKey.TITLE, "物流信息");
+                            intent.putExtra(Constant.IntentKey.URL,data.getLogistics_url());
+                            getContext().startActivity(intent);
+                        }
+                    });
+                }
+
                 break;
             case 3:
                 textCancle.setVisibility(View.GONE);

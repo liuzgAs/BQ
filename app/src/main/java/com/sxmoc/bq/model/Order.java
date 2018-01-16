@@ -198,8 +198,17 @@ public class Order {
             private int id;
             private String img;
             private int num;
+            private int goods_type;
             private String price;
             private String title;
+
+            public int getGoods_type() {
+                return goods_type;
+            }
+
+            public void setGoods_type(int goods_type) {
+                this.goods_type = goods_type;
+            }
 
             public String getAmount() {
                 return amount;

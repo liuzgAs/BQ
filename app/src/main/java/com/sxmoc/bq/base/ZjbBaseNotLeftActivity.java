@@ -107,37 +107,45 @@ public abstract class ZjbBaseNotLeftActivity extends AppCompatActivity {
     }
 
     public void showLoadingDialog() {
-        if (mAlertDialog==null){
-            View dialog_progress = getLayoutInflater().inflate(R.layout.view_progress, null);
-            mAlertDialog = new AlertDialog.Builder(this,R.style.dialog)
-                    .setView(dialog_progress)
-                    .setCancelable(false)
-                    .create();
-            mAlertDialog.show();
-            mAlertDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-                @Override
-                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+        try {
+            if (mAlertDialog==null){
+                View dialog_progress = getLayoutInflater().inflate(R.layout.view_progress, null);
+                mAlertDialog = new AlertDialog.Builder(this,R.style.dialog)
+                        .setView(dialog_progress)
+                        .setCancelable(false)
+                        .create();
+                mAlertDialog.show();
+                mAlertDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 
-                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-                        cancelLoadingDialog();
-                        finish();
+                        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                            cancelLoadingDialog();
+                            finish();
+                        }
+                        return false;
                     }
-                    return false;
-                }
-            });
-        }else {
-            mAlertDialog.show();
+                });
+            }else {
+                mAlertDialog.show();
+            }
+        } catch (Exception e) {
         }
+
     }
 
     public void cancelLoadingDialog() {
-        if (mAlertDialog != null && mAlertDialog.isShowing()) {
-            try {
-                mAlertDialog.dismiss();
-                mAlertDialog = null;
-            } catch (Exception e) {
+        try {
+            if (mAlertDialog != null && mAlertDialog.isShowing()) {
+                try {
+                    mAlertDialog.dismiss();
+                    mAlertDialog = null;
+                } catch (Exception e) {
+                }
             }
+        } catch (Exception e) {
         }
+
     }
 
 }

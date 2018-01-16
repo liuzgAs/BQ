@@ -81,33 +81,41 @@ public abstract class ZjbBaseFragment extends Fragment implements FragmentBackHa
     }
 
     public void showLoadingDialog() {
-        if (mAlertDialog == null) {
-            View dialog_progress = LayoutInflater.from(getActivity()).inflate(R.layout.view_progress, null);
-            mAlertDialog = new AlertDialog.Builder(getActivity(), R.style.dialog)
-                    .setView(dialog_progress)
-                    .setCancelable(false)
-                    .create();
-            mAlertDialog.show();
-            mAlertDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-                @Override
-                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-                        cancelLoadingDialog();
-                        getActivity().finish();
+        try {
+            if (mAlertDialog == null) {
+                View dialog_progress = LayoutInflater.from(getActivity()).inflate(R.layout.view_progress, null);
+                mAlertDialog = new AlertDialog.Builder(getActivity(), R.style.dialog)
+                        .setView(dialog_progress)
+                        .setCancelable(false)
+                        .create();
+                mAlertDialog.show();
+                mAlertDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                            cancelLoadingDialog();
+                            getActivity().finish();
+                        }
+                        return false;
                     }
-                    return false;
-                }
-            });
-        } else {
-            mAlertDialog.show();
+                });
+            } else {
+                mAlertDialog.show();
+            }
+        } catch (Exception e) {
         }
+
     }
 
     public void cancelLoadingDialog() {
-        if (mAlertDialog != null && mAlertDialog.isShowing()) {
-            mAlertDialog.dismiss();
-            mAlertDialog = null;
+        try {
+            if (mAlertDialog != null && mAlertDialog.isShowing()) {
+                mAlertDialog.dismiss();
+                mAlertDialog = null;
+            }
+        } catch (Exception e) {
         }
+
     }
 
     @Override
