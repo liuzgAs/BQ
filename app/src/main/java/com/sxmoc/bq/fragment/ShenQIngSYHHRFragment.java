@@ -60,6 +60,9 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
     private ImageView imageShenHe2;
     private TextView textShenHeTitle2;
     private TextView textShenHeDes2;
+    private ImageView imageShenHe1;
+    private TextView textShenHeTitle1;
+    private TextView textShenHeDes1;
     private ImageView imageChengGong;
     private TextView textCode;
     private TextView textCompany;
@@ -121,6 +124,9 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
         imageShenHe2 = jieMian[2].findViewById(R.id.imageShenHe);
         textShenHeTitle2 = jieMian[2].findViewById(R.id.textShenHeTitle);
         textShenHeDes2 = jieMian[2].findViewById(R.id.textShenHeDes);
+        imageShenHe1 = jieMian[1].findViewById(R.id.imageShenHe);
+        textShenHeTitle1 = jieMian[1].findViewById(R.id.textShenHeTitle);
+        textShenHeDes1 = jieMian[1].findViewById(R.id.textShenHeDes);
         imageChengGong = mInflate.findViewById(R.id.imageChengGong);
         textCode = mInflate.findViewById(R.id.textCode);
         textCompany = mInflate.findViewById(R.id.textCompany);
@@ -172,6 +178,9 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                             case 0:
                                 setJieMian(1);
                                 UserApplybefore.Bank bank = userApplybefore.getBank();
+                                imageShenHe1.setImageResource(R.mipmap.shenhezhong);
+                                textShenHeTitle1.setText(userApplybefore.getTipsTitle());
+                                textShenHeDes1.setText(userApplybefore.getTipsDes());
                                 if (bank != null) {
                                     textCode.setText(bank.getCode());
                                     textCompany.setText(bank.getCompany());
@@ -253,9 +262,9 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.textXieYi:
-                intent.setClass(getActivity(),WebActivity.class);
-                intent.putExtra(Constant.IntentKey.TITLE,"合作协议");
-                intent.putExtra(Constant.IntentKey.URL,Constant.Url.PRODUCT);
+                intent.setClass(getActivity(), WebActivity.class);
+                intent.putExtra(Constant.IntentKey.TITLE, "合作协议");
+                intent.putExtra(Constant.IntentKey.URL, Constant.Url.PRODUCT);
                 startActivity(intent);
                 break;
             case R.id.btnTiJiao:
@@ -358,7 +367,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                 try {
                     UserApply userApply = GsonUtils.parseJSON(s, UserApply.class);
                     if (userApply.getStatus() == 1) {
-
+                        initData();
                     } else if (userApply.getStatus() == 3) {
                         MyDialog.showReLoginDialog(getActivity());
                     } else {
