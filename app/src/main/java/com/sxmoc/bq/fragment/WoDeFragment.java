@@ -95,6 +95,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         // Inflate the layout for this fragment
         if (mInflate == null) {
             mInflate = inflater.inflate(R.layout.fragment_wo_de, container, false);
+            api = WXAPIFactory.createWXAPI(getActivity(), Constant.WXAPPID, true);
             init();
         }
         //缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
@@ -251,7 +252,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         return new OkObject(params, url);
     }
 
-    private IWXAPI api = WXAPIFactory.createWXAPI(getActivity(), Constant.WXAPPID, true);
+    private IWXAPI api ;
 
     /**
      * 分享推荐

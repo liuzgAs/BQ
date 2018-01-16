@@ -22,6 +22,7 @@ import com.sxmoc.bq.R;
 import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.customview.SingleBtnDialog;
 import com.sxmoc.bq.util.GlideApp;
+import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
@@ -247,7 +248,7 @@ public class MyDialog {
      * 检查微信版本是否支付支付或是否安装可支付的微信版本
      */
     public static boolean checkIsSupportedWeachatPay(IWXAPI api) {
-        boolean isPaySupported = api.getWXAppSupportAPI() >= com.tencent.mm.opensdk.constants.Build.PAY_SUPPORTED_SDK_INT;
+        boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
         return isPaySupported;
     }
 
