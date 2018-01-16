@@ -208,6 +208,7 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
                     if (buyerAddinfo.getStatus() == 1) {
                         Intent intent = new Intent();
                         intent.putExtra(Constant.IntentKey.ID, buyerAddinfo.getBid());
+                        intent.setClass(XinXiTXActivity.this,NaoBoActivity.class);
                         startActivity(intent);
                         finish();
                     } else if (buyerAddinfo.getStatus() == 3) {
