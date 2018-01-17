@@ -101,7 +101,6 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         animator.setDuration(8000);
         animator.setRepeatCount(ValueAnimator.INFINITE);
         animator.setRepeatMode(ValueAnimator.INFINITE);
-        animator.start();
     }
 
 
@@ -124,6 +123,17 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
     }
 
     private void startTest() {
