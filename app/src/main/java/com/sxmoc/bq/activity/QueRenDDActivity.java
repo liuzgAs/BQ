@@ -224,7 +224,7 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
         }
         params.put("id", id + "");
         params.put("num", orderCreateorder.getNum() + "");
-        params.put("type_id", "1");
+        params.put("type_id", String.valueOf(orderCreateorder.getType_id()));
         params.put("phone", orderCreateorder.getPhone());
         params.put("address", orderCreateorder.getAddress());
         params.put("consignee", orderCreateorder.getConsignee());
