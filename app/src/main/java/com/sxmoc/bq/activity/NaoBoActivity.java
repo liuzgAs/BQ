@@ -43,6 +43,7 @@ import com.sxmoc.bq.holder.LanYaViewHolder;
 import com.sxmoc.bq.model.BlueBean;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.SimpleInfo;
+import com.sxmoc.bq.model.TesterGetreport;
 import com.sxmoc.bq.model.UserBuyerindex;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.GsonUtils;
@@ -623,6 +624,8 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                             if (userBuyerindex.getStatus() == 1) {
                                 String report_num = userBuyerindex.getReport_num();
                                 if (Integer.parseInt(report_num) > 0) {
+                                    chaKanBaoGao();
+                                    
                                 } else {
                                     final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(NaoBoActivity.this, "您已没有多余的报告可使用", "购买", "取消");
                                     twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
@@ -662,6 +665,58 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
             default:
                 break;
         }
+    }
+
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
+    private OkObject getShengChengOkObject() {
+        String url = Constant.HOST + Constant.Url.TESTER_GETREPORT;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime",tokenTime);
+        }
+        params.put("bid",String.valueOf(id));
+        return new OkObject(params, url);
+    }
+
+    /**
+     * 查看报告
+     */
+    private void chaKanBaoGao() {
+        showLoadingDialog();
+        ApiClient.post(NaoBoActivity.this, getShengChengOkObject(), new ApiClient.CallBack() {
+            @Override
+            public void onSuccess(String s) {
+                cancelLoadingDialog();
+                LogUtil.LogShitou("CeShiLSViewHolder--onSuccess",s+ "");
+                try {
+                    TesterGetreport testerGetreport = GsonUtils.parseJSON(s, TesterGetreport.class);
+                    if (testerGetreport.getStatus()==1){
+                        Intent intent = new Intent();
+                        intent.setClass(NaoBoActivity.this, WebActivity.class);
+                        intent.putExtra(Constant.IntentKey.TITLE, "报告详情");
+                        intent.putExtra(Constant.IntentKey.URL, testerGetreport.getData_url());
+                        NaoBoActivity.this.startActivity(intent);
+                    }else if (testerGetreport.getStatus()==3){
+                        MyDialog.showReLoginDialog(NaoBoActivity.this);
+                    }else {
+                        Toast.makeText(NaoBoActivity.this, testerGetreport.getInfo(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(NaoBoActivity.this,"数据出错", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError() {
+                cancelLoadingDialog();
+                Toast.makeText(NaoBoActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

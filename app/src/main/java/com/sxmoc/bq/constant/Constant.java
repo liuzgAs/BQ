@@ -105,7 +105,7 @@ public class Constant {
         /**
          * 测试历史
          */
-        public static final String PRODUCT_QUERYHISTORY = "/product/queryHistory";
+        public static final String PRODUCT_QUERYHISTORY = "/buyer/getHistory";
         /**
          * 常见问题
          */
@@ -238,6 +238,10 @@ public class Constant {
          * 订单详情
          */
         public static final String ORDER_GETORDERDETAIL = "/order/getOrderDetail";
+        /**
+         * 生成报告
+         */
+        public static final String TESTER_GETREPORT = "/tester/getReport";
     }
 
     public static class IntentKey {

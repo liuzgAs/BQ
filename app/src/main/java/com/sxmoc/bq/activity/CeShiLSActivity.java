@@ -17,20 +17,20 @@ import com.sxmoc.bq.R;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
-import com.sxmoc.bq.holder.MyBaseViewHolder;
+import com.sxmoc.bq.holder.CeShiLSViewHolder;
 import com.sxmoc.bq.model.OkObject;
-import com.sxmoc.bq.model.SimpleInfo;
+import com.sxmoc.bq.model.ProductQueryhistory;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CeShiLSActivity extends ZjbBaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private EasyRecyclerView recyclerView;
-    private RecyclerArrayAdapter<Integer> adapter;
+    private RecyclerArrayAdapter<ProductQueryhistory.DataBean> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,17 +69,42 @@ public class CeShiLSActivity extends ZjbBaseActivity implements View.OnClickList
         itemDecoration.setDrawLastItem(false);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setRefreshingColorResources(R.color.basic_color);
-        recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<Integer>(CeShiLSActivity.this) {
+        recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<ProductQueryhistory.DataBean>(CeShiLSActivity.this) {
             @Override
             public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
                 int layout = R.layout.item_ceshi_ls;
-                return new MyBaseViewHolder(parent, layout);
+                return new CeShiLSViewHolder(parent, layout);
             }
         });
         adapter.setMore(R.layout.view_more, new RecyclerArrayAdapter.OnMoreListener() {
             @Override
             public void onMoreShow() {
+                ApiClient.post(CeShiLSActivity.this, getOkObject(), new ApiClient.CallBack() {
+                    @Override
+                    public void onSuccess(String s) {
+                        LogUtil.LogShitou("DingDanGLActivity--加载更多", s+"");
+                        try {
+                            page++;
+                            ProductQueryhistory productQueryhistory = GsonUtils.parseJSON(s, ProductQueryhistory.class);
+                            int status = productQueryhistory.getStatus();
+                            if (status == 1) {
+                                List<ProductQueryhistory.DataBean> dataBeanList = productQueryhistory.getData();
+                                adapter.addAll(dataBeanList);
+                            } else if (status == 3) {
+                                MyDialog.showReLoginDialog(CeShiLSActivity.this);
+                            } else {
+                                adapter.pauseMore();
+                            }
+                        } catch (Exception e) {
+                            adapter.pauseMore();
+                        }
+                    }
 
+                    @Override
+                    public void onError() {
+                        adapter.pauseMore();
+                    }
+                });
             }
 
             @Override
@@ -165,13 +190,15 @@ public class CeShiLSActivity extends ZjbBaseActivity implements View.OnClickList
                 LogUtil.LogShitou("测试历史", s);
                 try {
                     page++;
-                    SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
-                    if (simpleInfo.getStatus() == 1) {
-                        adapter.addAll(new ArrayList<Integer>());
-                    } else if (simpleInfo.getStatus()== 3) {
+                    ProductQueryhistory productQueryhistory = GsonUtils.parseJSON(s, ProductQueryhistory.class);
+                    if (productQueryhistory.getStatus() == 1) {
+                        List<ProductQueryhistory.DataBean> dataBeanList = productQueryhistory.getData();
+                        adapter.clear();
+                        adapter.addAll(dataBeanList);
+                    } else if (productQueryhistory.getStatus()== 3) {
                         MyDialog.showReLoginDialog(CeShiLSActivity.this);
                     } else {
-                        showError(simpleInfo.getInfo());
+                        showError(productQueryhistory.getInfo());
                     }
                 } catch (Exception e) {
                     showError("数据出错");

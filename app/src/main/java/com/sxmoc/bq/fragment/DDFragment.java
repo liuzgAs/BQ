@@ -183,8 +183,8 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
             public void onItemClick(int position) {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), DingDanXQActivity.class);
-                intent.putExtra(Constant.IntentKey.ID,adapter.getItem(position).getId());
-                intent.putExtra(Constant.IntentKey.VALUE,adapter.getItem(position).getOrder_no());
+                intent.putExtra(Constant.IntentKey.ID, adapter.getItem(position).getId());
+                intent.putExtra(Constant.IntentKey.VALUE, adapter.getItem(position).getOrder_no());
                 startActivity(intent);
             }
         });
@@ -251,18 +251,21 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
              * @param msg
              */
             private void showError(String msg) {
-                View viewLoader = LayoutInflater.from(getActivity()).inflate(R.layout.view_loaderror, null);
-                TextView textMsg = viewLoader.findViewById(R.id.textMsg);
-                textMsg.setText(msg);
-                viewLoader.findViewById(R.id.buttonReLoad).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        recyclerView.showProgress();
-                        initData();
-                    }
-                });
-                recyclerView.setErrorView(viewLoader);
-                recyclerView.showError();
+                try {
+                    View viewLoader = LayoutInflater.from(getActivity()).inflate(R.layout.view_loaderror, null);
+                    TextView textMsg = viewLoader.findViewById(R.id.textMsg);
+                    textMsg.setText(msg);
+                    viewLoader.findViewById(R.id.buttonReLoad).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            recyclerView.showProgress();
+                            initData();
+                        }
+                    });
+                    recyclerView.setErrorView(viewLoader);
+                    recyclerView.showError();
+                } catch (Exception e) {
+                }
             }
         });
     }

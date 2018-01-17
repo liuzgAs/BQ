@@ -16,6 +16,7 @@
         android:textSize="@dimen/normal_textsize" />
 
     <TextView
+        android:id="@+id/textDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textName"
@@ -25,6 +26,7 @@
         android:textSize="@dimen/normal_textsize" />
 
     <Button
+        android:id="@+id/btnCaoZuo"
         android:textSize="@dimen/litterText"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
