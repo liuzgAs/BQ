@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -7,9 +7,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.sxmoc.bq.activity.PdfActivity">
-    <include layout="@layout/view_bar_white"/>
+    <include
+        android:id="@+id/includeBar"
+        layout="@layout/view_bar_white"/>
     <RelativeLayout
+        android:layout_below="@+id/includeBar"
         android:id="@+id/viewZhu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_below="@+id/includeBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
@@ -26,4 +34,4 @@
             android:layout_height="wrap_content" />
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
