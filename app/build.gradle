@@ -6,8 +6,8 @@ android {
         applicationId "com.sxmoc.bq"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 18011602
-        versionName "0.0.4"
+        versionCode 18011701
+        versionName "0.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
