@@ -81,6 +81,7 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
         findViewById(R.id.imageBack).setOnClickListener(this);
         findViewById(R.id.btnKaiShiCeShi).setOnClickListener(this);
         findViewById(R.id.viewGrade).setOnClickListener(this);
+        findViewById(R.id.textXieYi).setOnClickListener(this);
     }
 
     @Override
@@ -91,6 +92,13 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.textXieYi:
+                Intent intent = new Intent();
+                intent.setClass(this, WebActivity.class);
+                intent.putExtra(Constant.IntentKey.TITLE, "产品服务协议");
+                intent.putExtra(Constant.IntentKey.URL, Constant.Url.PRODUCT);
+               startActivity(intent);
+                break;
             case R.id.viewSex:
                 final String[] strings = {"男", "女"};
                 new AlertDialog.Builder(this)

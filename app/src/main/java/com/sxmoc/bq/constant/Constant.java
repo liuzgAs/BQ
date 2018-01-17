@@ -29,6 +29,7 @@ public class Constant {
         public static final String ABOUT =WEB_HOST+"/Article/info/type/about";
         public static final String USER =WEB_HOST+"/Article/info/type/user";
         public static final String PRODUCT =WEB_HOST+"/Article/info/type/product";
+        public static final String PARTNER =WEB_HOST+"/Article/info/type/partner";
         /**
          * 升级
          */

@@ -282,7 +282,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
             case R.id.textXieYi:
                 intent.setClass(getActivity(), WebActivity.class);
                 intent.putExtra(Constant.IntentKey.TITLE, "合作协议");
-                intent.putExtra(Constant.IntentKey.URL, Constant.Url.PRODUCT);
+                intent.putExtra(Constant.IntentKey.URL, Constant.Url.PARTNER);
                 startActivity(intent);
                 break;
             case R.id.btnTiJiao:
