@@ -100,7 +100,7 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
             @Override
             public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
                 int layout = R.layout.item_yipingjia;
-                return new PingJiaViewHolder(parent, layout);
+                return new PingJiaViewHolder(parent, layout,type);
             }
         });
         adapter.setMore(R.layout.view_more, new RecyclerArrayAdapter.OnMoreListener() {

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context="com.sxmoc.bq.activity.PingJiaActivity">
+
+    <include layout="@layout/view_bar_white" />
+
+    <ScrollView
+        android:id="@+id/viewPingJia"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/viewGood"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/imageGood"
+                    android:layout_width="86dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="@dimen/leftAndRight"
+                    android:layout_marginTop="15dp" />
+
+                <TextView
+                    android:id="@+id/textGoodName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/imageGood"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_toRightOf="@+id/imageGood"
+                    android:text="大脑雷达测试仪"
+                    android:textSize="@dimen/normal_textsize" />
+
+                <TextView
+                    android:id="@+id/textPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imageGood"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/imageGood"
+                    android:text="¥2880"
+                    android:textColor="@color/basic_color"
+                    android:textSize="@dimen/normal_textsize" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                    android:id="@+id/ratingbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="40dp"
+                    app:srb_drawBorderEnabled="false"
+                    app:srb_fillColor="@color/basic_yellow"
+                    app:srb_isIndicator="true"
+                    app:srb_numberOfStars="5"
+                    app:srb_pressedFillColor="@color/basic_yellow"
+                    app:srb_rating="5"
+                    app:srb_starBackgroundColor="@color/text_gray"
+                    app:srb_starSize="40dp" />
+                <com.sxmoc.bq.customview.FlowTagLayout
+                    android:layout_marginLeft="@dimen/leftAndRight"
+                    android:layout_marginRight="@dimen/leftAndRight"
+                    android:layout_marginBottom="30dp"
+                    android:id="@+id/flowTagLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:gravity="left|top"
+                    android:padding="10dp"
+                    android:hint="商品满足您的期待吗？说说它的优点和美中不足吧。"
+                    android:textSize="@dimen/normal_textsize"
+                    android:layout_marginRight="@dimen/leftAndRight"
+                    android:layout_marginLeft="@dimen/leftAndRight"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/background"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp" />
+                <ImageView
+                    android:layout_marginLeft="@dimen/leftAndRight"
+                    android:layout_marginBottom="15dp"
+                    android:src="@mipmap/tianjiatupian"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnTiJiao"
+        style="@style/bottomBtn"
+        android:text="提交" />
+</LinearLayout>
