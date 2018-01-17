@@ -2,6 +2,9 @@ package com.sxmoc.bq.fragment;
 
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -17,6 +20,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.clj.fastble.BleManager;
@@ -36,6 +41,8 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
 
 
     private View mInflate;
+    private ImageView imageNeiQuan;
+    private ImageView imageWaiQuan;
 
 
     public CeYiCeFragment() {
@@ -71,12 +78,30 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
 
     @Override
     protected void findID() {
+        imageNeiQuan = mInflate.findViewById(R.id.imageNeiQuan);
+        imageWaiQuan = mInflate.findViewById(R.id.imageWaiQuan);
     }
-
+    ObjectAnimator animator = new ObjectAnimator();
+    ObjectAnimator animator1 = new ObjectAnimator();
     @SuppressLint("WrongConstant")
     @Override
     protected void initViews() {
+        PropertyValuesHolder holder02 = PropertyValuesHolder.ofFloat("rotation", 360, 0);
 
+        animator1 = ObjectAnimator.ofPropertyValuesHolder(imageNeiQuan, holder02);
+        animator1.setInterpolator(new LinearInterpolator());
+        animator1.setDuration(6000);
+        animator1.setRepeatCount(ValueAnimator.INFINITE);
+        animator1.setRepeatMode(ValueAnimator.INFINITE);
+        animator1.start();
+        PropertyValuesHolder holder01 = PropertyValuesHolder.ofFloat("rotation", 0, 360);
+
+        animator = ObjectAnimator.ofPropertyValuesHolder(imageWaiQuan, holder01);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.setDuration(8000);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.setRepeatMode(ValueAnimator.INFINITE);
+        animator.start();
     }
 
 

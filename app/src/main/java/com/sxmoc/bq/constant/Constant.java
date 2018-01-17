@@ -242,6 +242,10 @@ public class Constant {
          * 生成报告
          */
         public static final String TESTER_GETREPORT = "/tester/getReport";
+        /**
+         * 宝宝列表
+         */
+        public static final String TESTER_GETTESTER = "/tester/getTester";
     }
 
     public static class IntentKey {

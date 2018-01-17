@@ -1,8 +1,11 @@
 package com.sxmoc.bq.util;
 
 import android.content.Context;
+import android.os.Environment;
+import android.widget.Toast;
 
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.Progress;
@@ -185,6 +188,29 @@ public class ApiClient {
                         callBack.uploadProgress(progress.fraction*100);
                     }
                 });
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param context
+     * @param url
+     */
+    public static void downLoadFile(final Context context, String url, String dir,String fileName,final CallBack callBack) throws Exception {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            final String filePath = Environment.getExternalStorageDirectory().getCanonicalPath() + "/"+dir;
+            OkGo.<File>get(url)
+                    .tag(context)
+                    .execute(new FileCallback(filePath, fileName) {
+                        @Override
+                        public void onSuccess(Response<File> response) {
+                            callBack.onSuccess(response.body().toString());
+                        }
+                    });
+        } else {
+            Toast.makeText(context, "SD卡不存在或者不可读写", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 }

@@ -177,7 +177,7 @@
                     android:id="@+id/viewWoDeDD"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:layout_height="match_parent">
                     <RelativeLayout
                         android:layout_marginLeft="20dp"
@@ -226,7 +226,7 @@
                     android:id="@+id/viewWoDeGX"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:gravity="center_vertical|right"
+                    android:gravity="center"
                     android:layout_height="match_parent">
                     <RelativeLayout
                         android:layout_marginRight="20dp"
@@ -265,7 +265,7 @@
                     android:id="@+id/viewFenXiang"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:layout_height="match_parent">
                     <RelativeLayout
                         android:layout_marginLeft="20dp"
@@ -315,7 +315,7 @@
                     android:id="@+id/viewZhuanRangBaoGao"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:gravity="center_vertical|right"
+                    android:gravity="center"
                     android:layout_height="match_parent">
                     <RelativeLayout
                         android:layout_marginRight="20dp"
@@ -354,7 +354,7 @@
                     android:background="@drawable/layout_selector_white_system_gray"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:layout_height="match_parent">
                     <RelativeLayout
                         android:layout_marginLeft="20dp"
@@ -402,7 +402,7 @@
                     android:visibility="invisible"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:gravity="center_vertical|right"
+                    android:gravity="center"
                     android:layout_height="match_parent">
                     <RelativeLayout
                         android:layout_marginRight="20dp"

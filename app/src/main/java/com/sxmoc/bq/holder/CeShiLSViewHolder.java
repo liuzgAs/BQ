@@ -12,7 +12,6 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.CeShiLSActivity;
 import com.sxmoc.bq.activity.ChanPinXQActivity;
-import com.sxmoc.bq.activity.WebActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.customview.TwoBtnDialog;
@@ -166,11 +165,24 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
                 try {
                     TesterGetreport testerGetreport = GsonUtils.parseJSON(s, TesterGetreport.class);
                     if (testerGetreport.getStatus()==1){
-                        Intent intent = new Intent();
-                        intent.setClass(getContext(), WebActivity.class);
-                        intent.putExtra(Constant.IntentKey.TITLE, data.getName()+"的报告详情");
-                        intent.putExtra(Constant.IntentKey.URL, testerGetreport.getData_url());
-                        getContext().startActivity(intent);
+                        ((CeShiLSActivity) getContext()).showLoadingDialog();
+                        ApiClient.downLoadFile(getContext(), testerGetreport.getData_url(), "大脑雷达", data.getName() + "的详情报告" + System.currentTimeMillis() + ".pdf", new ApiClient.CallBack() {
+                            @Override
+                            public void onSuccess(String s) {
+                                Toast.makeText(getContext(), "文件保存在 "+s+" 目录下", Toast.LENGTH_SHORT).show();
+                                ((CeShiLSActivity) getContext()).cancelLoadingDialog();
+                            }
+
+                            @Override
+                            public void onError() {
+                                ((CeShiLSActivity) getContext()).cancelLoadingDialog();
+                            }
+                        });
+//                        Intent intent = new Intent();
+//                        intent.setClass(getContext(), WebActivity.class);
+//                        intent.putExtra(Constant.IntentKey.TITLE, data.getName()+"的报告详情");
+//                        intent.putExtra(Constant.IntentKey.URL, testerGetreport.getData_url());
+//                        getContext().startActivity(intent);
                     }else if (testerGetreport.getStatus()==3){
                         MyDialog.showReLoginDialog(getContext());
                     }else {

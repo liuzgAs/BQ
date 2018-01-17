@@ -17,6 +17,33 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@mipmap/naoboceyicebg" />
+        <com.sxmoc.bq.customview.SquareLayout
+            android:layout_marginTop="100dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_margin="30dp"
+                android:layout_centerInParent="true"
+                android:id="@+id/imageNaoZi"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/naozi"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <ImageView
+                android:id="@+id/imageNeiQuan"
+                android:layout_margin="10dp"
+                android:src="@mipmap/neiquan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <ImageView
+                android:id="@+id/imageWaiQuan"
+                android:src="@mipmap/waiquan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.sxmoc.bq.customview.SquareLayout>
+
 
         <Button
             android:id="@+id/btnKaiShiJC"

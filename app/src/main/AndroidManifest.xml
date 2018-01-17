@@ -299,7 +299,8 @@
             android:launchMode="singleTop" />
         <activity android:name=".activity.ZhuanRangLLActivity" />
         <activity android:name=".activity.GongXiangHYActivity" />
-        <activity android:name=".activity.DingDanXQActivity"></activity>
+        <activity android:name=".activity.DingDanXQActivity" />
+        <activity android:name=".activity.BaoBaoLBActivity"></activity>
     </application>
 
 </manifest>
