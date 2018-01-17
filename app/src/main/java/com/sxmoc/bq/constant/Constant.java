@@ -246,6 +246,10 @@ public class Constant {
          * 宝宝列表
          */
         public static final String TESTER_GETTESTER = "/tester/getTester";
+        /**
+         * 宝宝信息编辑信息获取
+         */
+        public static final String TESTER_TESTEREDIT = "/tester/testerEdit";
     }
 
     public static class IntentKey {
@@ -296,6 +300,8 @@ public class Constant {
         public static final String USERINFO = "userInfo";
         public static final String address = "address";
         public static final String SHUA_XIN_DD = "shuaXinDD";
+        public static final String KAISHICESHI = "kaiShiCeShi";
+        public static final String XIUGAIBAOBAO = "XiuGaiBaoBao";
     }
 
 

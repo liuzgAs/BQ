@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import com.clj.fastble.BleManager;
 import com.sxmoc.bq.R;
-import com.sxmoc.bq.activity.XinXiTXActivity;
+import com.sxmoc.bq.activity.BaoBaoLBActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.customview.TwoBtnDialog;
@@ -81,8 +81,10 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         imageNeiQuan = mInflate.findViewById(R.id.imageNeiQuan);
         imageWaiQuan = mInflate.findViewById(R.id.imageWaiQuan);
     }
+
     ObjectAnimator animator = new ObjectAnimator();
     ObjectAnimator animator1 = new ObjectAnimator();
+
     @SuppressLint("WrongConstant")
     @Override
     protected void initViews() {
@@ -126,19 +128,30 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
+        if (animator != null) {
+            animator.start();
+        }
+        if (animator1 != null) {
+            animator1.start();
+        }
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
+    public void onPause() {
+        super.onPause();
+        if (animator != null) {
+            animator.end();
+        }
+        if (animator1 != null) {
+            animator1.end();
+        }
     }
 
     private void startTest() {
         Intent intent = new Intent();
-        intent.setClass(getActivity(), XinXiTXActivity.class);
+        intent.setClass(getActivity(), BaoBaoLBActivity.class);
         startActivity(intent);
 //        Intent intent = new Intent();
 //        intent.setClass(getActivity(), NaoBoActivity.class);

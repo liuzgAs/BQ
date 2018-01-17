@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.model.BuyerAddinfo;
 import com.sxmoc.bq.model.OkObject;
+import com.sxmoc.bq.model.TesterTesteredit;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.DateTransforam;
 import com.sxmoc.bq.util.GsonUtils;
@@ -40,6 +42,11 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
     private TextView textGrade;
     private EditText editEmiel;
     private CheckBox checkBox;
+    private int id;
+    String[] strings1 = {"一年级", "二年级", "三年级", "四年级", "五年级", "六年级", "七年级", "八年级", "九年级"};
+    final String[] strings = {"男", "女"};
+    private Button btnKaiShiCeShi;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +62,8 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
 
     @Override
     protected void initIntent() {
-
+        Intent intent = getIntent();
+        id = intent.getIntExtra(Constant.IntentKey.ID, 0);
     }
 
     @Override
@@ -67,11 +75,17 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
         textGrade = (TextView) findViewById(R.id.textGrade);
         editEmiel = (EditText) findViewById(R.id.editEmiel);
         checkBox = (CheckBox) findViewById(R.id.checkBox);
+        btnKaiShiCeShi = (Button) findViewById(R.id.btnKaiShiCeShi);
     }
 
     @Override
     protected void initViews() {
         ((TextView) findViewById(R.id.textViewTitle)).setText("信息填写");
+        if (id==0){
+            btnKaiShiCeShi.setText("开始测试");
+        }else {
+            btnKaiShiCeShi.setText("确认修改");
+        }
     }
 
     @Override
@@ -79,14 +93,65 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
         findViewById(R.id.viewSex).setOnClickListener(this);
         findViewById(R.id.viewBirthday).setOnClickListener(this);
         findViewById(R.id.imageBack).setOnClickListener(this);
-        findViewById(R.id.btnKaiShiCeShi).setOnClickListener(this);
+        btnKaiShiCeShi.setOnClickListener(this);
         findViewById(R.id.viewGrade).setOnClickListener(this);
         findViewById(R.id.textXieYi).setOnClickListener(this);
     }
 
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
+    private OkObject getHuoQuOkObject() {
+        String url = Constant.HOST + Constant.Url.TESTER_TESTEREDIT;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime", tokenTime);
+        }
+        params.put("bid", String.valueOf(id));
+        return new OkObject(params, url);
+    }
+
     @Override
     protected void initData() {
+        if (id != 0) {
+            showLoadingDialog();
+            ApiClient.post(XinXiTXActivity.this, getHuoQuOkObject(), new ApiClient.CallBack() {
+                @Override
+                public void onSuccess(String s) {
+                    cancelLoadingDialog();
+                    LogUtil.LogShitou("XinXiTXActivity--onSuccess", s + "");
+                    try {
+                        TesterTesteredit testerTesteredit = GsonUtils.parseJSON(s, TesterTesteredit.class);
+                        if (testerTesteredit.getStatus() == 1) {
+                            editName.setText(testerTesteredit.getData().getName());
+                            editName.setSelection(testerTesteredit.getData().getName().length());
+                            editSchool.setText(testerTesteredit.getData().getSchool_name());
+                            editEmiel.setText(testerTesteredit.getData().getMailbox());
+                            textGrade.setText(strings1[testerTesteredit.getData().getGrade()]);
+                            grade = testerTesteredit.getData().getGrade();
+                            textBirthday.setText(testerTesteredit.getData().getSchool_name());
+                            textSex.setText(strings[testerTesteredit.getData().getSex()]);
+                            sex = testerTesteredit.getData().getSex();
+                        } else if (testerTesteredit.getStatus() == 3) {
+                            MyDialog.showReLoginDialog(XinXiTXActivity.this);
+                        } else {
+                            Toast.makeText(XinXiTXActivity.this, testerTesteredit.getInfo(), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(XinXiTXActivity.this, "数据出错", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
+                @Override
+                public void onError() {
+                    cancelLoadingDialog();
+                    Toast.makeText(XinXiTXActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override
@@ -97,10 +162,9 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
                 intent.setClass(this, WebActivity.class);
                 intent.putExtra(Constant.IntentKey.TITLE, "产品服务协议");
                 intent.putExtra(Constant.IntentKey.URL, Constant.Url.PRODUCT);
-               startActivity(intent);
+                startActivity(intent);
                 break;
             case R.id.viewSex:
-                final String[] strings = {"男", "女"};
                 new AlertDialog.Builder(this)
                         .setItems(strings, new DialogInterface.OnClickListener() {
                             @Override
@@ -137,10 +201,10 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
                     Toast.makeText(XinXiTXActivity.this, "请输入宝宝年级", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!checkBox.isChecked()) {
-                    Toast.makeText(XinXiTXActivity.this, "请阅读并同意《产品服务协议》", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (!checkBox.isChecked()) {
+//                    Toast.makeText(XinXiTXActivity.this, "请阅读并同意《产品服务协议》", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 tiJiaoXinXi();
                 break;
             case R.id.viewBirthday:
@@ -160,7 +224,6 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
                 datePickerDialog.show();
                 break;
             case R.id.viewGrade:
-                final String[] strings1 = {"一年级", "二年级", "三年级", "四年级", "五年级", "六年级", "七年级", "八年级", "九年级"};
                 new AlertDialog.Builder(this)
                         .setItems(strings1, new DialogInterface.OnClickListener() {
                             @Override
@@ -198,6 +261,9 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
         params.put("grade", grade + "");
         params.put("birthday", birthday);
         params.put("sex", String.valueOf(sex));
+        if (id!=0){
+            params.put("bid", String.valueOf(id));
+        }
         return new OkObject(params, url);
     }
 
@@ -214,11 +280,21 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
                 try {
                     BuyerAddinfo buyerAddinfo = GsonUtils.parseJSON(s, BuyerAddinfo.class);
                     if (buyerAddinfo.getStatus() == 1) {
-                        Intent intent = new Intent();
-                        intent.putExtra(Constant.IntentKey.ID, buyerAddinfo.getBid());
-                        intent.setClass(XinXiTXActivity.this,NaoBoActivity.class);
-                        startActivity(intent);
-                        finish();
+                        if (id==0){
+                            Intent intent1 = new Intent();
+                            intent1.setAction(Constant.BroadcastCode.KAISHICESHI);
+                            sendBroadcast(intent1);
+                            Intent intent = new Intent();
+                            intent.putExtra(Constant.IntentKey.ID, buyerAddinfo.getBid());
+                            intent.setClass(XinXiTXActivity.this, NaoBoActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }else {
+                            Intent intent1 = new Intent();
+                            intent1.setAction(Constant.BroadcastCode.KAISHICESHI);
+                            sendBroadcast(intent1);
+                            finish();
+                        }
                     } else if (buyerAddinfo.getStatus() == 3) {
                         MyDialog.showReLoginDialog(XinXiTXActivity.this);
                     } else {

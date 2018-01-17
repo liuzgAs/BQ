@@ -14,7 +14,13 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         app:layout_empty="@layout/view_empty"
         app:layout_progress="@layout/view_progress"
         app:scrollbarStyle="insideOverlay" />
+
+    <Button
+        android:id="@+id/btnXinZeng"
+        style="@style/bottomBtn"
+        android:text="新增宝宝" />
 </LinearLayout>

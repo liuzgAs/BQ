@@ -14,6 +14,7 @@
         android:id="@+id/textName"
         android:layout_height="wrap_content" />
     <ImageView
+        android:id="@+id/imageSex"
         android:layout_toRightOf="@+id/textName"
         android:src="@mipmap/nan"
         android:layout_width="15dp"
@@ -21,6 +22,7 @@
         android:layout_centerVertical="true"
         android:layout_height="15dp" />
     <TextView
+        android:id="@+id/textTime"
         android:text="2015-12-23"
         android:layout_centerVertical="true"
         android:layout_centerInParent="true"
@@ -29,12 +31,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:id="@+id/textBianJi"
+        android:paddingRight="@dimen/leftAndRight"
         android:layout_width="wrap_content"
         android:textColor="@color/basic_color"
         android:textSize="@dimen/normal_textsize"
         android:text="编辑"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/leftAndRight"
         android:layout_height="wrap_content" />
 </RelativeLayout>
