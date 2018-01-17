@@ -60,6 +60,24 @@ public class ProductQueryhistory {
         private int bid;
         private String create_time;
         private String name;
+        private String filePath;
+        private boolean isDownLoad;
+
+        public String getFilePath() {
+            return filePath;
+        }
+
+        public void setFilePath(String filePath) {
+            this.filePath = filePath;
+        }
+
+        public boolean isDownLoad() {
+            return isDownLoad;
+        }
+
+        public void setDownLoad(boolean downLoad) {
+            isDownLoad = downLoad;
+        }
 
         public int getId() {
             return id;

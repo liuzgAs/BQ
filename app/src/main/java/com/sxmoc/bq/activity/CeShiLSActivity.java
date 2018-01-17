@@ -41,7 +41,15 @@ public class CeShiLSActivity extends ZjbBaseActivity implements View.OnClickList
 
     @Override
     protected void initSP() {
-
+//        MySql mySql = new MySql(this);
+//        SQLiteDatabase sdb = mySql.getWritableDatabase();
+//        Cursor cursor = sdb.query("baogao", new String[]{"id","filepath"}, null, null, null, null, null);
+//        while(cursor.moveToNext()){
+//            int id = cursor.getInt(0);
+//            String filePath = cursor.getString(1);
+//            LogUtil.LogShitou("CeShiLSActivity--initSP", ""+id);
+//            LogUtil.LogShitou("CeShiLSActivity--initSP", ""+filePath);
+//        }
     }
 
     @Override

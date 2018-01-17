@@ -1,6 +1,9 @@
 package com.sxmoc.bq.holder;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +15,21 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.CeShiLSActivity;
 import com.sxmoc.bq.activity.ChanPinXQActivity;
+import com.sxmoc.bq.activity.PdfActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.constant.Constant;
+import com.sxmoc.bq.customview.SingleBtnDialog;
 import com.sxmoc.bq.customview.TwoBtnDialog;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.ProductQueryhistory;
 import com.sxmoc.bq.model.TesterGetreport;
 import com.sxmoc.bq.model.UserBuyerindex;
+import com.sxmoc.bq.sql.MySql;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
 
+import java.io.File;
 import java.util.HashMap;
 
 /**
@@ -34,6 +41,7 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
     private final TextView textName;
     private final TextView textDate;
     private ProductQueryhistory.DataBean data;
+    private final TextView textXiaZai;
 
     public CeShiLSViewHolder(ViewGroup parent, @LayoutRes int res) {
         super(parent, res);
@@ -50,6 +58,7 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
                 }
             }
         });
+        textXiaZai = $(R.id.textXiaZai);
     }
 
     /**
@@ -125,6 +134,7 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
     public void setData(ProductQueryhistory.DataBean data) {
         super.setData(data);
         this.data = data;
+        data.setDownLoad(false);
         if (data.getStatus() == 1) {
             btnCaoZuo.setText("查看报告");
             btnCaoZuo.setBackgroundResource(R.drawable.shape_basic01_1dp_25dp);
@@ -134,6 +144,21 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
         }
         textName.setText(data.getName());
         textDate.setText(data.getCreate_time());
+        MySql mySql = new MySql(getContext());
+        SQLiteDatabase sdb = mySql.getWritableDatabase();
+        Cursor cursor = sdb.query("baogao", new String[]{"id", "filepath"}, "id = "+data.getId(), null, null, null, null);
+        boolean b = cursor.moveToFirst();
+        if (b){
+            String filePath = cursor.getString(1);
+            LogUtil.LogShitou("CeShiLSActivity--initSP", "" + filePath);
+            data.setDownLoad(true);
+            data.setFilePath(filePath);
+        }
+        if (data.isDownLoad()) {
+            textXiaZai.setVisibility(View.VISIBLE);
+        } else {
+            textXiaZai.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -146,9 +171,9 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
         HashMap<String, String> params = new HashMap<>();
         if (((CeShiLSActivity) getContext()).isLogin) {
             params.put("uid", ((CeShiLSActivity) getContext()).userInfo.getUid());
-            params.put("tokenTime",((CeShiLSActivity) getContext()).tokenTime);
+            params.put("tokenTime", ((CeShiLSActivity) getContext()).tokenTime);
         }
-        params.put("bid",String.valueOf(data.getBid()));
+        params.put("bid", String.valueOf(data.getBid()));
         return new OkObject(params, url);
     }
 
@@ -156,21 +181,60 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
      * 查看报告
      */
     private void chaKanBaoGao() {
+        if (data.isDownLoad()) {
+            File file = new File(data.getFilePath());
+            if (file.exists()){
+                Intent intent = new Intent();
+                intent.setClass(getContext(), PdfActivity.class);
+                intent.putExtra(Constant.IntentKey.TITLE, data.getName() + "的检测报告");
+                intent.putExtra(Constant.IntentKey.VALUE, data.getFilePath());
+                getContext().startActivity(intent);
+            }else {
+                SingleBtnDialog singleBtnDialog = new SingleBtnDialog(getContext(), "文件不存在或被移动", "重新下载");
+                singleBtnDialog.show();
+                singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
+                    @Override
+                    public void doWhat() {
+                        upLoad();
+                    }
+                });
+            }
+        } else {
+            upLoad();
+        }
+    }
+
+    /**
+     * 下载
+     */
+    private void upLoad() {
         ((CeShiLSActivity) getContext()).showLoadingDialog();
         ApiClient.post(getContext(), getShengChengOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
                 ((CeShiLSActivity) getContext()).cancelLoadingDialog();
-                LogUtil.LogShitou("CeShiLSViewHolder--onSuccess",s+ "");
+                LogUtil.LogShitou("CeShiLSViewHolder--onSuccess", s + "");
                 try {
-                    TesterGetreport testerGetreport = GsonUtils.parseJSON(s, TesterGetreport.class);
-                    if (testerGetreport.getStatus()==1){
+                    final TesterGetreport testerGetreport = GsonUtils.parseJSON(s, TesterGetreport.class);
+                    if (testerGetreport.getStatus() == 1) {
                         ((CeShiLSActivity) getContext()).showLoadingDialog();
                         ApiClient.downLoadFile(getContext(), testerGetreport.getData_url(), "大脑雷达", data.getName() + "的详情报告" + System.currentTimeMillis() + ".pdf", new ApiClient.CallBack() {
                             @Override
                             public void onSuccess(String s) {
-                                Toast.makeText(getContext(), "文件保存在 "+s+" 目录下", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "文件保存在 " + s + " 目录下", Toast.LENGTH_SHORT).show();
                                 ((CeShiLSActivity) getContext()).cancelLoadingDialog();
+                                MySql mySql = new MySql(getContext());
+                                SQLiteDatabase sdb = mySql.getWritableDatabase();
+                                ContentValues values = new ContentValues();
+                                values.put("id", data.getId());
+                                values.put("filepath", s);
+                                sdb.insert("baogao", null, values);
+                                sdb.close();
+                                Intent intent = new Intent();
+                                intent.setClass(getContext(), PdfActivity.class);
+                                intent.putExtra(Constant.IntentKey.TITLE, data.getName() + "的检测报告");
+                                intent.putExtra(Constant.IntentKey.VALUE, s);
+                                getContext().startActivity(intent);
                             }
 
                             @Override
@@ -183,16 +247,16 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
 //                        intent.putExtra(Constant.IntentKey.TITLE, data.getName()+"的报告详情");
 //                        intent.putExtra(Constant.IntentKey.URL, testerGetreport.getData_url());
 //                        getContext().startActivity(intent);
-                    }else if (testerGetreport.getStatus()==3){
+                    } else if (testerGetreport.getStatus() == 3) {
                         MyDialog.showReLoginDialog(getContext());
-                    }else {
+                    } else {
                         Toast.makeText(getContext(), testerGetreport.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getContext(),"数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
-        
+
             @Override
             public void onError() {
                 ((CeShiLSActivity) getContext()).cancelLoadingDialog();

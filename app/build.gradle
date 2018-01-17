@@ -48,4 +48,5 @@ dependencies {
     compile 'com.github.LuckSiege.PictureSelector:picture_library:v2.1.7'
     compile 'com.contrarywind:Android-PickerView:3.2.6'
     implementation files('libs/ThreadPoolHelp-2.0.jar')
+    compile 'es.voghdev.pdfviewpager:library:1.0.3'
 }

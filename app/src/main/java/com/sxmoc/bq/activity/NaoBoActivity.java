@@ -697,10 +697,10 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                     TesterGetreport testerGetreport = GsonUtils.parseJSON(s, TesterGetreport.class);
                     if (testerGetreport.getStatus()==1){
                         Intent intent = new Intent();
-                        intent.setClass(NaoBoActivity.this, WebActivity.class);
-                        intent.putExtra(Constant.IntentKey.TITLE, "报告详情");
-                        intent.putExtra(Constant.IntentKey.URL, testerGetreport.getData_url());
-                        NaoBoActivity.this.startActivity(intent);
+                        intent.setClass(NaoBoActivity.this, PdfActivity.class);
+                        intent.putExtra(Constant.IntentKey.TITLE,"检测报告详情");
+                        intent.putExtra(Constant.IntentKey.VALUE,s);
+                        startActivity(intent);
                     }else if (testerGetreport.getStatus()==3){
                         MyDialog.showReLoginDialog(NaoBoActivity.this);
                     }else {
