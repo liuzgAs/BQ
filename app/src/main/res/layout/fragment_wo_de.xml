@@ -405,6 +405,7 @@
 
                 </RelativeLayout>
                 <RelativeLayout
+                    android:layout_marginRight="20dp"
                     android:id="@+id/viewYinHangKa"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
