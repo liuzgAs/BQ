@@ -301,7 +301,8 @@
         <activity android:name=".activity.GongXiangHYActivity" />
         <activity android:name=".activity.DingDanXQActivity" />
         <activity android:name=".activity.BaoBaoLBActivity" />
-        <activity android:name=".activity.PdfActivity"></activity>
+        <activity android:name=".activity.PdfActivity" />
+        <activity android:name=".activity.PingJiaGLActivity"></activity>
     </application>
 
 </manifest>

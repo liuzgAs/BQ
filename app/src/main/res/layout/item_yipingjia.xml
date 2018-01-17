@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/layout_selector_white_system_gray"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageImg"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="@dimen/leftAndRight"
+            android:layout_marginTop="15dp" />
+
+        <TextView
+            android:id="@+id/textName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/imageImg"
+            android:text="Winner"
+            android:textColor="@color/light_black"
+            android:textSize="@dimen/bigText" />
+
+        <com.iarcuschin.simpleratingbar.SimpleRatingBar
+            android:id="@+id/ratingbar_pingfeng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/leftAndRight"
+            app:srb_drawBorderEnabled="false"
+            app:srb_fillColor="@color/basic_yellow"
+            app:srb_isIndicator="true"
+            app:srb_numberOfStars="5"
+            app:srb_pressedFillColor="@color/basic_yellow"
+            app:srb_rating="4"
+            app:srb_starBackgroundColor="@color/text_gray"
+            app:srb_starSize="15dp" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/textDes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="57dp"
+        android:text="很先进，价格也很实在"
+        android:textSize="@dimen/normal_textsize" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textDes"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="57dp"
+        android:layout_marginRight="57dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <com.sxmoc.bq.customview.SquareLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imagePic1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_empty" />
+        </com.sxmoc.bq.customview.SquareLayout>
+
+        <TextView
+            android:layout_width="6dp"
+            android:layout_height="match_parent" />
+
+        <com.sxmoc.bq.customview.SquareLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imagePic2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_empty" />
+        </com.sxmoc.bq.customview.SquareLayout>
+
+        <TextView
+            android:id="@+id/textView226"
+            android:layout_width="6dp"
+            android:layout_height="match_parent" />
+
+        <com.sxmoc.bq.customview.SquareLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imagePic3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_empty" />
+        </com.sxmoc.bq.customview.SquareLayout>
+
+        <TextView
+            android:id="@+id/textView227"
+            android:layout_width="6dp"
+            android:layout_height="match_parent" />
+
+        <com.sxmoc.bq.customview.SquareLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imagePic4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_empty" />
+        </com.sxmoc.bq.customview.SquareLayout>
+
+        <TextView
+            android:id="@+id/textView228"
+            android:layout_width="6dp"
+            android:layout_height="match_parent" />
+
+        <com.sxmoc.bq.customview.SquareLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imagePic5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_empty" />
+        </com.sxmoc.bq.customview.SquareLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/viewGood"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/leftAndRight"
+        android:layout_marginRight="@dimen/leftAndRight"
+        android:background="@color/background">
+
+        <ImageView
+            android:id="@+id/imageGood"
+            android:layout_width="86dp"
+            android:layout_height="60dp"
+            android:layout_margin="15dp" />
+
+        <TextView
+            android:id="@+id/textGoodName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imageGood"
+            android:layout_marginTop="2dp"
+            android:layout_toRightOf="@+id/imageGood"
+            android:text="大脑雷达测试仪"
+            android:textSize="@dimen/normal_textsize" />
+
+        <TextView
+            android:id="@+id/textPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageGood"
+            android:layout_marginBottom="2dp"
+            android:layout_toRightOf="@+id/imageGood"
+            android:text="¥2880"
+            android:textColor="@color/basic_color"
+            android:textSize="@dimen/normal_textsize" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="@dimen/leftAndRight"
+        android:text="2018-1-17"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/litterText" />
+</LinearLayout>

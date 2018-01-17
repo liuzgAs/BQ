@@ -49,4 +49,5 @@ dependencies {
     compile 'com.contrarywind:Android-PickerView:3.2.6'
     implementation files('libs/ThreadPoolHelp-2.0.jar')
     compile 'es.voghdev.pdfviewpager:library:1.0.3'
+    compile 'com.iarcuschin:simpleratingbar:0.1.2'
 }

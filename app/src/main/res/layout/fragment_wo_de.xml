@@ -378,6 +378,33 @@
 
                 </RelativeLayout>
                 <RelativeLayout
+                    android:id="@+id/viewPingJiaGL"
+                    android:visibility="visible"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_centerHorizontal="true"
+                            android:src="@mipmap/pingjiaguanli"
+                            android:layout_width="wrap_content"
+                            android:id="@+id/imageMine09"
+                            android:layout_height="@dimen/mine_item_height" />
+                        <TextView
+                            android:textSize="@dimen/litterText"
+                            android:layout_marginTop="10dp"
+                            android:layout_centerHorizontal="true"
+                            android:text="评价管理"
+                            android:layout_below="@+id/imageMine09"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+                <RelativeLayout
                     android:id="@+id/viewYinHangKa"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
@@ -398,33 +425,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>
-                <RelativeLayout
-                    android:visibility="invisible"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:gravity="center"
-                    android:layout_height="match_parent">
-                    <RelativeLayout
-                        android:layout_marginRight="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <ImageView
-                            android:layout_centerHorizontal="true"
-                            android:src="@mipmap/mine06"
-                            android:layout_width="wrap_content"
-                            android:id="@+id/imageMine09"
-                            android:layout_height="@dimen/mine_item_height" />
-                        <TextView
-                            android:textSize="@dimen/litterText"
-                            android:layout_marginTop="10dp"
-                            android:layout_centerHorizontal="true"
-                            android:text="我的共享"
-                            android:layout_below="@+id/imageMine09"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </RelativeLayout>
 
-                </RelativeLayout>
             </LinearLayout>
             <TextView
                 android:layout_width="match_parent"

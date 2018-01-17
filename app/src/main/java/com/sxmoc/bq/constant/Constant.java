@@ -250,6 +250,10 @@ public class Constant {
          * 宝宝信息编辑信息获取
          */
         public static final String TESTER_TESTEREDIT = "/tester/testerEdit";
+        /**
+         * 评价管理
+         */
+        public static final String ORDER_GETEEVA = "/order/getEeva";
     }
 
     public static class IntentKey {
