@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.LayoutRes;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -137,8 +138,10 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
         data.setDownLoad(false);
         if (data.getStatus() == 1) {
             btnCaoZuo.setText("查看报告");
+            btnCaoZuo.setTextColor(ContextCompat.getColor(getContext(),R.color.basic_color));
             btnCaoZuo.setBackgroundResource(R.drawable.shape_basic01_1dp_25dp);
         } else {
+            btnCaoZuo.setTextColor(ContextCompat.getColor(getContext(),R.color.red));
             btnCaoZuo.setText("生成报告");
             btnCaoZuo.setBackgroundResource(R.drawable.shape_red01_1dp_25dp);
         }
@@ -230,6 +233,7 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
                                 values.put("filepath", s);
                                 sdb.insert("baogao", null, values);
                                 sdb.close();
+                                ((CeShiLSActivity)getContext()).onRefresh();
                                 Intent intent = new Intent();
                                 intent.setClass(getContext(), PdfActivity.class);
                                 intent.putExtra(Constant.IntentKey.TITLE, data.getName() + "的检测报告");

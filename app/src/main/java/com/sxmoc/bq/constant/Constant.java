@@ -258,6 +258,10 @@ public class Constant {
          * 评价前请求
          */
         public static final String ORDER_GOTOEEVA = "/order/goToEeva";
+        /**
+         * 订单评价提交
+         */
+        public static final String ORDER_ADDEEVA = "/order/addEeva";
     }
 
     public static class IntentKey {
@@ -298,7 +302,6 @@ public class Constant {
     }
 
     public static class BroadcastCode {
-        public static final String CHE_LIANG_BIAN_JI_DIALOG = "che_liang_bian_ji_dialog";
         public static final String PAY_RECEIVER = "pay_receiver";
         public static final String WX_LOGIN = "wxLogin";
         public static final String WX_SHARE = "wxShare";
@@ -310,6 +313,7 @@ public class Constant {
         public static final String SHUA_XIN_DD = "shuaXinDD";
         public static final String KAISHICESHI = "kaiShiCeShi";
         public static final String XIUGAIBAOBAO = "XiuGaiBaoBao";
+        public static final String SHUA_XIN_PING_JIA = "shua_xin_ping_jia";
     }
 
 

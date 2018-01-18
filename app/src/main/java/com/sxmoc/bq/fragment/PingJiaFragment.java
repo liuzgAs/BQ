@@ -2,6 +2,10 @@ package com.sxmoc.bq.fragment;
 
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -39,6 +43,19 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
     private View mInflate;
     private EasyRecyclerView recyclerView;
     private RecyclerArrayAdapter<OrderGeteeva.DataBean> adapter;
+    private BroadcastReceiver reciver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case Constant.BroadcastCode.SHUA_XIN_PING_JIA:
+                    onRefresh();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     public PingJiaFragment() {
         // Required empty public constructor
@@ -100,7 +117,7 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
             @Override
             public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
                 int layout = R.layout.item_yipingjia;
-                return new PingJiaViewHolder(parent, layout,type);
+                return new PingJiaViewHolder(parent, layout, type);
             }
         });
         adapter.setMore(R.layout.view_more, new RecyclerArrayAdapter.OnMoreListener() {
@@ -109,7 +126,7 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
                 ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
                     @Override
                     public void onSuccess(String s) {
-                        LogUtil.LogShitou("DingDanGLActivity--加载更多", s+"");
+                        LogUtil.LogShitou("DingDanGLActivity--加载更多", s + "");
                         try {
                             page++;
                             OrderGeteeva orderGeteeva = GsonUtils.parseJSON(s, OrderGeteeva.class);
@@ -188,18 +205,18 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
-        params.put("type_id",String.valueOf(type));
-        params.put("p",String.valueOf(page));
+        params.put("type_id", String.valueOf(type));
+        params.put("p", String.valueOf(page));
         return new OkObject(params, url);
     }
-    
-    int page =1;
+
+    int page = 1;
 
     @Override
     public void onRefresh() {
-        page =1;
+        page = 1;
         ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
@@ -211,7 +228,7 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
                         List<OrderGeteeva.DataBean> dataBeanList = orderGeteeva.getData();
                         adapter.clear();
                         adapter.addAll(dataBeanList);
-                    } else if (orderGeteeva.getStatus()== 3) {
+                    } else if (orderGeteeva.getStatus() == 3) {
                         MyDialog.showReLoginDialog(getActivity());
                     } else {
                         showError(orderGeteeva.getInfo());
@@ -225,6 +242,7 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
             public void onError() {
                 showError("网络出错");
             }
+
             /**
              * 错误显示
              * @param msg
@@ -247,5 +265,19 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
                 }
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.BroadcastCode.SHUA_XIN_PING_JIA);
+        getActivity().registerReceiver(reciver, filter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(reciver);
     }
 }
