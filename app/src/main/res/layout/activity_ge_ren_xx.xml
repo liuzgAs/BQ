@@ -167,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="出身年月"
+                android:text="出生年月"
                 android:textSize="@dimen/normal_textsize" />
 
             <ImageView
@@ -201,7 +201,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="地址管理"
+                android:text="收货地址"
                 android:textSize="@dimen/normal_textsize" />
 
             <ImageView

@@ -53,6 +53,10 @@ public class Constant {
          */
         public static final String LOGIN_REGSMS = "/Login/regSms";
         /**
+         * 验证码登录
+         */
+        public static final String LOGIN_SMS = "/Login/sms";
+        /**
          * 用户登录
          */
         public static final String LOGIN_INDEX = "/Login/index";
