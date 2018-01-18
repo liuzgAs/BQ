@@ -8,9 +8,9 @@
         android:id="@+id/textName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="35dp"
         android:layout_marginLeft="@dimen/leftAndRight"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="35dp"
         android:text="李大伟"
         android:textColor="@color/light_black"
         android:textSize="@dimen/normal_textsize" />
@@ -40,17 +40,35 @@
         android:text="2017.11.11"
         android:textColor="@color/light_black"
         android:textSize="@dimen/normal_textsize" />
-
-    <Button
-        android:id="@+id/btnCaoZuo"
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:layout_alignParentRight="true"
+    <LinearLayout
         android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/leftAndRight"
-        android:background="@drawable/shape_basic01_1dp_25dp"
-        android:text="查看报告"
-        android:textColor="@color/basic_color"
-        android:textSize="@dimen/litterText" />
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btnCaoZuo"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/leftAndRight"
+            android:background="@drawable/shape_basic01_1dp_25dp"
+            android:text="查看报告"
+            android:textColor="@color/basic_color"
+            android:textSize="@dimen/litterText" />
+        <Button
+            android:layout_marginTop="5dp"
+            android:id="@+id/btnFuZhi"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/leftAndRight"
+            android:background="@drawable/shape_basic01_1dp_25dp"
+            android:text="复制地址"
+            android:textColor="@color/basic_color"
+            android:textSize="@dimen/litterText" />
+    </LinearLayout>
 
 </RelativeLayout>

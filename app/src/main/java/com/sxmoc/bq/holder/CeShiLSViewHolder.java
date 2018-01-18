@@ -1,6 +1,8 @@
 package com.sxmoc.bq.holder;
 
+import android.content.ClipboardManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -43,6 +45,7 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
     private final TextView textDate;
     private ProductQueryhistory.DataBean data;
     private final TextView textXiaZai;
+    private final Button btnFuZhi;
 
     public CeShiLSViewHolder(ViewGroup parent, @LayoutRes int res) {
         super(parent, res);
@@ -59,7 +62,14 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
                 }
             }
         });
+        btnFuZhi = $(R.id.btnFuZhi);
         textXiaZai = $(R.id.textXiaZai);
+        btnFuZhi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                upLoad(true);
+            }
+        });
     }
 
     /**
@@ -137,10 +147,12 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
         this.data = data;
         data.setDownLoad(false);
         if (data.getStatus() == 1) {
+            btnFuZhi.setVisibility(View.VISIBLE);
             btnCaoZuo.setText("查看报告");
             btnCaoZuo.setTextColor(ContextCompat.getColor(getContext(),R.color.basic_color));
             btnCaoZuo.setBackgroundResource(R.drawable.shape_basic01_1dp_25dp);
         } else {
+            btnFuZhi.setVisibility(View.GONE);
             btnCaoZuo.setTextColor(ContextCompat.getColor(getContext(),R.color.red));
             btnCaoZuo.setText("生成报告");
             btnCaoZuo.setBackgroundResource(R.drawable.shape_red01_1dp_25dp);
@@ -198,19 +210,19 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
                 singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
                     @Override
                     public void doWhat() {
-                        upLoad();
+                        upLoad(false);
                     }
                 });
             }
         } else {
-            upLoad();
+            upLoad(false);
         }
     }
 
     /**
      * 下载
      */
-    private void upLoad() {
+    private void upLoad(final boolean fuzhi) {
         ((CeShiLSActivity) getContext()).showLoadingDialog();
         ApiClient.post(getContext(), getShengChengOkObject(), new ApiClient.CallBack() {
             @Override
@@ -220,37 +232,38 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
                 try {
                     final TesterGetreport testerGetreport = GsonUtils.parseJSON(s, TesterGetreport.class);
                     if (testerGetreport.getStatus() == 1) {
-                        ((CeShiLSActivity) getContext()).showLoadingDialog();
-                        ApiClient.downLoadFile(getContext(), testerGetreport.getData_url(), "大脑雷达", data.getName() + "的详情报告" + System.currentTimeMillis() + ".pdf", new ApiClient.CallBack() {
-                            @Override
-                            public void onSuccess(String s) {
-                                Toast.makeText(getContext(), "文件保存在 " + s + " 目录下", Toast.LENGTH_SHORT).show();
-                                ((CeShiLSActivity) getContext()).cancelLoadingDialog();
-                                MySql mySql = new MySql(getContext());
-                                SQLiteDatabase sdb = mySql.getWritableDatabase();
-                                ContentValues values = new ContentValues();
-                                values.put("id", data.getId());
-                                values.put("filepath", s);
-                                sdb.insert("baogao", null, values);
-                                sdb.close();
-                                ((CeShiLSActivity)getContext()).onRefresh();
-                                Intent intent = new Intent();
-                                intent.setClass(getContext(), PdfActivity.class);
-                                intent.putExtra(Constant.IntentKey.TITLE, data.getName() + "的检测报告");
-                                intent.putExtra(Constant.IntentKey.VALUE, s);
-                                getContext().startActivity(intent);
-                            }
+                        if (fuzhi){
+                            ClipboardManager cmb = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                            cmb.setText(testerGetreport.getData_url());
+                            MyDialog.showTipDialog(getContext(),"已复制到剪切版");
+                        }else {
+                            ((CeShiLSActivity) getContext()).showLoadingDialog();
+                            ApiClient.downLoadFile(getContext(), testerGetreport.getData_url(), "大脑雷达", data.getName() + "的详情报告" + System.currentTimeMillis() + ".pdf", new ApiClient.CallBack() {
+                                @Override
+                                public void onSuccess(String s) {
+                                    Toast.makeText(getContext(), "文件保存在 " + s + " 目录下", Toast.LENGTH_SHORT).show();
+                                    ((CeShiLSActivity) getContext()).cancelLoadingDialog();
+                                    MySql mySql = new MySql(getContext());
+                                    SQLiteDatabase sdb = mySql.getWritableDatabase();
+                                    ContentValues values = new ContentValues();
+                                    values.put("id", data.getId());
+                                    values.put("filepath", s);
+                                    sdb.insert("baogao", null, values);
+                                    sdb.close();
+                                    ((CeShiLSActivity)getContext()).onRefresh();
+                                    Intent intent = new Intent();
+                                    intent.setClass(getContext(), PdfActivity.class);
+                                    intent.putExtra(Constant.IntentKey.TITLE, data.getName() + "的检测报告");
+                                    intent.putExtra(Constant.IntentKey.VALUE, s);
+                                    getContext().startActivity(intent);
+                                }
 
-                            @Override
-                            public void onError() {
-                                ((CeShiLSActivity) getContext()).cancelLoadingDialog();
-                            }
-                        });
-//                        Intent intent = new Intent();
-//                        intent.setClass(getContext(), WebActivity.class);
-//                        intent.putExtra(Constant.IntentKey.TITLE, data.getName()+"的报告详情");
-//                        intent.putExtra(Constant.IntentKey.URL, testerGetreport.getData_url());
-//                        getContext().startActivity(intent);
+                                @Override
+                                public void onError() {
+                                    ((CeShiLSActivity) getContext()).cancelLoadingDialog();
+                                }
+                            });
+                        }
                     } else if (testerGetreport.getStatus() == 3) {
                         MyDialog.showReLoginDialog(getContext());
                     } else {
