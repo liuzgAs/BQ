@@ -358,7 +358,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
             case R.id.viewShiYEHHR:
                 final String[] strings = new String[userApplybefore.getGrade().size()];
                 for (int i = 0; i < userApplybefore.getGrade().size(); i++) {
-                    strings[i] = userApplybefore.getGrade().get(i).getName() + "(¥" + userApplybefore.getGrade().get(i).getMoney() + ")";
+                    strings[i] = userApplybefore.getGrade().get(i).getName()  + userApplybefore.getGrade().get(i).getMoney() + ")";
                 }
                 new AlertDialog.Builder(getActivity())
                         .setItems(strings, new DialogInterface.OnClickListener() {
