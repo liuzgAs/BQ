@@ -17,9 +17,9 @@ import android.widget.Toast;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.CeShiLSActivity;
 import com.sxmoc.bq.activity.ChanPinXQActivity;
+import com.sxmoc.bq.activity.ChangJianWenTiActivity;
 import com.sxmoc.bq.activity.GeRenXXActivity;
 import com.sxmoc.bq.activity.GongGaoActivity;
-import com.sxmoc.bq.activity.GuanLiYHKActivity;
 import com.sxmoc.bq.activity.HeHuoRenActivity;
 import com.sxmoc.bq.activity.PingJiaGLActivity;
 import com.sxmoc.bq.activity.SheZhiActivity;
@@ -198,7 +198,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.viewYinHangKa:
-                intent.setClass(getActivity(), GuanLiYHKActivity.class);
+                intent.setClass(getActivity(), ChangJianWenTiActivity.class);
                 startActivity(intent);
                 break;
             case R.id.viewWoDeGX:

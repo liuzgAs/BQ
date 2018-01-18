@@ -87,6 +87,7 @@ public class GeRenXXActivity extends ZjbBaseActivity implements View.OnClickList
         findViewById(R.id.viewSex).setOnClickListener(this);
         findViewById(R.id.viewBirthday).setOnClickListener(this);
         findViewById(R.id.viewAddress).setOnClickListener(this);
+        findViewById(R.id.viewCard).setOnClickListener(this);
     }
 
     /**
@@ -306,9 +307,13 @@ public class GeRenXXActivity extends ZjbBaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
+            case R.id.viewCard:
+                intent.setClass(GeRenXXActivity.this, GuanLiYHKActivity.class);
+                startActivity(intent);
+                break;
             case R.id.viewAddress:
-                Intent intent = new Intent();
                 intent.setClass(this, DiZhiGLActivity.class);
                 startActivity(intent);
                 break;

@@ -201,26 +201,31 @@
 
                 </RelativeLayout>
                 <RelativeLayout
-                    android:background="@drawable/layout_selector_white_system_gray"
-                    android:id="@+id/viewWoDeSY"
+                    android:id="@+id/viewPingJiaGL"
+                    android:visibility="visible"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:gravity="center"
                     android:layout_height="match_parent">
-                    <ImageView
-                        android:layout_centerHorizontal="true"
-                        android:src="@mipmap/mine02"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:id="@+id/imageMine02"
-                        android:layout_height="@dimen/mine_item_height" />
-                    <TextView
-                        android:textSize="@dimen/litterText"
-                        android:layout_marginTop="10dp"
-                        android:layout_centerHorizontal="true"
-                        android:text="我的收益"
-                        android:layout_below="@+id/imageMine02"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_centerHorizontal="true"
+                            android:src="@mipmap/pingjiaguanli"
+                            android:layout_width="wrap_content"
+                            android:id="@+id/imageMine09"
+                            android:layout_height="@dimen/mine_item_height" />
+                        <TextView
+                            android:textSize="@dimen/litterText"
+                            android:layout_marginTop="10dp"
+                            android:layout_centerHorizontal="true"
+                            android:text="评价管理"
+                            android:layout_below="@+id/imageMine09"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/viewWoDeGX"
@@ -311,32 +316,27 @@
                         android:layout_height="wrap_content" />
                 </RelativeLayout>
                 <RelativeLayout
+                    android:layout_marginRight="20dp"
                     android:background="@drawable/layout_selector_white_system_gray"
-                    android:id="@+id/viewZhuanRangBaoGao"
+                    android:id="@+id/viewWoDeSY"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:gravity="center"
                     android:layout_height="match_parent">
-                    <RelativeLayout
-                        android:layout_marginRight="20dp"
+                    <ImageView
+                        android:layout_centerHorizontal="true"
+                        android:src="@mipmap/mine02"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <ImageView
-                            android:layout_centerHorizontal="true"
-                            android:src="@mipmap/mine06"
-                            android:layout_width="wrap_content"
-                            android:id="@+id/imageMine06"
-                            android:layout_height="@dimen/mine_item_height" />
-                        <TextView
-                            android:textSize="@dimen/litterText"
-                            android:layout_marginTop="10dp"
-                            android:layout_centerHorizontal="true"
-                            android:text="转让报告"
-                            android:layout_below="@+id/imageMine06"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </RelativeLayout>
-
+                        android:id="@+id/imageMine02"
+                        android:layout_height="@dimen/mine_item_height" />
+                    <TextView
+                        android:textSize="@dimen/litterText"
+                        android:layout_marginTop="10dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="我的收益"
+                        android:layout_below="@+id/imageMine02"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
                 </RelativeLayout>
             </LinearLayout>
             <TextView
@@ -378,8 +378,8 @@
 
                 </RelativeLayout>
                 <RelativeLayout
-                    android:id="@+id/viewPingJiaGL"
-                    android:visibility="visible"
+                    android:background="@drawable/layout_selector_white_system_gray"
+                    android:id="@+id/viewZhuanRangBaoGao"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:gravity="center"
@@ -389,22 +389,24 @@
                         android:layout_height="wrap_content">
                         <ImageView
                             android:layout_centerHorizontal="true"
-                            android:src="@mipmap/pingjiaguanli"
+                            android:src="@mipmap/mine06"
                             android:layout_width="wrap_content"
-                            android:id="@+id/imageMine09"
+                            android:id="@+id/imageMine06"
                             android:layout_height="@dimen/mine_item_height" />
                         <TextView
                             android:textSize="@dimen/litterText"
                             android:layout_marginTop="10dp"
                             android:layout_centerHorizontal="true"
-                            android:text="评价管理"
-                            android:layout_below="@+id/imageMine09"
+                            android:text="转让报告"
+                            android:layout_below="@+id/imageMine06"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
 
                 </RelativeLayout>
+
                 <RelativeLayout
+                    android:background="@drawable/layout_selector_white_system_gray"
                     android:layout_marginRight="20dp"
                     android:id="@+id/viewYinHangKa"
                     android:layout_weight="1"
@@ -413,7 +415,7 @@
                     android:layout_height="match_parent">
                     <ImageView
                         android:layout_centerHorizontal="true"
-                        android:src="@mipmap/mine08"
+                        android:src="@mipmap/changjianwenti"
                         android:layout_width="wrap_content"
                         android:id="@+id/imageMine08"
                         android:layout_height="@dimen/mine_item_height" />
@@ -421,7 +423,7 @@
                         android:textSize="@dimen/litterText"
                         android:layout_marginTop="10dp"
                         android:layout_centerHorizontal="true"
-                        android:text="管理银行卡"
+                        android:text="常见问题"
                         android:layout_below="@+id/imageMine08"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
