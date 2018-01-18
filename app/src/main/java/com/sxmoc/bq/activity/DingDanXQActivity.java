@@ -260,6 +260,15 @@ public class DingDanXQActivity extends ZjbBaseActivity implements View.OnClickLi
                                 btn01.setVisibility(View.GONE);
                                 btn02.setVisibility(View.VISIBLE);
                                 btn02.setText("立即评价");
+                                btn02.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent = new Intent();
+                                        intent.setClass(DingDanXQActivity.this, PingJiaActivity.class);
+                                        intent.putExtra(Constant.IntentKey.ID,id);
+                                        startActivity(intent);
+                                    }
+                                });
                                 break;
                             default:
 

@@ -17,6 +17,7 @@ import com.jude.easyrecyclerview.decoration.DividerDecoration;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.DingDanXQActivity;
 import com.sxmoc.bq.activity.LiJiZFActivity;
+import com.sxmoc.bq.activity.PingJiaActivity;
 import com.sxmoc.bq.activity.WebActivity;
 import com.sxmoc.bq.activity.WoDeDDActivity;
 import com.sxmoc.bq.base.MyDialog;
@@ -160,6 +161,15 @@ public class DDViewHolder extends BaseViewHolder<Order.DataBean> {
                 textCancle.setVisibility(View.GONE);
                 btnPingJia.setVisibility(View.VISIBLE);
                 btnPingJia.setText("立即评价");
+                btnPingJia.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setClass(getContext(), PingJiaActivity.class);
+                        intent.putExtra(Constant.IntentKey.ID,data.getId());
+                        getContext().startActivity(intent);
+                    }
+                });
                 break;
             default:
 

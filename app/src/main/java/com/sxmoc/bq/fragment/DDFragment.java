@@ -54,6 +54,9 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
                 case Constant.BroadcastCode.SHUA_XIN_DD:
                     onRefresh();
                     break;
+                case Constant.BroadcastCode.SHUA_XIN_PING_JIA:
+                    onRefresh();
+                    break;
                 default:
                     break;
             }
@@ -275,6 +278,7 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
         super.onStart();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constant.BroadcastCode.SHUA_XIN_DD);
+        filter.addAction(Constant.BroadcastCode.SHUA_XIN_PING_JIA);
         getActivity().registerReceiver(reciver, filter);
     }
 
