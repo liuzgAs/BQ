@@ -144,6 +144,10 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnLiJiTX:
+                if (Double.parseDouble(editJinE.getText().toString().trim())==0){
+                    Toast.makeText(TiXianActivity.this, "提现金额必须大于0", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 chooseBank();
                 break;
             case R.id.imageBack:
