@@ -15,9 +15,9 @@
             android:layout_below="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="数据空空如也！"
+            android:text="没有数据"
             android:layout_marginTop="35dp"
-            android:textSize="18dp"
+            android:textSize="@dimen/normal_textsize"
             android:textColor="@color/light_black"
             android:id="@+id/textTitle"
             android:layout_centerHorizontal="true" />

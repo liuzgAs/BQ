@@ -180,8 +180,13 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constant.RequestResultCode.address && resultCode == Constant.RequestResultCode.address) {
             UserAddress.DataBean dataBean = (UserAddress.DataBean) data.getSerializableExtra(Constant.IntentKey.VALUE);
+            if (orderCreateorder==null){
+                orderCreateorder= new OrderCreateorder();
+            }
             orderCreateorder.setIs_deddr(1);
             orderCreateorder.setAddress(dataBean.getArea()+"-"+dataBean.getAddress());
+            orderCreateorder.setConsignee(dataBean.getConsignee());
+            orderCreateorder.setPhone(dataBean.getPhone());
             adapter.notifyDataSetChanged();
         }
     }
