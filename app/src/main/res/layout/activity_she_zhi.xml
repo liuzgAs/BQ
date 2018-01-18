@@ -62,7 +62,7 @@
 
                 <TextView
                     android:layout_marginLeft="10dp"
-                    android:textSize="@dimen/bigText"
+                    android:textSize="@dimen/normal_textsize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="修改密码"
@@ -91,7 +91,7 @@
 
                 <TextView
                     android:layout_marginLeft="10dp"
-                    android:textSize="@dimen/bigText"
+                    android:textSize="@dimen/normal_textsize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="清理缓存"
@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="542M"
-                    android:textSize="@dimen/bigText"
+                    android:textSize="@dimen/normal_textsize"
                     android:textColor="@color/text_gray"
                     android:layout_marginRight="10dp"
                     android:id="@+id/textHuanCun"
@@ -132,7 +132,7 @@
 
                 <TextView
                     android:layout_marginLeft="10dp"
-                    android:textSize="@dimen/bigText"
+                    android:textSize="@dimen/normal_textsize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="意见反馈"
@@ -161,7 +161,7 @@
 
                 <TextView
                     android:layout_marginLeft="10dp"
-                    android:textSize="@dimen/bigText"
+                    android:textSize="@dimen/normal_textsize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="关于我们"
@@ -190,7 +190,7 @@
 
                 <TextView
                     android:layout_marginLeft="10dp"
-                    android:textSize="@dimen/bigText"
+                    android:textSize="@dimen/normal_textsize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="常见问题"

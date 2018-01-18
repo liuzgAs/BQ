@@ -121,7 +121,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_below="@+id/textBlance"
                                 android:layout_marginLeft="20dp"
-                                android:text="余额/元"
+                                android:text="余额"
                                 android:layout_height="wrap_content" />
                         </RelativeLayout>
                         <RelativeLayout

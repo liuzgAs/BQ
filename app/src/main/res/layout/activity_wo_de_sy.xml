@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/textShouYi"
             android:layout_centerHorizontal="true"
-            android:text="累计收益"
+            android:text="余额"
             android:textSize="@dimen/normal_textsize" />
 
         <Button
