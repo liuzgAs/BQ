@@ -364,7 +364,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                         .setItems(strings, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                textBaoZhengJin.setText("¥" + userApplybefore.getGrade().get(i).getMoney());
+                                textBaoZhengJin.setText(userApplybefore.getGrade().get(i).getMoney());
                                 textShiYeHHR.setText(userApplybefore.getGrade().get(i).getName());
                                 textCHanPin.setText(userApplybefore.getGrade().get(i).getDes());
                                 grade = userApplybefore.getGrade().get(i).getValue();

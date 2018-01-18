@@ -29,6 +29,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     private View mInflate;
     private ImageView imageNeiQuan;
     private ImageView imageWaiQuan;
+    private boolean isZhuYi = true;
 
 
     public CeYiCeFragment() {
@@ -104,16 +105,24 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.imageNotify:
-                Intent intent = new Intent();
                 intent.setClass(getActivity(), WebActivity.class);
                 intent.putExtra(Constant.IntentKey.TITLE, "注意事项");
                 intent.putExtra(Constant.IntentKey.URL, Constant.Url.PRECAUTIONS);
                 startActivity(intent);
                 break;
             case R.id.btnKaiShiJC:
-                startTest();
+                if (isZhuYi){
+                    intent.setClass(getActivity(), WebActivity.class);
+                    intent.putExtra(Constant.IntentKey.TITLE, "注意事项");
+                    intent.putExtra(Constant.IntentKey.URL, Constant.Url.PRECAUTIONS);
+                    startActivity(intent);
+                    isZhuYi=false;
+                }else {
+                    startTest();
+                }
                 break;
             default:
                 break;
