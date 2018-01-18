@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,16 +25,20 @@ import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.jude.easyrecyclerview.decoration.DividerDecoration;
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.adapter.TagAdapter01;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
+import com.sxmoc.bq.customview.FlowTagLayout;
 import com.sxmoc.bq.holder.BannerHolderView;
 import com.sxmoc.bq.holder.ChanPinDesViewHolder;
+import com.sxmoc.bq.holder.ChanPinPJViewHolder;
+import com.sxmoc.bq.model.EvaluateBean;
 import com.sxmoc.bq.model.GoodsInfo;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.util.ApiClient;
-import com.sxmoc.bq.util.DpUtils;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
 import com.sxmoc.bq.util.RecycleViewDistancaUtil;
@@ -68,6 +73,9 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
         }
     };
     private GoodsInfo goodsInfo;
+    private List<String> goodsInfoFlag;
+    private List<EvaluateBean> evaluateBeanList;
+    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,16 +184,73 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
             }
         });
         adapter.addFooter(new RecyclerArrayAdapter.ItemView() {
+
+            private TextView textCount;
+            private RecyclerArrayAdapter<EvaluateBean> adapterFoot;
+            private EasyRecyclerView recyclerViewFoot;
+            private TagAdapter01 tagAdapter;
+            private FlowTagLayout flowTagLayout;
+
             @Override
             public View onCreateView(ViewGroup parent) {
-                View view = new View(ChanPinXQActivity.this);
-                view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,(int) DpUtils.convertDpToPixel(10,ChanPinXQActivity.this)));
+                View view = LayoutInflater.from(ChanPinXQActivity.this).inflate(R.layout.footer_chenpin, null);
+                flowTagLayout = view.findViewById(R.id.flowTagLayout);
+                flowTagLayout.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_NONE);
+                recyclerViewFoot = view.findViewById(R.id.recyclerView);
+                initRecyclerFoot();
+                view.findViewById(R.id.viewQuanBuPingJia).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.setClass(ChanPinXQActivity.this,QuanBuPingJiaActivity.class);
+                        intent.putExtra(Constant.IntentKey.ID,id);
+                        startActivity(intent);
+                    }
+                });
+                textCount = view.findViewById(R.id.textCount);
                 return view;
+            }
+
+            /**
+             * 初始化recyclerview
+             */
+            private void initRecyclerFoot() {
+                recyclerViewFoot.setLayoutManager(new LinearLayoutManager(ChanPinXQActivity.this));
+                DividerDecoration itemDecoration = new DividerDecoration(Color.TRANSPARENT, (int) getResources().getDimension(R.dimen.line_width), 0, 0);
+                itemDecoration.setDrawLastItem(false);
+                recyclerViewFoot.addItemDecoration(itemDecoration);
+                recyclerViewFoot.setRefreshingColorResources(R.color.basic_color);
+                recyclerViewFoot.setAdapterWithProgress(adapterFoot = new RecyclerArrayAdapter<EvaluateBean>(ChanPinXQActivity.this) {
+                    @Override
+                    public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
+                        int layout = R.layout.item_chanpin_pingjia;
+                        return new ChanPinPJViewHolder(parent, layout);
+                    }
+                });
             }
 
             @Override
             public void onBindView(View headerView) {
-
+                if (goodsInfoFlag!=null){
+                    if (goodsInfoFlag.size()>0){
+                        tagAdapter = new TagAdapter01(ChanPinXQActivity.this);
+                        flowTagLayout.setAdapter(tagAdapter);
+                        tagAdapter.clearAndAddAll(goodsInfoFlag);
+                        flowTagLayout.setVisibility(View.VISIBLE);
+                    }else {
+                        flowTagLayout.setVisibility(View.GONE);
+                    }
+                }
+                if (evaluateBeanList!=null){
+                    if (evaluateBeanList.size()>0){
+                        recyclerViewFoot.setVisibility(View.VISIBLE);
+                        adapterFoot.clear();
+                        adapterFoot.addAll(evaluateBeanList);
+                    }else {
+                        recyclerViewFoot.setVisibility(View.GONE);
+                    }
+                }
+                textCount.setText("共"+count+"条");
             }
         });
         recyclerView.setRefreshListener(this);
@@ -271,6 +336,9 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
                         List<GoodsInfo.DesListBean> desList = goodsInfo.getDesList();
                         adapter.clear();
                         adapter.addAll(desList);
+                        goodsInfoFlag = goodsInfo.getFlag();
+                        evaluateBeanList = goodsInfo.getEvaluate();
+                        count = goodsInfo.getCount();
                         textReserve.setVisibility(View.VISIBLE);
                     } else if (goodsInfo.getStatus()== 3) {
                         MyDialog.showReLoginDialog(ChanPinXQActivity.this);

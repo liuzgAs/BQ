@@ -14,11 +14,11 @@ public class Constant {
     /**
      * 微信appid
      */
-    public static String WXAPPID = "wxfef0031f5d8f3ed0";
+    public static String WXAPPID = "wx0c219330fd1923b5";
     /**
      * 微信scrent
      */
-    public static String WXSCRENT = "02d7e0ca570f95630b552bd055fdd14a";
+    public static String WXSCRENT = "61ed0014ed96075598406bc7b74cf36e";
     /**
      * qq
      */
@@ -30,6 +30,8 @@ public class Constant {
         public static final String USER =WEB_HOST+"/Article/info/type/user";
         public static final String PRODUCT =WEB_HOST+"/Article/info/type/product";
         public static final String PARTNER =WEB_HOST+"/Article/info/type/partner";
+        public static final String PARTNERDES =WEB_HOST+"/Article/info/type/partnerDes";
+        public static final String PRECAUTIONS =WEB_HOST+"/Article/info/type/precautions";
         /**
          * 升级
          */
@@ -262,6 +264,10 @@ public class Constant {
          * 订单评价提交
          */
         public static final String ORDER_ADDEEVA = "/order/addEeva";
+        /**
+         * 更多评价
+         */
+        public static final String GOODS_EVALUATEMORE = "/goods/evaluateMore";
     }
 
     public static class IntentKey {

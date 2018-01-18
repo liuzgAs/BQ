@@ -2,6 +2,7 @@ package com.sxmoc.bq.holder;
 
 import android.content.Intent;
 import android.support.annotation.LayoutRes;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -97,15 +98,20 @@ public class PingJiaViewHolder extends BaseViewHolder<OrderGeteeva.DataBean> {
         textName.setText(data.getName());
         textDes.setText(data.getContent());
         ratingbar_pingfeng.setRating(data.getStar());
-        for (int i = 0; i < imgIdArr.length; i++) {
-            imageViews[i].setVisibility(View.GONE);
+        if (TextUtils.isEmpty(data.getImg())){
+            viewImgs.setVisibility(View.GONE);
+        }else {
+            viewImgs.setVisibility(View.VISIBLE);
+            for (int i = 0; i < imgIdArr.length; i++) {
+                imageViews[i].setVisibility(View.GONE);
+            }
+            imageViews[0].setVisibility(View.VISIBLE);
+            GlideApp.with(getContext())
+                    .asBitmap()
+                    .load(data.getImg())
+                    .placeholder(R.mipmap.ic_empty)
+                    .into(imageViews[0]);
         }
-        imageViews[0].setVisibility(View.VISIBLE);
-        GlideApp.with(getContext())
-                .asBitmap()
-                .load(data.getImg())
-                .placeholder(R.mipmap.ic_empty)
-                .into(imageViews[0]);
         List<OrderGeteeva.DataBean.GoodsBean> goodsBeanList = data.getGoods();
         if (goodsBeanList.size() > 0) {
             viewGood.setVisibility(View.VISIBLE);

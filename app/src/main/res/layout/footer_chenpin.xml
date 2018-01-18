@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_marginTop="@dimen/top"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textTitle"
+        style="@style/detail_text"
+        android:text="用户评价" />
+
+    <com.sxmoc.bq.customview.FlowTagLayout
+        android:id="@+id/flowTagLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="@dimen/leftAndRight"
+        android:layout_marginRight="@dimen/leftAndRight" />
+    <com.jude.easyrecyclerview.EasyRecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_empty="@layout/view_empty"
+            app:layout_progress="@layout/view_progress"
+            app:scrollbarStyle="insideOverlay"
+            />
+    <TextView
+        android:background="@color/background"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <RelativeLayout
+        android:id="@+id/viewQuanBuPingJia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginLeft="@dimen/leftAndRight"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:text="查看全部评价"
+            android:textSize="@dimen/normal_textsize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textCount"
+            android:text="共1009条"
+            android:textSize="@dimen/normal_textsize"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/leftAndRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</LinearLayout>

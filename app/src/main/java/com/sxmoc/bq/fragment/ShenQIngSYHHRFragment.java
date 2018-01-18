@@ -56,7 +56,6 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
     private TextView textShiYeHHR;
     private TextView textCHanPin;
     private TextView textAddress;
-    private String cityBeanName;
     private EditText editRealName;
     private EditText editPhone;
     private EditText editCard;
@@ -270,8 +269,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constant.RequestResultCode.CITY && resultCode == Constant.RequestResultCode.CITY) {
             IndexCitylist.CityEntity.ListEntity cityBean = (IndexCitylist.CityEntity.ListEntity) data.getSerializableExtra(Constant.IntentKey.BEAN);
-            cityBeanName = cityBean.getName();
-            textAddress.setText(cityBeanName);
+            textAddress.setText(cityBean.getName());
         }
     }
 
@@ -307,7 +305,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                     Toast.makeText(getActivity(), "请输入正确的身份证号", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(cityBeanName)) {
+                if (TextUtils.isEmpty(textAddress.getText().toString().trim())) {
                     Toast.makeText(getActivity(), "请选择寄货城市", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -400,7 +398,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
         params.put("address", textAddressDetail.getText().toString().trim());
         params.put("did", did);
         params.put("grade", grade + "");
-        params.put("area", cityBeanName + "");
+        params.put("area", textAddress.getText().toString().trim());
         return new OkObject(params, url);
     }
 

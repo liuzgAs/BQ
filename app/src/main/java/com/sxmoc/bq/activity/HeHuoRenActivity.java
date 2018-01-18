@@ -26,6 +26,7 @@ public class HeHuoRenActivity extends ZjbBaseActivity implements View.OnClickLis
     public ViewPager viewPager;
     List<String> list = new ArrayList<>();
     private UserApplybefore userApplybefore;
+    private TextView textViewRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +50,12 @@ public class HeHuoRenActivity extends ZjbBaseActivity implements View.OnClickLis
     protected void findID() {
         tablayout = (TabLayout) findViewById(R.id.tablayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
+        textViewRight = (TextView) findViewById(R.id.textViewRight);
     }
 
     @Override
     protected void initViews() {
+        textViewRight.setText("合伙人规则");
         ((TextView) findViewById(R.id.textViewTitle)).setText("事业合伙人");
         list.add("申请事业合伙人");
         list.add("升级事业合伙人");
@@ -74,6 +77,7 @@ public class HeHuoRenActivity extends ZjbBaseActivity implements View.OnClickLis
     @Override
     protected void setListeners() {
         findViewById(R.id.imageBack).setOnClickListener(this);
+        textViewRight.setOnClickListener(this);
     }
 
     @Override
@@ -86,6 +90,13 @@ public class HeHuoRenActivity extends ZjbBaseActivity implements View.OnClickLis
         switch (view.getId()) {
             case R.id.imageBack:
                 finish();
+                break;
+            case R.id.textViewRight:
+                Intent intent = new Intent();
+                intent.setClass(this, WebActivity.class);
+                intent.putExtra(Constant.IntentKey.TITLE, "合伙人规则");
+                intent.putExtra(Constant.IntentKey.URL, Constant.Url.PARTNERDES);
+                startActivity(intent);
                 break;
             default:
 
