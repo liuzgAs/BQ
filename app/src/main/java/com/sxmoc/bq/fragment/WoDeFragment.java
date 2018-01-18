@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.activity.BaoGaoMxActivity;
 import com.sxmoc.bq.activity.CeShiLSActivity;
 import com.sxmoc.bq.activity.ChanPinXQActivity;
 import com.sxmoc.bq.activity.ChangJianWenTiActivity;
@@ -153,6 +154,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         mInflate.findViewById(R.id.viewFenXiang).setOnClickListener(this);
         mInflate.findViewById(R.id.btnGouMai).setOnClickListener(this);
         mInflate.findViewById(R.id.viewPingJiaGL).setOnClickListener(this);
+        mInflate.findViewById(R.id.viewBaoGao).setOnClickListener(this);
         textBlance.setOnClickListener(this);
     }
 
@@ -180,12 +182,16 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
+            case R.id.viewBaoGao:
+                intent.setClass(getActivity(), BaoGaoMxActivity.class);
+                startActivity(intent);
+                break;
             case R.id.viewPingJiaGL:
                 intent.setClass(getActivity(), PingJiaGLActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btnGouMai:
-                intent.putExtra(Constant.IntentKey.ID,userBuyerindex.getReport_id());
+                intent.putExtra(Constant.IntentKey.ID, userBuyerindex.getReport_id());
                 intent.setClass(getActivity(), ChanPinXQActivity.class);
                 startActivity(intent);
                 break;
@@ -194,7 +200,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                 break;
             case R.id.viewZhuanRangBaoGao:
                 intent.setClass(getActivity(), ZhuanRangBaoGaoActivity.class);
-                intent.putExtra(Constant.IntentKey.PHONE,userBuyerindex.getMobile());
+                intent.putExtra(Constant.IntentKey.PHONE, userBuyerindex.getMobile());
                 startActivity(intent);
                 break;
             case R.id.viewYinHangKa:
@@ -253,12 +259,12 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
         return new OkObject(params, url);
     }
 
-    private IWXAPI api ;
+    private IWXAPI api;
 
     /**
      * 分享推荐
@@ -269,28 +275,28 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
-                LogUtil.LogShitou("WoDeFragment--onSuccess",s+ "");
+                LogUtil.LogShitou("WoDeFragment--onSuccess", s + "");
                 try {
                     UserShare userShare = GsonUtils.parseJSON(s, UserShare.class);
-                    if (userShare.getStatus()==1){
+                    if (userShare.getStatus() == 1) {
                         int can_share = userShare.getCan_share();
-                        if (can_share==1){
+                        if (can_share == 1) {
                             isShare = true;
-                            MyDialog.share01(getActivity(), api, userShare.getShare_url(),getActivity().getResources().getString(R.string.app_name));
+                            MyDialog.share01(getActivity(), api, userShare.getShare_url(), getActivity().getResources().getString(R.string.app_name));
 
-                        }else {
-                            MyDialog.showTipDialog(getActivity(),userShare.getInfo());
+                        } else {
+                            MyDialog.showTipDialog(getActivity(), userShare.getInfo());
                         }
-                    }else if (userShare.getStatus()==3){
+                    } else if (userShare.getStatus() == 3) {
                         MyDialog.showReLoginDialog(getActivity());
-                    }else {
+                    } else {
                         Toast.makeText(getActivity(), userShare.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(),"数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
-        
+
             @Override
             public void onError() {
                 cancelLoadingDialog();

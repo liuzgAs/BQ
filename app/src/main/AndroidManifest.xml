@@ -299,14 +299,33 @@
         <activity
             android:name=".activity.XinZengYHKActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".activity.ZhuanRangLLActivity" />
-        <activity android:name=".activity.GongXiangHYActivity" />
-        <activity android:name=".activity.DingDanXQActivity" />
-        <activity android:name=".activity.BaoBaoLBActivity" />
-        <activity android:name=".activity.PdfActivity" />
-        <activity android:name=".activity.PingJiaGLActivity" />
-        <activity android:name=".activity.PingJiaActivity" />
-        <activity android:name=".activity.QuanBuPingJiaActivity"></activity>
+        <activity
+            android:name=".activity.BaoGaoMxActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.ZhuanRangLLActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.GongXiangHYActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.DingDanXQActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.BaoBaoLBActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.PdfActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.PingJiaGLActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.PingJiaActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.QuanBuPingJiaActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

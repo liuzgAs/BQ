@@ -272,6 +272,10 @@ public class Constant {
          * 更多评价
          */
         public static final String GOODS_EVALUATEMORE = "/goods/evaluateMore";
+        /**
+         * 我的报告明细
+         */
+        public static final String USER_REPORTDETAILED = "/user/reportDetailed";
     }
 
     public static class IntentKey {

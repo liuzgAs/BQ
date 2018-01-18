@@ -125,6 +125,8 @@
                                 android:layout_height="wrap_content" />
                         </RelativeLayout>
                         <RelativeLayout
+                            android:background="@drawable/layout_selector_white_system_gray"
+                            android:id="@+id/viewBaoGao"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:layout_width="match_parent"
