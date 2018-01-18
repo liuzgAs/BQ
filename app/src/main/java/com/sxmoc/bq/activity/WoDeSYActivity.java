@@ -1,6 +1,9 @@
 package com.sxmoc.bq.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
@@ -23,6 +27,7 @@ import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.holder.XiaoFeiMXViewHolder;
 import com.sxmoc.bq.model.OkObject;
+import com.sxmoc.bq.model.UserGetbalance;
 import com.sxmoc.bq.model.UserProfitdetailed;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.DpUtils;
@@ -36,10 +41,22 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
 
     private TextView textViewRight;
     private TextView textShouYi;
-    private double money;
     private int page = 1;
     private EasyRecyclerView recyclerView;
     private RecyclerArrayAdapter<UserProfitdetailed.DataBean> adapter;
+    private BroadcastReceiver reciver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case Constant.BroadcastCode.TIXIAN:
+                    onRefresh();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +73,6 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
     @Override
     protected void initIntent() {
         Intent intent = getIntent();
-        money = intent.getDoubleExtra(Constant.IntentKey.VALUE, 0);
     }
 
     @Override
@@ -71,9 +87,6 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
         ((TextView) findViewById(R.id.textViewTitle)).setText("我的收益");
         textViewRight.setText("收益明细");
         textViewRight.setVisibility(View.GONE);
-        SpannableString span = new SpannableString("¥"+money);
-        span.setSpan(new RelativeSizeSpan(0.4f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        textShouYi.setText(span);
         initRecycle();
     }
 
@@ -174,20 +187,50 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
-        params.put("p",String.valueOf(page));
-        params.put("type_id","1");
+        params.put("p", String.valueOf(page));
+        params.put("type_id", "1");
         return new OkObject(params, url);
     }
 
     @Override
     protected void initData() {
-       onRefresh();
+        onRefresh();
     }
 
     @Override
     public void onRefresh() {
+
+        showLoadingDialog();
+        ApiClient.post(WoDeSYActivity.this, getOkObject(), new ApiClient.CallBack() {
+            @Override
+            public void onSuccess(String s) {
+                cancelLoadingDialog();
+                LogUtil.LogShitou("LiJiZFActivity--onSuccess", s + "");
+                try {
+                    UserGetbalance userGetbalance = GsonUtils.parseJSON(s, UserGetbalance.class);
+                    if (userGetbalance.getStatus() == 1) {
+                        SpannableString span = new SpannableString("¥" + userGetbalance.getBalance());
+                        span.setSpan(new RelativeSizeSpan(0.4f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        textShouYi.setText(span);
+                    } else if (userGetbalance.getStatus() == 3) {
+                        MyDialog.showReLoginDialog(WoDeSYActivity.this);
+                    } else {
+                        Toast.makeText(WoDeSYActivity.this, userGetbalance.getInfo(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(WoDeSYActivity.this, "数据出错", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError() {
+                cancelLoadingDialog();
+                Toast.makeText(WoDeSYActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         page = 1;
         ApiClient.post(WoDeSYActivity.this, getOkObject(), new ApiClient.CallBack() {
             @Override
@@ -241,7 +284,7 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.btnLiJiTX:
-                intent.setClass(this,TiXianActivity.class);
+                intent.setClass(this, TiXianActivity.class);
                 startActivity(intent);
                 break;
             case R.id.imageBack:
@@ -259,5 +302,19 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.BroadcastCode.TIXIAN);
+        registerReceiver(reciver, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(reciver);
     }
 }

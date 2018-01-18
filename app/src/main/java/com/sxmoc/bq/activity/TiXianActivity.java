@@ -1,5 +1,6 @@
 package com.sxmoc.bq.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
@@ -127,7 +128,7 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
      * author： ZhangJieBo
      * date： 2017/8/28 0028 上午 9:55
      */
-    private OkObject getTXOkObject(String bankID) {
+    private OkObject getTXOkObject(int bankID) {
         String url = Constant.HOST + Constant.Url.WITHDRAW_ADDDONE;
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
@@ -135,7 +136,7 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
             params.put("tokenTime", tokenTime);
         }
         params.put("money", editJinE.getText().toString().trim());
-        params.put("bank", bankID);
+        params.put("bank", String.valueOf(bankID));
         return new OkObject(params, url);
     }
 
@@ -191,13 +192,17 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
                         dialog_tu_pian.findViewById(R.id.textAdd).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                Intent intent = new Intent();
+                                intent.setClass(TiXianActivity.this, XinZengYHKActivity.class);
+                                intent.putExtra(Constant.IntentKey.TITLE, "新增银行卡");
+                                startActivityForResult(intent, Constant.RequestResultCode.XIN_YONG_KA);
                                 alertDialog.dismiss();
                             }
                         });
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                tiXian(dataBeanList.get(i).getBank());
+                                tiXian(dataBeanList.get(i).getId());
                                 alertDialog.dismiss();
                             }
                         });
@@ -264,7 +269,7 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
         }
     }
 
-    private void tiXian(String bankID) {
+    private void tiXian(int bankID) {
         showLoadingDialog();
         ApiClient.post(TiXianActivity.this, getTXOkObject(bankID), new ApiClient.CallBack() {
             @Override
@@ -274,6 +279,9 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
                 try {
                     SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
                     if (simpleInfo.getStatus() == 1) {
+                        initData();
+                        Intent intent = new Intent(Constant.BroadcastCode.TIXIAN);
+                        sendBroadcast(intent);
                         MyDialog.showTipDialog(TiXianActivity.this, simpleInfo.getInfo());
                     } else if (simpleInfo.getStatus() == 3) {
                         MyDialog.showReLoginDialog(TiXianActivity.this);

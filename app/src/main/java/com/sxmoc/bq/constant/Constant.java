@@ -324,6 +324,7 @@ public class Constant {
         public static final String KAISHICESHI = "kaiShiCeShi";
         public static final String XIUGAIBAOBAO = "XiuGaiBaoBao";
         public static final String SHUA_XIN_PING_JIA = "shua_xin_ping_jia";
+        public static final String TIXIAN = "tiXian";
     }
 
 
