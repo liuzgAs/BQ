@@ -61,7 +61,7 @@ public class MainActivity extends ZjbBaseNotLeftActivity {
     @Override
     protected void initViews() {
         tabsItem[0] = "商城";
-        tabsItem[1] = "测一测";
+        tabsItem[1] = "测评";
         tabsItem[2] = "发现";
         tabsItem[3] = "我的";
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtab);

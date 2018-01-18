@@ -1,18 +1,26 @@
 package com.sxmoc.bq.activity;
 
+import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.clj.fastble.BleManager;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
@@ -31,8 +39,12 @@ import com.sxmoc.bq.util.LogUtil;
 import java.util.HashMap;
 import java.util.List;
 
-public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 
+public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, EasyPermissions.PermissionCallbacks {
+    private static final int LOCATION = 1991;
     private EasyRecyclerView recyclerView;
     private RecyclerArrayAdapter<TesterGettester.DataBean> adapter;
     private BroadcastReceiver reciver = new BroadcastReceiver() {
@@ -46,17 +58,37 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
                 case Constant.BroadcastCode.XIUGAIBAOBAO:
                     onRefresh();
                     break;
+                case BluetoothAdapter.ACTION_STATE_CHANGED:
+                    int blueState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
+                    switch (blueState) {
+                        case BluetoothAdapter.STATE_TURNING_ON:
+                            break;
+                        case BluetoothAdapter.STATE_ON:
+                            cancelLoadingDialog();
+                            //开始扫描
+                            test();
+                            break;
+                        case BluetoothAdapter.STATE_TURNING_OFF:
+                            break;
+                        case BluetoothAdapter.STATE_OFF:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
                 default:
 
                     break;
             }
         }
     };
+    private int bid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bao_bao_lb);
+        BleManager.getInstance().init(getApplication());
         init();
     }
 
@@ -157,11 +189,19 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent = new Intent();
-                intent.putExtra(Constant.IntentKey.ID, adapter.getItem(position).getBid());
-                intent.setClass(BaoBaoLBActivity.this, NaoBoActivity.class);
-                startActivity(intent);
-                finish();
+                boolean supportBle = BleManager.getInstance().isSupportBle();
+                bid = adapter.getItem(position).getBid();
+                if (!supportBle) {
+                    MyDialog.showTipDialog(BaoBaoLBActivity.this, "该设备不支持蓝牙");
+                    return;
+                }
+                if (!checkGPSIsOpen()) {
+                    LogUtil.LogShitou("WelcomeActivity--onCreate", "GPS未开启");
+                    openGPSSettings();
+                } else {
+                    LogUtil.LogShitou("WelcomeActivity--onCreate", "GPS开启");
+                    methodRequiresTwoPermission();
+                }
             }
         });
         recyclerView.setRefreshListener(this);
@@ -173,9 +213,63 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
         findViewById(R.id.btnXinZeng).setOnClickListener(this);
     }
 
+    private void test() {
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (!bluetoothAdapter.isEnabled()) {
+            showLoadingDialog();
+            bluetoothAdapter.enable();
+        } else {
+            Intent intent = new Intent();
+            intent.putExtra(Constant.IntentKey.ID, bid);
+            intent.setClass(BaoBaoLBActivity.this, NaoBoActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
     @Override
     protected void initData() {
         onRefresh();
+    }
+
+    @AfterPermissionGranted(LOCATION)
+    private void methodRequiresTwoPermission() {
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
+        if (EasyPermissions.hasPermissions(this, perms)) {
+            // Already have permission, do the thing
+            test();
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions(this, "需要开启定位权限",
+                    LOCATION, perms);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
+            // Do something after user returned from app settings screen, like showing a Toast.
+            Toast.makeText(this, "开启定位成功", Toast.LENGTH_SHORT)
+                    .show();
+            test();
+        }
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            new AppSettingsDialog.Builder(this).build().show();
+        } else {
+            methodRequiresTwoPermission();
+        }
     }
 
     @Override
@@ -271,6 +365,7 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constant.BroadcastCode.KAISHICESHI);
         filter.addAction(Constant.BroadcastCode.XIUGAIBAOBAO);
+        filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(reciver, filter);
     }
 
@@ -278,5 +373,65 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(reciver);
+    }
+
+    /**
+     * 检测GPS是否打开
+     *
+     * @return
+     */
+    private boolean checkGPSIsOpen() {
+        boolean isOpen;
+        LocationManager locationManager = (LocationManager) this
+                .getSystemService(Context.LOCATION_SERVICE);
+        isOpen = locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER);
+        return isOpen;
+    }
+
+    private int GPS_REQUEST_CODE = 10;
+
+    /**
+     * 跳转GPS设置
+     */
+    private void openGPSSettings() {
+        if (checkGPSIsOpen()) {
+            methodRequiresTwoPermission();
+        } else {
+            //没有打开则弹出对话框
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.notifyTitle)
+                    .setMessage(R.string.gpsNotifyMsg)
+                    // 拒绝, 退出应用
+                    .setNegativeButton(R.string.cancel,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            })
+
+                    .setPositiveButton(R.string.setting,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //跳转GPS设置界面
+                                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                    startActivityForResult(intent, GPS_REQUEST_CODE);
+                                }
+                            })
+
+                    .setCancelable(false)
+                    .show();
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GPS_REQUEST_CODE) {
+            //做需要做的事情，比如再次检测是否打开GPS了 或者定位
+            openGPSSettings();
+        }
     }
 }

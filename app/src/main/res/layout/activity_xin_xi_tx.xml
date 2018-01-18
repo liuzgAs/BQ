@@ -253,11 +253,12 @@
             android:background="@color/background" />
 
         <RelativeLayout
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <CheckBox
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:id="@+id/checkBox"
                 android:layout_width="wrap_content"
@@ -268,6 +269,7 @@
                 android:textColor="@color/text_gray" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/textXieYi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

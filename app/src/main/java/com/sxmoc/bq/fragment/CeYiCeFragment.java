@@ -24,10 +24,8 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.clj.fastble.BleManager;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.BaoBaoLBActivity;
-import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.customview.TwoBtnDialog;
 
@@ -56,7 +54,6 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         // Inflate the layout for this fragment
         if (mInflate == null) {
             mInflate = inflater.inflate(R.layout.fragment_ce_yi_ce, container, false);
-            BleManager.getInstance().init(getActivity().getApplication());
             init();
         }
         //缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
@@ -120,7 +117,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnKaiShiJC:
-                startCeShi();
+                startTest();
                 break;
             default:
                 break;
@@ -153,37 +150,12 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         Intent intent = new Intent();
         intent.setClass(getActivity(), BaoBaoLBActivity.class);
         startActivity(intent);
-//        Intent intent = new Intent();
-//        intent.setClass(getActivity(), NaoBoActivity.class);
-//        startActivity(intent);
     }
 
 
     private void startCeShi() {
-        boolean supportBle = BleManager.getInstance().isSupportBle();
-        if (!supportBle) {
-            MyDialog.showTipDialog(getActivity(), "该设备不支持蓝牙");
-            return;
-        }
-        final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (!bluetoothAdapter.isEnabled()) {
-            final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(getActivity(), "某个应用要打开你的蓝牙", "允许", "拒绝");
-            twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
-                @Override
-                public void doConfirm() {
-                    twoBtnDialog.dismiss();
-                    BleManager.getInstance().enableBluetooth();
-                }
 
-                @Override
-                public void doCancel() {
-                    twoBtnDialog.dismiss();
-                }
-            });
-            twoBtnDialog.show();
-        } else {
-            checkPermissions();
-        }
+        checkPermissions();
     }
 
     private static final int REQUEST_CODE_OPEN_GPS = 1;

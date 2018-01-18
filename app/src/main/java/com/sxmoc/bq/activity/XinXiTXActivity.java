@@ -82,7 +82,7 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
     protected void initViews() {
         ((TextView) findViewById(R.id.textViewTitle)).setText("信息填写");
         if (id==0){
-            btnKaiShiCeShi.setText("开始测试");
+            btnKaiShiCeShi.setText("添加");
         }else {
             btnKaiShiCeShi.setText("确认修改");
         }
@@ -280,21 +280,21 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
                 try {
                     BuyerAddinfo buyerAddinfo = GsonUtils.parseJSON(s, BuyerAddinfo.class);
                     if (buyerAddinfo.getStatus() == 1) {
-                        if (id==0){
+//                        if (id==0){
+//                            Intent intent1 = new Intent();
+//                            intent1.setAction(Constant.BroadcastCode.KAISHICESHI);
+//                            sendBroadcast(intent1);
+//                            Intent intent = new Intent();
+//                            intent.putExtra(Constant.IntentKey.ID, buyerAddinfo.getBid());
+//                            intent.setClass(XinXiTXActivity.this, NaoBoActivity.class);
+//                            startActivity(intent);
+//                            finish();
+//                        }else {
                             Intent intent1 = new Intent();
                             intent1.setAction(Constant.BroadcastCode.KAISHICESHI);
                             sendBroadcast(intent1);
-                            Intent intent = new Intent();
-                            intent.putExtra(Constant.IntentKey.ID, buyerAddinfo.getBid());
-                            intent.setClass(XinXiTXActivity.this, NaoBoActivity.class);
-                            startActivity(intent);
                             finish();
-                        }else {
-                            Intent intent1 = new Intent();
-                            intent1.setAction(Constant.BroadcastCode.KAISHICESHI);
-                            sendBroadcast(intent1);
-                            finish();
-                        }
+//                        }
                     } else if (buyerAddinfo.getStatus() == 3) {
                         MyDialog.showReLoginDialog(XinXiTXActivity.this);
                     } else {

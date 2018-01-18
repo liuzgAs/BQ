@@ -254,6 +254,10 @@ public class Constant {
          * 评价管理
          */
         public static final String ORDER_GETEEVA = "/order/getEeva";
+        /**
+         * 评价前请求
+         */
+        public static final String ORDER_GOTOEEVA = "/order/goToEeva";
     }
 
     public static class IntentKey {
