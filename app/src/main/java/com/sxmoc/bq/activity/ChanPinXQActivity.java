@@ -4,8 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -216,7 +216,7 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
              */
             private void initRecyclerFoot() {
                 recyclerViewFoot.setLayoutManager(new LinearLayoutManager(ChanPinXQActivity.this));
-                DividerDecoration itemDecoration = new DividerDecoration(Color.TRANSPARENT, (int) getResources().getDimension(R.dimen.line_width), 0, 0);
+                DividerDecoration itemDecoration = new DividerDecoration(ContextCompat.getColor(ChanPinXQActivity.this,R.color.background), (int) getResources().getDimension(R.dimen.line_width), 0, 0);
                 itemDecoration.setDrawLastItem(false);
                 recyclerViewFoot.addItemDecoration(itemDecoration);
                 recyclerViewFoot.setRefreshingColorResources(R.color.basic_color);

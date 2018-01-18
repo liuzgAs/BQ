@@ -49,6 +49,7 @@ public class ChanPinPJViewHolder extends BaseViewHolder<EvaluateBean> {
         super.setData(data);
         GlideApp.with(getContext())
                 .asBitmap()
+                .circleCrop()
                 .load(data.getHeadimg())
                 .placeholder(R.mipmap.ic_empty)
                 .into(imageImg);

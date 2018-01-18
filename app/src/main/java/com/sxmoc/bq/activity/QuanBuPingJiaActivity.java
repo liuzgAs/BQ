@@ -153,7 +153,7 @@ public class QuanBuPingJiaActivity extends ZjbBaseActivity implements View.OnCli
 
     @Override
     protected void initData() {
-
+        onRefresh();
     }
 
     @Override
