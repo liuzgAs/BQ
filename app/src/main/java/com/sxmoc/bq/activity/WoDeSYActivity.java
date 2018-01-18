@@ -1,5 +1,6 @@
 package com.sxmoc.bq.activity;
 
+import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,10 +11,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +33,13 @@ import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.UserGetbalance;
 import com.sxmoc.bq.model.UserProfitdetailed;
 import com.sxmoc.bq.util.ApiClient;
+import com.sxmoc.bq.util.DateTransforam;
 import com.sxmoc.bq.util.DpUtils;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
 
+import java.text.ParseException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -57,6 +63,8 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
             }
         }
     };
+    private TextView textStart;
+    private TextView textEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +88,8 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
         textViewRight = (TextView) findViewById(R.id.textViewRight);
         textShouYi = (TextView) findViewById(R.id.textShouYi);
         recyclerView = (EasyRecyclerView) findViewById(R.id.recyclerView);
+        textStart = (TextView) findViewById(R.id.textStart);
+        textEnd = (TextView) findViewById(R.id.textEnd);
     }
 
     @Override
@@ -175,7 +185,12 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
         textViewRight.setOnClickListener(this);
         findViewById(R.id.imageBack).setOnClickListener(this);
         findViewById(R.id.btnLiJiTX).setOnClickListener(this);
+        findViewById(R.id.viewStart).setOnClickListener(this);
+        findViewById(R.id.viewEnd).setOnClickListener(this);
     }
+
+    private String date_begin ="";
+    private String date_end="";
 
     /**
      * des： 网络请求参数
@@ -191,6 +206,8 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
         }
         params.put("p", String.valueOf(page));
         params.put("type_id", "1");
+        params.put("date_begin", date_begin);
+        params.put("date_end", date_end);
         return new OkObject(params, url);
     }
 
@@ -283,6 +300,47 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
+            case R.id.viewStart:
+                Calendar c1 = Calendar.getInstance();
+                DatePickerDialog datePickerDialog1 = new DatePickerDialog(WoDeSYActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        try {
+                            date_begin = DateTransforam.dateToStamp(year + "-" + (month + 1) + "-" + dayOfMonth);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        textStart.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                        onRefresh();
+                    }
+                }, c1.get(Calendar.YEAR), c1.get(Calendar.MONTH), c1.get(Calendar.DAY_OF_MONTH));
+                if (!TextUtils.isEmpty(date_end)) {
+                    datePickerDialog1.getDatePicker().setMaxDate(Long.parseLong(date_end)*1000);
+                } else {
+                    datePickerDialog1.getDatePicker().setMaxDate(System.currentTimeMillis());
+                }
+                datePickerDialog1.show();
+                break;
+            case R.id.viewEnd:
+                Calendar c = Calendar.getInstance();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(WoDeSYActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        try {
+                            date_end = DateTransforam.dateToStamp(year + "-" + (month + 1) + "-" + dayOfMonth);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        textEnd.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                        onRefresh();
+                    }
+                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                if (!TextUtils.isEmpty(date_begin)) {
+                    datePickerDialog.getDatePicker().setMinDate(Long.parseLong(date_begin)*1000);
+                }
+                datePickerDialog.show();
+                break;
             case R.id.btnLiJiTX:
                 intent.setClass(this, TiXianActivity.class);
                 startActivity(intent);

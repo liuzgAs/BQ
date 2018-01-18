@@ -40,6 +40,7 @@ public class ShouYiMxActivity extends ZjbBaseActivity implements SwipeRefreshLay
     private int page = 1;
     private TextView textStart;
     private TextView textEnd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +67,7 @@ public class ShouYiMxActivity extends ZjbBaseActivity implements SwipeRefreshLay
 
     @Override
     protected void initViews() {
-        ((TextView)findViewById(R.id.textViewTitle)).setText("交易明细");
+        ((TextView) findViewById(R.id.textViewTitle)).setText("交易明细");
         initRecycle();
     }
 
@@ -162,8 +163,8 @@ public class ShouYiMxActivity extends ZjbBaseActivity implements SwipeRefreshLay
         onRefresh();
     }
 
-    private String date_begin;
-    private String date_end;
+    private String date_begin = "";
+    private String date_end = "";
 
     /**
      * des： 网络请求参数
@@ -254,7 +255,7 @@ public class ShouYiMxActivity extends ZjbBaseActivity implements SwipeRefreshLay
                     }
                 }, c1.get(Calendar.YEAR), c1.get(Calendar.MONTH), c1.get(Calendar.DAY_OF_MONTH));
                 if (!TextUtils.isEmpty(date_end)) {
-                    datePickerDialog1.getDatePicker().setMaxDate(Long.parseLong(date_end));
+                    datePickerDialog1.getDatePicker().setMaxDate(Long.parseLong(date_end)*1000);
                 } else {
                     datePickerDialog1.getDatePicker().setMaxDate(System.currentTimeMillis());
                 }
@@ -276,7 +277,7 @@ public class ShouYiMxActivity extends ZjbBaseActivity implements SwipeRefreshLay
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 if (!TextUtils.isEmpty(date_begin)) {
-                    datePickerDialog.getDatePicker().setMinDate(Long.parseLong(date_begin));
+                    datePickerDialog.getDatePicker().setMinDate(Long.parseLong(date_begin)*1000);
                 }
                 datePickerDialog.show();
                 break;
