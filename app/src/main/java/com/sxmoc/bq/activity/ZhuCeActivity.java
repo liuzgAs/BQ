@@ -29,8 +29,8 @@ import java.util.HashMap;
  * @author Administrator
  */
 public class ZhuCeActivity extends ZjbBaseActivity implements View.OnClickListener {
-    private EditText[] editView = new EditText[4];
-    private View[] lineView = new View[4];
+    private EditText[] editView = new EditText[5];
+    private View[] lineView = new View[5];
     private TextView textSms;
     private Runnable mR;
     private int[] mI;
@@ -62,12 +62,12 @@ public class ZhuCeActivity extends ZjbBaseActivity implements View.OnClickListen
         editView[1] = (EditText) findViewById(R.id.edit02);
         editView[2] = (EditText) findViewById(R.id.edit03);
         editView[3] = (EditText) findViewById(R.id.edit04);
-//        editView[4] = (EditText) findViewById(R.id.edit05);
+        editView[4] = (EditText) findViewById(R.id.edit05);
         lineView[0] = findViewById(R.id.line01);
         lineView[1] = findViewById(R.id.line02);
         lineView[2] = findViewById(R.id.line03);
         lineView[3] = findViewById(R.id.line04);
-//        lineView[4] = findViewById(R.id.line05);
+        lineView[4] = findViewById(R.id.line05);
         textSms = (TextView) findViewById(R.id.textSms);
         imageAgreement = (ImageView) findViewById(R.id.imageAgreement);
     }
@@ -177,7 +177,7 @@ public class ZhuCeActivity extends ZjbBaseActivity implements View.OnClickListen
         params.put("userName", mPhone_sms);
         params.put("userPwd", MD5Util.getMD5(MD5Util.getMD5(editView[2].getText().toString().trim()) + "ad"));
         params.put("code", editView[1].getText().toString().trim());
-//        params.put("tx_mobile", editView[4].getText().toString().trim());
+        params.put("tx_mobile", editView[4].getText().toString().trim());
         /*用户类型卖家注册时传1买家注册传0*/
         params.put("type", "0");
         return new OkObject(params, url);

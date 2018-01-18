@@ -291,9 +291,9 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/shape_basic01_1dp_25dp"
+            android:background="@drawable/shape_basic_25dp"
             android:text="登录"
-            android:textColor="@color/basic_color"
+            android:textColor="@color/white"
             android:textSize="16dp" />
 
         <Button
@@ -306,7 +306,7 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/shape_basic01_1dp_25dp"
             android:text="新用户注册"
-            android:textColor="@color/light_black"
+            android:textColor="@color/basic_color"
             android:textSize="16dp" />
 
         <RelativeLayout
