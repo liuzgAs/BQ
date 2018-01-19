@@ -218,6 +218,12 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                                         setJieMian(0);
                                     }
                                 });
+                                editRealName.setText(userApplybefore.getData().getName());
+                                editCompany.setText(userApplybefore.getBank().getCompany());
+                                editPhone.setText(userApplybefore.getData().getMobile());
+                                editCard.setText(userApplybefore.getData().getCard());
+                                textAddress.setText(userApplybefore.getData().getArea());
+                                textAddressDetail.setText(userApplybefore.getData().getAddress());
                                 break;
                             case 2:
                                 setJieMian(2);
@@ -231,6 +237,12 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                                         setJieMian(0);
                                     }
                                 });
+                                editRealName.setText(userApplybefore.getData().getName());
+                                editCompany.setText(userApplybefore.getBank().getCompany());
+                                editPhone.setText(userApplybefore.getData().getMobile());
+                                editCard.setText(userApplybefore.getData().getCard());
+                                textAddress.setText(userApplybefore.getData().getArea());
+                                textAddressDetail.setText(userApplybefore.getData().getAddress());
                                 break;
                             case 3:
                                 setJieMian(0);
@@ -288,10 +300,10 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                     Toast.makeText(getActivity(), "请选择事业合伙人等级", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(editCompany.getText().toString().trim())) {
-                    Toast.makeText(getActivity(), "请填写公司名称", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (TextUtils.isEmpty(editCompany.getText().toString().trim())) {
+//                    Toast.makeText(getActivity(), "请填写公司名称", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 if (TextUtils.isEmpty(editRealName.getText().toString().trim())) {
                     Toast.makeText(getContext(), "请填写真实姓名", Toast.LENGTH_SHORT).show();
                     return;
@@ -391,7 +403,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
             params.put("uid", userInfo.getUid());
             params.put("tokenTime", tokenTime);
         }
-        params.put("company", editCompany.getText().toString().trim());
+//        params.put("company", editCompany.getText().toString().trim());
         params.put("name", editRealName.getText().toString().trim());
         params.put("mobile", editPhone.getText().toString().trim());
         params.put("card", editCard.getText().toString().trim());

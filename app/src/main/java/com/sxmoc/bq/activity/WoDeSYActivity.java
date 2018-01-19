@@ -30,7 +30,7 @@ import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.holder.XiaoFeiMXViewHolder;
 import com.sxmoc.bq.model.OkObject;
-import com.sxmoc.bq.model.UserGetbalance;
+import com.sxmoc.bq.model.UserBuyerindex;
 import com.sxmoc.bq.model.UserProfitdetailed;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.DateTransforam;
@@ -211,6 +211,21 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
         return new OkObject(params, url);
     }
 
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
+    private OkObject getOkYuEObject() {
+        String url = Constant.HOST + Constant.Url.USER_BUYERINDEX;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime", tokenTime);
+        }
+        return new OkObject(params, url);
+    }
+
     @Override
     protected void initData() {
         onRefresh();
@@ -220,21 +235,21 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
     public void onRefresh() {
 
         showLoadingDialog();
-        ApiClient.post(WoDeSYActivity.this, getOkObject(), new ApiClient.CallBack() {
+        ApiClient.post(WoDeSYActivity.this, getOkYuEObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
                 LogUtil.LogShitou("LiJiZFActivity--onSuccess", s + "");
                 try {
-                    UserGetbalance userGetbalance = GsonUtils.parseJSON(s, UserGetbalance.class);
-                    if (userGetbalance.getStatus() == 1) {
-                        SpannableString span = new SpannableString("¥" + userGetbalance.getBalance());
+                    UserBuyerindex userBuyerindex = GsonUtils.parseJSON(s, UserBuyerindex.class);
+                    if (userBuyerindex.getStatus() == 1) {
+                        SpannableString span = new SpannableString("¥" + userBuyerindex.getMoney());
                         span.setSpan(new RelativeSizeSpan(0.4f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         textShouYi.setText(span);
-                    } else if (userGetbalance.getStatus() == 3) {
+                    } else if (userBuyerindex.getStatus() == 3) {
                         MyDialog.showReLoginDialog(WoDeSYActivity.this);
                     } else {
-                        Toast.makeText(WoDeSYActivity.this, userGetbalance.getInfo(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WoDeSYActivity.this, userBuyerindex.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Toast.makeText(WoDeSYActivity.this, "数据出错", Toast.LENGTH_SHORT).show();
