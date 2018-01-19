@@ -37,6 +37,7 @@ public class GongXiangHYActivity extends ZjbBaseActivity implements SwipeRefresh
     private TextView textHeHuoRen;
     private int id;
     private ImageView imageImg;
+    private TextView textShenFen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class GongXiangHYActivity extends ZjbBaseActivity implements SwipeRefresh
         textGongXiangNum = (TextView) findViewById(R.id.textGongXiangNum);
         textHeHuoRen = (TextView) findViewById(R.id.textHeHuoRen);
         imageImg = (ImageView) findViewById(R.id.imageImg);
+        textShenFen = (TextView) findViewById(R.id.textShenFen);
     }
 
     @Override
@@ -211,6 +213,7 @@ public class GongXiangHYActivity extends ZjbBaseActivity implements SwipeRefresh
                                 .into(imageImg);
                         textGongXiangNum.setText(String.valueOf(userGetmyshare1.getName()));
                         textHeHuoRen.setText(String.valueOf(userGetmyshare1.getShare_num()));
+                        textShenFen.setText(userGetmyshare1.getGrade_name());
                         List<UserGetmyshare1.DataBean> dataBeanList = userGetmyshare1.getData();
                         adapter.clear();
                         adapter.addAll(dataBeanList);

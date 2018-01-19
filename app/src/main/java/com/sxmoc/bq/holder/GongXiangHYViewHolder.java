@@ -1,7 +1,6 @@
 package com.sxmoc.bq.holder;
 
 import android.support.annotation.LayoutRes;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,7 +26,6 @@ public class GongXiangHYViewHolder extends BaseViewHolder<UserGetmyshare1.DataBe
         textName = $(R.id.textName);
         textCount_des = $(R.id.textCount_des);
         textGrade = $(R.id.textGrade);
-        textGrade.setVisibility(View.GONE);
     }
 
     @Override
@@ -41,6 +39,26 @@ public class GongXiangHYViewHolder extends BaseViewHolder<UserGetmyshare1.DataBe
                 .into(imageImg);
         textName.setText(data.getName());
         textCount_des.setText(data.getCount_des());
+        textGrade.setText(data.getGrade_name());
+        switch (data.getGrade_type()) {
+            case 1:
+                textGrade.setBackgroundResource(R.drawable.shape_not_right_top_20dp_01);
+                break;
+            case 2:
+                textGrade.setBackgroundResource(R.drawable.shape_not_right_top_20dp_02);
+                break;
+            case 3:
+                textGrade.setBackgroundResource(R.drawable.shape_not_right_top_20dp_03);
+                break;
+            case 4:
+                textGrade.setBackgroundResource(R.drawable.shape_not_right_top_20dp_04);
+                break;
+            case 5:
+                textGrade.setBackgroundResource(R.drawable.shape_not_right_top_20dp_05);
+                break;
+            default:
+                break;
+        }
     }
 
 }

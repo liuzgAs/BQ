@@ -38,9 +38,10 @@
                 android:layout_centerHorizontal="true"
                 android:text="15871105320"
                 android:textColor="@color/white"
-                android:textSize="25dp" />
+                android:textSize="20dp" />
 
             <TextView
+                android:id="@+id/textShenFen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textGongXiangNum"
@@ -63,7 +64,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="0"
                 android:textColor="@color/white"
-                android:textSize="25dp" />
+                android:textSize="20dp" />
 
             <TextView
                 android:layout_width="wrap_content"

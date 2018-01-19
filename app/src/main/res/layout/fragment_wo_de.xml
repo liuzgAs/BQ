@@ -349,7 +349,7 @@
                     android:layout_height="match_parent">
                     <ImageView
                         android:layout_centerHorizontal="true"
-                        android:src="@mipmap/mine02"
+                        android:src="@mipmap/tixian_minr"
                         android:layout_width="wrap_content"
                         android:id="@+id/imageMine10"
                         android:layout_height="@dimen/mine_item_height" />
