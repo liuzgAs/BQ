@@ -203,8 +203,31 @@
 
                 </RelativeLayout>
                 <RelativeLayout
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/layout_selector_white_system_gray"
+                    android:id="@+id/viewWoDeSY"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_centerHorizontal="true"
+                        android:src="@mipmap/mine02"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/imageMine02"
+                        android:layout_height="@dimen/mine_item_height" />
+                    <TextView
+                        android:textSize="@dimen/litterText"
+                        android:layout_marginTop="10dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="我的收益"
+                        android:layout_below="@+id/imageMine02"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                <RelativeLayout
                     android:id="@+id/viewPingJiaGL"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:gravity="center"
@@ -320,7 +343,7 @@
                 <RelativeLayout
                     android:layout_marginRight="20dp"
                     android:background="@drawable/layout_selector_white_system_gray"
-                    android:id="@+id/viewWoDeSY"
+                    android:id="@+id/viewTiXian"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:gravity="center"
@@ -329,14 +352,14 @@
                         android:layout_centerHorizontal="true"
                         android:src="@mipmap/mine02"
                         android:layout_width="wrap_content"
-                        android:id="@+id/imageMine02"
+                        android:id="@+id/imageMine10"
                         android:layout_height="@dimen/mine_item_height" />
                     <TextView
                         android:textSize="@dimen/litterText"
                         android:layout_marginTop="10dp"
                         android:layout_centerHorizontal="true"
-                        android:text="我的收益"
-                        android:layout_below="@+id/imageMine02"
+                        android:text="提现"
+                        android:layout_below="@+id/imageMine10"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>
