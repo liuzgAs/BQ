@@ -41,8 +41,8 @@ import com.sxmoc.bq.customview.RoateImg;
 import com.sxmoc.bq.customview.TwoBtnDialog;
 import com.sxmoc.bq.holder.LanYaViewHolder;
 import com.sxmoc.bq.model.BlueBean;
+import com.sxmoc.bq.model.BuyerSavedata;
 import com.sxmoc.bq.model.OkObject;
-import com.sxmoc.bq.model.SimpleInfo;
 import com.sxmoc.bq.model.TesterGetreport;
 import com.sxmoc.bq.model.UserBuyerindex;
 import com.sxmoc.bq.util.ApiClient;
@@ -73,6 +73,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
     private int screenWidth;
     private int id;
     private LanYaViewHolder lanYaViewHolder;
+    private BuyerSavedata buyerSavedata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -325,13 +326,13 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                 cancelLoadingDialog();
                 LogUtil.LogShitou("CeYiCeFragment--onSuccess", s + "");
                 try {
-                    SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
-                    if (simpleInfo.getStatus() == 1) {
+                    buyerSavedata = GsonUtils.parseJSON(s, BuyerSavedata.class);
+                    if (buyerSavedata.getStatus() == 1) {
                         shangChuangWanCheng();
-                    } else if (simpleInfo.getStatus() == 3) {
+                    } else if (buyerSavedata.getStatus() == 3) {
                         MyDialog.showReLoginDialog(NaoBoActivity.this);
                     } else {
-                        Toast.makeText(NaoBoActivity.this, simpleInfo.getInfo(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NaoBoActivity.this, buyerSavedata.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Toast.makeText(NaoBoActivity.this, "数据出错", Toast.LENGTH_SHORT).show();
@@ -680,6 +681,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
             params.put("tokenTime",tokenTime);
         }
         params.put("bid",String.valueOf(id));
+        params.put("sid",String.valueOf(buyerSavedata.getSid()));
         return new OkObject(params, url);
     }
 

@@ -189,6 +189,7 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
             params.put("tokenTime", ((CeShiLSActivity) getContext()).tokenTime);
         }
         params.put("bid", String.valueOf(data.getBid()));
+        params.put("sid", String.valueOf(data.getSid()));
         return new OkObject(params, url);
     }
 

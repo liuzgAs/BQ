@@ -58,10 +58,19 @@ public class ProductQueryhistory {
         private int uid;
         private int status;
         private int bid;
+        private int sid;
         private String create_time;
         private String name;
         private String filePath;
         private boolean isDownLoad;
+
+        public int getSid() {
+            return sid;
+        }
+
+        public void setSid(int sid) {
+            this.sid = sid;
+        }
 
         public String getFilePath() {
             return filePath;
