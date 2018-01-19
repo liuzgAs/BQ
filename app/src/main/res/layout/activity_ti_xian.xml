@@ -56,7 +56,7 @@
           android:layout_width="match_parent"
           android:layout_height="1dp" />
         <TextView
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/textYuE"
             android:layout_below="@+id/text0004"
             android:text="当前账户余额¥0.00"
