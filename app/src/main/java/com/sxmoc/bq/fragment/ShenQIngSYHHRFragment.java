@@ -188,7 +188,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
             public void onSuccess(String s) {
                 cancelLoadingDialog();
                 LogUtil.LogShitou("WoDeFragment--onSuccess", s + "");
-                try {
+//                try {
                     userApplybefore = GsonUtils.parseJSON(s, UserApplybefore.class);
                     if (userApplybefore.getStatus() == 1) {
                         switch (userApplybefore.getState()) {
@@ -219,7 +219,6 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                                     }
                                 });
                                 editRealName.setText(userApplybefore.getData().getName());
-                                editCompany.setText(userApplybefore.getBank().getCompany());
                                 editPhone.setText(userApplybefore.getData().getMobile());
                                 editCard.setText(userApplybefore.getData().getCard());
                                 textAddress.setText(userApplybefore.getData().getArea());
@@ -238,7 +237,6 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                                     }
                                 });
                                 editRealName.setText(userApplybefore.getData().getName());
-                                editCompany.setText(userApplybefore.getBank().getCompany());
                                 editPhone.setText(userApplybefore.getData().getMobile());
                                 editCard.setText(userApplybefore.getData().getCard());
                                 textAddress.setText(userApplybefore.getData().getArea());
@@ -256,9 +254,9 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                     } else {
                         Toast.makeText(getActivity(), userApplybefore.getInfo(), Toast.LENGTH_SHORT).show();
                     }
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
-                }
+//                } catch (Exception e) {
+//                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
+//                }
             }
 
             @Override
