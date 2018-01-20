@@ -66,22 +66,23 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white">
 
-                <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                <com.hedgehog.ratingbar.RatingBar
+                    android:layout_marginBottom="20dp"
                     android:id="@+id/ratingbar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="30dp"
-                    android:layout_marginTop="40dp"
-                    app:srb_drawBorderEnabled="false"
-                    app:srb_fillColor="@color/basic_yellow"
-                    app:srb_isIndicator="true"
-                    app:srb_numberOfStars="5"
-                    app:srb_pressedFillColor="@color/basic_yellow"
-                    app:srb_rating="5"
-                    app:srb_starBackgroundColor="@color/text_gray"
-                    app:srb_starSize="40dp" />
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    app:clickable="true"
+                    app:halfstart="false"
+                    app:starCount="5"
+                    app:starEmpty="@mipmap/star_false"
+                    app:starFill="@mipmap/star_true"
+                    app:starImageHeight="40dp"
+                    app:starImagePadding="8dp"
+                    app:starImageWidth="40dp" />
                 <com.sxmoc.bq.customview.FlowTagLayout
                     android:layout_marginLeft="@dimen/leftAndRight"
                     android:layout_marginRight="@dimen/leftAndRight"

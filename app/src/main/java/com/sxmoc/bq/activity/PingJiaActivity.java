@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.iarcuschin.simpleratingbar.SimpleRatingBar;
+import com.hedgehog.ratingbar.RatingBar;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -43,7 +43,7 @@ public class PingJiaActivity extends ZjbBaseActivity implements View.OnClickList
     private int imgId;
     private View viewPingJia;
     private Button btnTiJiao;
-    private SimpleRatingBar ratingbar;
+    private RatingBar ratingbar;
     private ImageView imageGood;
     private TextView textGoodName;
     private TextView textPrice;
@@ -54,6 +54,7 @@ public class PingJiaActivity extends ZjbBaseActivity implements View.OnClickList
     private OrderGotoeeva orderGotoeeva;
     private List<OrderGotoeeva.FlagBean> flagBeanList;
     private String cutPath;
+    private int startNum =5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class PingJiaActivity extends ZjbBaseActivity implements View.OnClickList
         imageGood = (ImageView) findViewById(R.id.imageGood);
         textGoodName = (TextView) findViewById(R.id.textGoodName);
         textPrice = (TextView) findViewById(R.id.textPrice);
-        ratingbar = (SimpleRatingBar) findViewById(R.id.ratingbar);
+        ratingbar = (RatingBar) findViewById(R.id.ratingbar);
         editPingLun = (EditText) findViewById(R.id.editPingLun);
         imageAdd = (ImageView) findViewById(R.id.imageAdd);
         flowTagLayout = (FlowTagLayout) findViewById(R.id.flowTagLayout);
@@ -91,6 +92,7 @@ public class PingJiaActivity extends ZjbBaseActivity implements View.OnClickList
         viewPingJia.setVisibility(View.GONE);
         btnTiJiao.setVisibility(View.GONE);
         ((TextView) findViewById(R.id.textViewTitle)).setText("评价");
+        ratingbar.setStar(5);
     }
 
     @Override
@@ -99,6 +101,12 @@ public class PingJiaActivity extends ZjbBaseActivity implements View.OnClickList
         findViewById(R.id.btnTiJiao).setOnClickListener(this);
         flowTagLayout.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_MULTI);
         imageAdd.setOnClickListener(this);
+        ratingbar.setOnRatingChangeListener(new RatingBar.OnRatingChangeListener() {
+            @Override
+            public void onRatingChange(float RatingCount) {
+                startNum =(int)RatingCount;
+            }
+        });
     }
 
     /**
@@ -275,6 +283,7 @@ public class PingJiaActivity extends ZjbBaseActivity implements View.OnClickList
                         .forResult(PictureConfig.CHOOSE_REQUEST);
                 break;
             case R.id.btnTiJiao:
+                LogUtil.LogShitou("PingJiaActivity--onClick", ""+startNum);
                 if (TextUtils.isEmpty(editPingLun.getText().toString().trim())) {
                     Toast.makeText(PingJiaActivity.this, "说点什么吧~~~", Toast.LENGTH_SHORT).show();
                     return;
@@ -311,7 +320,7 @@ public class PingJiaActivity extends ZjbBaseActivity implements View.OnClickList
                 id,
                 orderGotoeeva.getGoods().get(0).getId(),
                 editPingLun.getText().toString().trim(),
-                ratingbar.getNumberOfStars() - 1,
+                startNum,
                 imgId,
                 allSelect
         );

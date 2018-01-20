@@ -1,6 +1,7 @@
 package com.sxmoc.bq.holder;
 
 import android.support.annotation.LayoutRes;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +27,8 @@ public class GongXiangHYViewHolder extends BaseViewHolder<UserGetmyshare1.DataBe
         textName = $(R.id.textName);
         textCount_des = $(R.id.textCount_des);
         textGrade = $(R.id.textGrade);
+        ImageView imageRight =  $(R.id.imageRight);
+        imageRight.setVisibility(View.GONE);
     }
 
     @Override
