@@ -7,6 +7,8 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -626,7 +628,6 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                                 String report_num = userBuyerindex.getReport_num();
                                 if (Integer.parseInt(report_num) > 0) {
                                     chaKanBaoGao();
-                                    
                                 } else {
                                     final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(NaoBoActivity.this, "您已没有多余的报告可使用", "购买", "取消");
                                     twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
@@ -689,27 +690,52 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
      * 查看报告
      */
     private void chaKanBaoGao() {
+        upLoad(false);
+    }
+
+    /**
+     * 下载
+     */
+    private void upLoad(final boolean fuzhi) {
         showLoadingDialog();
         ApiClient.post(NaoBoActivity.this, getShengChengOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
-                LogUtil.LogShitou("CeShiLSViewHolder--onSuccess",s+ "");
+                LogUtil.LogShitou("CeShiLSViewHolder--onSuccess", s + "");
                 try {
-                    TesterGetreport testerGetreport = GsonUtils.parseJSON(s, TesterGetreport.class);
-                    if (testerGetreport.getStatus()==1){
-                        Intent intent = new Intent();
-                        intent.setClass(NaoBoActivity.this, PdfActivity.class);
-                        intent.putExtra(Constant.IntentKey.TITLE,"检测报告详情");
-                        intent.putExtra(Constant.IntentKey.VALUE,s);
-                        startActivity(intent);
-                    }else if (testerGetreport.getStatus()==3){
+                    final TesterGetreport testerGetreport = GsonUtils.parseJSON(s, TesterGetreport.class);
+                    if (testerGetreport.getStatus() == 1) {
+                        if (fuzhi){
+                            ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                            cmb.setText(testerGetreport.getData_url());
+                            MyDialog.showTipDialog(NaoBoActivity.this,"已复制到剪切版");
+                        }else {
+                            showLoadingDialog();
+                            ApiClient.downLoadFile(NaoBoActivity.this, testerGetreport.getData_url(), "大脑雷达",  "详情报告" + System.currentTimeMillis() + ".pdf", new ApiClient.CallBack() {
+                                @Override
+                                public void onSuccess(String s) {
+                                   cancelLoadingDialog();
+                                    Intent intent = new Intent();
+                                    intent.setClass(NaoBoActivity.this, PdfActivity.class);
+                                    intent.putExtra(Constant.IntentKey.TITLE, "检测报告详情");
+                                    intent.putExtra(Constant.IntentKey.VALUE, s);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onError() {
+                                    cancelLoadingDialog();
+                                }
+                            });
+                        }
+                    } else if (testerGetreport.getStatus() == 3) {
                         MyDialog.showReLoginDialog(NaoBoActivity.this);
-                    }else {
+                    } else {
                         Toast.makeText(NaoBoActivity.this, testerGetreport.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(NaoBoActivity.this,"数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NaoBoActivity.this, "数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
 

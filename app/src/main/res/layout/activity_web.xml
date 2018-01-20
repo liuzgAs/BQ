@@ -16,8 +16,13 @@
         android:id="@+id/progressBar2"/>
 
     <WebView
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/webView"
         android:layout_gravity="center_horizontal"/>
+    <Button
+        android:id="@+id/btnZhiDao"
+        android:text="知道了"
+        style="@style/bottomBtn" />
 </LinearLayout>

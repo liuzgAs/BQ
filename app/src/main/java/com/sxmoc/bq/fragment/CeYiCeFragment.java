@@ -16,7 +16,7 @@ import android.widget.ImageView;
 
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.BaoBaoLBActivity;
-import com.sxmoc.bq.activity.WebActivity;
+import com.sxmoc.bq.activity.TiShiActivity;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.constant.Constant;
 
@@ -108,16 +108,17 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.imageNotify:
-                intent.setClass(getActivity(), WebActivity.class);
+                intent.setClass(getActivity(), TiShiActivity.class);
                 intent.putExtra(Constant.IntentKey.TITLE, "注意事项");
                 intent.putExtra(Constant.IntentKey.URL, Constant.Url.PRECAUTIONS);
                 startActivity(intent);
                 break;
             case R.id.btnKaiShiJC:
                 if (isZhuYi){
-                    intent.setClass(getActivity(), WebActivity.class);
+                    intent.setClass(getActivity(), TiShiActivity.class);
                     intent.putExtra(Constant.IntentKey.TITLE, "注意事项");
                     intent.putExtra(Constant.IntentKey.URL, Constant.Url.PRECAUTIONS);
+                    intent.putExtra(Constant.IntentKey.TYPE,1);
                     startActivity(intent);
                     isZhuYi=false;
                 }else {

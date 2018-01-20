@@ -53,7 +53,7 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
             String action = intent.getAction();
             switch (action) {
                 case Constant.BroadcastCode.KAISHICESHI:
-                    finish();
+                    onRefresh();
                     break;
                 case Constant.BroadcastCode.XIUGAIBAOBAO:
                     onRefresh();
