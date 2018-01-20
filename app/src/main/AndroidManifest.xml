@@ -326,6 +326,9 @@
         <activity
             android:name=".activity.QuanBuPingJiaActivity"
             android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.TiShiActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

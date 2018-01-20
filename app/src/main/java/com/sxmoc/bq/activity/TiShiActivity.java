@@ -112,6 +112,7 @@ public class TiShiActivity extends ZjbBaseActivity implements View.OnClickListen
                     Intent intent = new Intent();
                     intent.setClass(this,BaoBaoLBActivity.class);
                     startActivity(intent);
+                    finish();
                 }else {
                     finish();
                 }

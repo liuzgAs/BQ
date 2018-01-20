@@ -160,7 +160,7 @@
                 android:background="@drawable/shape_ceyice"
                 android:paddingLeft="40dp"
                 android:paddingRight="40dp"
-                android:text="读取报告"
+                android:text="生成报告"
                 android:textColor="@color/ceyice"
                 android:textSize="@dimen/MoreBigText" />
         </RelativeLayout>

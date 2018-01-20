@@ -1,6 +1,12 @@
 package com.sxmoc.bq.activity;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,6 +23,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +44,7 @@ import com.sxmoc.bq.model.TesterGettester;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
+import com.sxmoc.bq.util.ScreenUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +93,14 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
         }
     };
     private int bid;
+    private RelativeLayout viewDaoJiShi;
+    private View viewBaoGaoLb;
+    private int screenWidth;
+    ObjectAnimator animator = new ObjectAnimator();
+    ObjectAnimator animator1 = new ObjectAnimator();
+    ObjectAnimator animator2 = new ObjectAnimator();
+    ObjectAnimator animator3 = new ObjectAnimator();
+    private ImageView imageDaoJiShi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,11 +123,16 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
     @Override
     protected void findID() {
         recyclerView = (EasyRecyclerView) findViewById(R.id.recyclerView);
+        viewDaoJiShi = (RelativeLayout) findViewById(R.id.viewDaoJiShi);
+        viewBaoGaoLb = findViewById(R.id.viewBaoGaoLb);
+        imageDaoJiShi = (ImageView) findViewById(R.id.imageDaoJiShi);
     }
 
     @Override
     protected void initViews() {
         ((TextView) findViewById(R.id.textViewTitle)).setText("选择宝宝");
+        viewDaoJiShi.setVisibility(View.GONE);
+        viewBaoGaoLb.setVisibility(View.VISIBLE);
         initRecycler();
     }
 
@@ -219,12 +242,85 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
             showLoadingDialog();
             bluetoothAdapter.enable();
         } else {
-            Intent intent = new Intent();
-            intent.putExtra(Constant.IntentKey.ID, bid);
-            intent.setClass(BaoBaoLBActivity.this, NaoBoActivity.class);
-            startActivity(intent);
-            finish();
+            daoJiShi();
         }
+    }
+
+    /**
+     * 倒计时
+     */
+    @SuppressLint("WrongConstant")
+    private void daoJiShi() {
+        isBack = false;
+        viewDaoJiShi.setVisibility(View.VISIBLE);
+        viewBaoGaoLb.setVisibility(View.GONE);
+        screenWidth = ScreenUtils.getScreenWidth(BaoBaoLBActivity.this);
+        final ImageView imageView = new ImageView(BaoBaoLBActivity.this);
+        imageView.setImageResource(R.mipmap.jianbianquan);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int) ((float) screenWidth * 0.6f), (int) ((float) screenWidth * 0.6f));
+        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        viewDaoJiShi.addView(imageView, layoutParams);
+        PropertyValuesHolder holder01 = PropertyValuesHolder.ofFloat("scaleX", 1f, 3f);
+        PropertyValuesHolder holder02 = PropertyValuesHolder.ofFloat("scaleY", 1f, 3f);
+        PropertyValuesHolder holder03 = PropertyValuesHolder.ofFloat("alpha", 1f, 0f);
+        animator = ObjectAnimator.ofPropertyValuesHolder(imageView, holder01, holder02, holder03);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.setDuration(1000);
+        animator.setRepeatCount(2);
+        animator.setRepeatMode(ValueAnimator.INFINITE);
+        animator.start();
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+            }
+        });
+
+        final int[] count = {1};
+        PropertyValuesHolder holder0101 = PropertyValuesHolder.ofFloat("scaleX", 1f, 2f);
+        PropertyValuesHolder holder0201 = PropertyValuesHolder.ofFloat("scaleY", 1f, 2f);
+        PropertyValuesHolder holder0301 = PropertyValuesHolder.ofFloat("alpha", 1f, 0.5f);
+        animator1 = ObjectAnimator.ofPropertyValuesHolder(imageDaoJiShi, holder0101, holder0201, holder0301);
+        animator1.setInterpolator(new LinearInterpolator());
+        animator1.setDuration(1000);
+        animator1.setRepeatCount(2);
+        animator1.setRepeatMode(ValueAnimator.INFINITE);
+        animator1.start();
+        animator1.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                kaiShi();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                super.onAnimationRepeat(animation);
+                count[0]++;
+                if (count[0] == 2) {
+                    imageDaoJiShi.setImageResource(R.mipmap.daojishi2);
+                } else if (count[0] == 3) {
+                    imageDaoJiShi.setImageResource(R.mipmap.daojishi1);
+                }
+            }
+        });
+    }
+
+    /**
+     * 跳转测试
+     */
+    private void kaiShi() {
+        Intent intent = new Intent();
+        intent.putExtra(Constant.IntentKey.ID, bid);
+        intent.setClass(BaoBaoLBActivity.this, NaoBoActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -434,4 +530,13 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
             openGPSSettings();
         }
     }
+
+    boolean isBack = true;
+
+//    @Override
+//    public void onBackPressed() {
+//        if (isBack){
+//            super.onBackPressed();
+//        }
+//    }
 }
