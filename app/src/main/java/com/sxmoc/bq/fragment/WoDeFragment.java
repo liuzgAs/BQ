@@ -33,6 +33,7 @@ import com.sxmoc.bq.activity.ZhuanRangBaoGaoActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.constant.Constant;
+import com.sxmoc.bq.customview.TwoBtnDialog;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.UserBuyerindex;
 import com.sxmoc.bq.model.UserShare;
@@ -283,15 +284,31 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                 cancelLoadingDialog();
                 LogUtil.LogShitou("WoDeFragment--onSuccess", s + "");
                 try {
-                    UserShare userShare = GsonUtils.parseJSON(s, UserShare.class);
+                    final UserShare userShare = GsonUtils.parseJSON(s, UserShare.class);
                     if (userShare.getStatus() == 1) {
                         int can_share = userShare.getCan_share();
                         if (can_share == 1) {
                             isShare = true;
                             MyDialog.share01(getActivity(), api, userShare.getShare_url(), getActivity().getResources().getString(R.string.app_name));
-
                         } else {
                             MyDialog.showTipDialog(getActivity(), userShare.getInfo());
+                            final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(getActivity(), userShare.getInfo(), "去升级", "不，谢谢");
+                            twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
+                                @Override
+                                public void doConfirm() {
+                                    twoBtnDialog.dismiss();
+                                    Intent intent = new Intent();
+                                    intent.putExtra(Constant.IntentKey.ID, userShare.getGoods_id());
+                                    intent.setClass(getContext(), ChanPinXQActivity.class);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void doCancel() {
+                                    twoBtnDialog.dismiss();
+                                }
+                            });
+                            twoBtnDialog.show();
                         }
                     } else if (userShare.getStatus() == 3) {
                         MyDialog.showReLoginDialog(getActivity());

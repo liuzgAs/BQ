@@ -17,7 +17,16 @@ public class UserShare {
     private int status;
     private String info;
     private int can_share;
+    private int goods_id;
     private String share_url;
+
+    public int getGoods_id() {
+        return goods_id;
+    }
+
+    public void setGoods_id(int goods_id) {
+        this.goods_id = goods_id;
+    }
 
     public int getStatus() {
         return status;
