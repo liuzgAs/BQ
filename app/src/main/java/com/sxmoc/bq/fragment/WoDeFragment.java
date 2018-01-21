@@ -313,24 +313,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                     } else if (userShare.getStatus() == 3) {
                         MyDialog.showReLoginDialog(getActivity());
                     } else {
-                        MyDialog.showTipDialog(getActivity(), userShare.getInfo());
-                        final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(getActivity(), userShare.getInfo(), "去升级", "不，谢谢");
-                        twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
-                            @Override
-                            public void doConfirm() {
-                                twoBtnDialog.dismiss();
-                                Intent intent = new Intent();
-                                intent.putExtra(Constant.IntentKey.ID, userShare.getGoods_id());
-                                intent.setClass(getContext(), ChanPinXQActivity.class);
-                                startActivity(intent);
-                            }
-
-                            @Override
-                            public void doCancel() {
-                                twoBtnDialog.dismiss();
-                            }
-                        });
-                        twoBtnDialog.show();
+                        Toast.makeText(getActivity(), userShare.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
