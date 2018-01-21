@@ -1,8 +1,10 @@
 package com.sxmoc.bq.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,6 +14,7 @@ import com.sxmoc.bq.R;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
+import com.sxmoc.bq.customview.SingleBtnDialog;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.SimpleInfo;
 import com.sxmoc.bq.util.ApiClient;
@@ -131,6 +134,28 @@ public class ZhuanRangBaoGaoActivity extends ZjbBaseActivity implements View.OnC
                     SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
                     if (simpleInfo.getStatus()==1){
                         MyDialog.showTipDialog(ZhuanRangBaoGaoActivity.this,simpleInfo.getInfo());
+                        final SingleBtnDialog singleBtnDialog = new SingleBtnDialog(ZhuanRangBaoGaoActivity.this, simpleInfo.getInfo(), "确认");
+                        singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
+                            @Override
+                            public void doWhat() {
+                                singleBtnDialog.dismiss();
+                                finish();
+                                Intent intent = new Intent();
+                                intent.setClass(ZhuanRangBaoGaoActivity.this,ZhuanRangLLActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                        singleBtnDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                            @Override
+                            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                                if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                                return false;
+                            }
+                        });
+                        singleBtnDialog.show();
                     }else if (simpleInfo.getStatus()==3){
                         MyDialog.showReLoginDialog(ZhuanRangBaoGaoActivity.this);
                     }else {

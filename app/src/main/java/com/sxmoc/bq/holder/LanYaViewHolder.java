@@ -92,19 +92,19 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void closeNotify() {
         BluetoothGatt bluetoothGatt = BleManager.getInstance().getBluetoothGatt(data.getBleDevice());
-        if (bluetoothGatt != null) {
-            final List<BluetoothGattService> services = bluetoothGatt.getServices();
-            List<BluetoothGattCharacteristic> characteristics = services.get(2).getCharacteristics();
-            final BluetoothGattCharacteristic bluetoothGattCharacteristic = characteristics.get(0);
-            BleManager.getInstance().stopNotify(data.getBleDevice(), bluetoothGattCharacteristic.getService().getUuid().toString(),
-                    bluetoothGattCharacteristic.getUuid().toString());
-            data.setStatue(1);
-            btnLianJie.setText("测试");
-        } else {
+//        if (bluetoothGatt != null) {
+//            final List<BluetoothGattService> services = bluetoothGatt.getServices();
+//            List<BluetoothGattCharacteristic> characteristics = services.get(2).getCharacteristics();
+//            final BluetoothGattCharacteristic bluetoothGattCharacteristic = characteristics.get(0);
+//            BleManager.getInstance().stopNotify(data.getBleDevice(), bluetoothGattCharacteristic.getService().getUuid().toString(),
+//                    bluetoothGattCharacteristic.getUuid().toString());
+//            data.setStatue(1);
+//            btnLianJie.setText("测试");
+//        } else {
             textStatue.setVisibility(View.GONE);
             btnLianJie.setText("连接");
             data.setStatue(0);
-        }
+//        }
         BleManager.getInstance().disconnectAllDevice();
         ((NaoBoActivity) getContext()).initNaoBo();
         num = 0;

@@ -465,7 +465,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        saoMiaoStatue = "正在搜索……";
+                        saoMiaoStatue = "正在搜索大脑雷达";
                         adapter.notifyDataSetChanged();
                     }
                 });
@@ -730,6 +730,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                                     cancelLoadingDialog();
                                     Intent intent = new Intent();
                                     intent.setClass(NaoBoActivity.this, PdfActivity.class);
+                                    intent.putExtra(Constant.IntentKey.TYPE,1);
                                     intent.putExtra(Constant.IntentKey.TITLE, "检测报告详情");
                                     intent.putExtra(Constant.IntentKey.VALUE, s);
                                     startActivity(intent);
