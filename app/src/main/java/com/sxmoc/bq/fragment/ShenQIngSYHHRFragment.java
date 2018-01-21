@@ -190,7 +190,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
             public void onSuccess(String s) {
                 cancelLoadingDialog();
                 LogUtil.LogShitou("WoDeFragment--onSuccess", s + "");
-//                try {
+                try {
                     userApplybefore = GsonUtils.parseJSON(s, UserApplybefore.class);
                     if (userApplybefore.getStatus() == 1) {
                         switch (userApplybefore.getState()) {
@@ -263,9 +263,9 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                     } else {
                         Toast.makeText(getActivity(), userApplybefore.getInfo(), Toast.LENGTH_SHORT).show();
                     }
-//                } catch (Exception e) {
-//                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
-//                }
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -377,7 +377,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
             case R.id.viewShiYEHHR:
                 final String[] strings = new String[userApplybefore.getGrade().size()];
                 for (int i = 0; i < userApplybefore.getGrade().size(); i++) {
-                    strings[i] = userApplybefore.getGrade().get(i).getName()  + userApplybefore.getGrade().get(i).getMoney() + ")";
+                    strings[i] = userApplybefore.getGrade().get(i).getName()  + userApplybefore.getGrade().get(i).getMoney();
                 }
                 new AlertDialog.Builder(getActivity())
                         .setItems(strings, new DialogInterface.OnClickListener() {

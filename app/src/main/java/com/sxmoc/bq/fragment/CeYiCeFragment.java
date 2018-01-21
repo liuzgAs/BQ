@@ -164,14 +164,14 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
                 break;
             case R.id.btnKaiShiJC:
 //                if (isZhuYi){
-                    intent.setClass(getActivity(), TiShiActivity.class);
-                    intent.putExtra(Constant.IntentKey.TITLE, "注意事项");
-                    intent.putExtra(Constant.IntentKey.URL, Constant.Url.PRECAUTIONS);
-                    intent.putExtra(Constant.IntentKey.TYPE,1);
-                    startActivity(intent);
+//                    intent.setClass(getActivity(), TiShiActivity.class);
+//                    intent.putExtra(Constant.IntentKey.TITLE, "注意事项");
+//                    intent.putExtra(Constant.IntentKey.URL, Constant.Url.PRECAUTIONS);
+//                    intent.putExtra(Constant.IntentKey.TYPE,1);
+//                    startActivity(intent);
 //                    isZhuYi=false;
 //                }else {
-//                    startTest();
+                    startTest();
 //                }
                 break;
             default:
