@@ -430,7 +430,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                     /**
                      * 只扫描指定广播名的设备，可选
                      */
-                    .setDeviceName(true, "Mind Link")
+                    .setDeviceName(true, Constant.bluetooth_name)
                     /**
                      * 扫描超时时间，可选，默认10秒
                      */

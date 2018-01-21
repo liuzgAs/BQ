@@ -26,9 +26,18 @@ public class UserApplybefore implements Serializable {
     private String tipsDes;
     private int state;
     private int status;
+    private int isup;
     private String info;
     private Bank bank;
     private List<GradeBean> grade;
+
+    public int getIsup() {
+        return isup;
+    }
+
+    public void setIsup(int isup) {
+        this.isup = isup;
+    }
 
     public Bank getBank() {
         return bank;

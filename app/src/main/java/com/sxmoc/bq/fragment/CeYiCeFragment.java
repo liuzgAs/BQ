@@ -13,12 +13,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.BaoBaoLBActivity;
 import com.sxmoc.bq.activity.TiShiActivity;
+import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.constant.Constant;
+import com.sxmoc.bq.model.OkObject;
+import com.sxmoc.bq.model.UserGetbluetooth;
+import com.sxmoc.bq.util.ApiClient;
+import com.sxmoc.bq.util.GsonUtils;
+import com.sxmoc.bq.util.LogUtil;
+
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,9 +107,49 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         mInflate.findViewById(R.id.imageNotify).setOnClickListener(this);
     }
 
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
+    private OkObject getOkObject() {
+        String url = Constant.HOST + Constant.Url.USER_GETBLUETOOTH;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime",tokenTime);
+        }
+        return new OkObject(params, url);
+    }
+
     @Override
     protected void initData() {
+        showLoadingDialog();
+        ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
+            @Override
+            public void onSuccess(String s) {
+                cancelLoadingDialog();
+                LogUtil.LogShitou("CeYiCeFragment--onSuccess",s+ "");
+                try {
+                    UserGetbluetooth userGetbluetooth = GsonUtils.parseJSON(s, UserGetbluetooth.class);
+                    if (userGetbluetooth.getStatus()==1){
+                        Constant.bluetooth_name = userGetbluetooth.getBluetooth_name();
+                    }else if (userGetbluetooth.getStatus()==3){
+                        MyDialog.showReLoginDialog(getActivity());
+                    }else {
+                        Toast.makeText(getActivity(), userGetbluetooth.getInfo(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(),"数据出错", Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onError() {
+                cancelLoadingDialog();
+                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

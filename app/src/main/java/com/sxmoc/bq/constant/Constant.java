@@ -11,6 +11,7 @@ public class Constant {
      * 判断数据是否有改变
      */
     public static int changeControl = 2017;
+    public static String bluetooth_name = "Mind Link";
     /**
      * 微信appid
      */
@@ -276,6 +277,10 @@ public class Constant {
          * 我的报告明细
          */
         public static final String USER_REPORTDETAILED = "/user/reportDetailed";
+        /**
+         * 获取蓝牙设备
+         */
+        public static final String USER_GETBLUETOOTH = "/user/getBluetooth";
     }
 
     public static class IntentKey {

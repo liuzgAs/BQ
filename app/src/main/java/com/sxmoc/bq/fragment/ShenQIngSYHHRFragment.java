@@ -80,6 +80,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
     private List<ProvinceBean> jsonBean;
+    private View lineShangJi;
 
     public ShenQIngSYHHRFragment() {
         // Required empty public constructor
@@ -150,6 +151,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
         textAccount = mInflate.findViewById(R.id.textAccount);
         textBank = mInflate.findViewById(R.id.textBank);
         textReceiving = mInflate.findViewById(R.id.textReceiving);
+        lineShangJi = mInflate.findViewById(R.id.lineShangJi);
     }
 
     /**
@@ -223,6 +225,13 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                                 editCard.setText(userApplybefore.getData().getCard());
                                 textAddress.setText(userApplybefore.getData().getArea());
                                 textAddressDetail.setText(userApplybefore.getData().getAddress());
+                                if (userApplybefore.getIsup()==1){
+                                    imageChengGong.setVisibility(View.VISIBLE);
+                                    lineShangJi.setVisibility(View.VISIBLE);
+                                }else {
+                                    imageChengGong.setVisibility(View.GONE);
+                                    lineShangJi.setVisibility(View.GONE);
+                                }
                                 break;
                             case 2:
                                 setJieMian(2);

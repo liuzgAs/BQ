@@ -482,7 +482,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/viewShengHeCG"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -493,6 +493,7 @@
         <include layout="@layout/view_hehuozhaungtai" />
 
         <TextView
+            android:id="@+id/lineShangJi"
             android:layout_gravity="center_horizontal"
             android:background="#FFA2F0FD"
             android:layout_width="1dp"
