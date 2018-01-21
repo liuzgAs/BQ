@@ -359,18 +359,22 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
              * @param msg
              */
             private void showError(String msg) {
-                View viewLoader = LayoutInflater.from(ChanPinXQActivity.this).inflate(R.layout.view_loaderror, null);
-                TextView textMsg = viewLoader.findViewById(R.id.textMsg);
-                textMsg.setText(msg);
-                viewLoader.findViewById(R.id.buttonReLoad).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        recyclerView.showProgress();
-                        initData();
-                    }
-                });
-                recyclerView.setErrorView(viewLoader);
-                recyclerView.showError();
+                try {
+                    View viewLoader = LayoutInflater.from(ChanPinXQActivity.this).inflate(R.layout.view_loaderror, null);
+                    TextView textMsg = viewLoader.findViewById(R.id.textMsg);
+                    textMsg.setText(msg);
+                    viewLoader.findViewById(R.id.buttonReLoad).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            recyclerView.showProgress();
+                            initData();
+                        }
+                    });
+                    recyclerView.setErrorView(viewLoader);
+                    recyclerView.showError();
+                    textReserve.setVisibility(View.GONE);
+                } catch (Exception e) {
+                }
             }
         });
     }
