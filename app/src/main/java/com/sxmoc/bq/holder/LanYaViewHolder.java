@@ -21,6 +21,8 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.NaoBoActivity;
 import com.sxmoc.bq.base.MyDialog;
+import com.sxmoc.bq.customview.TwoBtnDialog;
+import com.sxmoc.bq.interfacepage.OnDaoJiShiJieShuListener;
 import com.sxmoc.bq.model.BlueBean;
 import com.sxmoc.bq.model.NaoBo;
 import com.sxmoc.bq.util.ByteUtils;
@@ -58,7 +60,26 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                     ((NaoBoActivity) getContext()).showLoadingDialog();
                     connect();
                 } else if (data.getStatue() == 1) {
-                    caoZuo();
+                    final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(getContext(), "设备准备就绪", "开始测试", "取消");
+                    twoBtnDialog.show();
+                    twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
+                        @Override
+                        public void doConfirm() {
+                            twoBtnDialog.dismiss();
+                            ((NaoBoActivity)getContext()).daoJiShi();
+                            ((NaoBoActivity)getContext()).setOnDaoJiShiJieShuListener(new OnDaoJiShiJieShuListener() {
+                                @Override
+                                public void jieShu() {
+                                    caoZuo();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void doCancel() {
+                            twoBtnDialog.dismiss();
+                        }
+                    });
                 } else {
                     closeNotify();
                 }

@@ -42,6 +42,7 @@ import com.sxmoc.bq.customview.NaoBoTu;
 import com.sxmoc.bq.customview.RoateImg;
 import com.sxmoc.bq.customview.TwoBtnDialog;
 import com.sxmoc.bq.holder.LanYaViewHolder;
+import com.sxmoc.bq.interfacepage.OnDaoJiShiJieShuListener;
 import com.sxmoc.bq.model.BlueBean;
 import com.sxmoc.bq.model.BuyerSavedata;
 import com.sxmoc.bq.model.OkObject;
@@ -57,7 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListener {
-    private View[] viewJieMian = new View[4];
+    private View[] viewJieMian = new View[5];
     private EasyRecyclerView recyclerView;
     private RecyclerArrayAdapter<BlueBean> adapter;
     private String saoMiaoStatue = "正在搜索……";
@@ -76,6 +77,12 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
     private int id;
     private LanYaViewHolder lanYaViewHolder;
     private BuyerSavedata buyerSavedata;
+    ObjectAnimator animator01 = new ObjectAnimator();
+    ObjectAnimator animator1 = new ObjectAnimator();
+    private ImageView imageDaoJiShi;
+    boolean isBack = true;
+    private OnDaoJiShiJieShuListener onDaoJiShiJieShuListener;
+    private RelativeLayout viewDaoJiShi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +120,9 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         viewJieMian[3] = findViewById(R.id.viewDuQuBG);
         roateImg = (RoateImg) findViewById(R.id.roateImg);
         textShangChuanStatue = (TextView) findViewById(R.id.textShangChuanStatue);
+        imageDaoJiShi = (ImageView) findViewById(R.id.imageDaoJiShi);
+        viewJieMian[4] = (RelativeLayout) findViewById(R.id.viewDaoJiShi);
+        viewDaoJiShi = (RelativeLayout) findViewById(R.id.viewDaoJiShi);
     }
 
     @SuppressLint("WrongConstant")
@@ -415,26 +425,28 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         }
         adapter.clear();
         adapter.addAll(blueBeanList);
-        BleScanRuleConfig scanRuleConfig = new BleScanRuleConfig.Builder()
-                /**
-                 * 只扫描指定广播名的设备，可选
-                 */
-                .setDeviceName(true, "Mind Link")
-                /**
-                 * 扫描超时时间，可选，默认10秒
-                 */
-                .setScanTimeOut(10000)
-                .build();
-        BleManager.getInstance().initScanRule(scanRuleConfig);
-        ThreadPoolHelp.Builder
-                .cached()
-                .builder()
-                .execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        startScan();
-                    }
-                });
+        if (allConnectedDevice.size() == 0) {
+            BleScanRuleConfig scanRuleConfig = new BleScanRuleConfig.Builder()
+                    /**
+                     * 只扫描指定广播名的设备，可选
+                     */
+                    .setDeviceName(true, "Mind Link")
+                    /**
+                     * 扫描超时时间，可选，默认10秒
+                     */
+                    .setScanTimeOut(10000)
+                    .build();
+            BleManager.getInstance().initScanRule(scanRuleConfig);
+            ThreadPoolHelp.Builder
+                    .cached()
+                    .builder()
+                    .execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            startScan();
+                        }
+                    });
+        }
     }
 
     @Override
@@ -679,10 +691,10 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
-        params.put("bid",String.valueOf(id));
-        params.put("sid",String.valueOf(buyerSavedata.getSid()));
+        params.put("bid", String.valueOf(id));
+        params.put("sid", String.valueOf(buyerSavedata.getSid()));
         return new OkObject(params, url);
     }
 
@@ -706,16 +718,16 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                 try {
                     final TesterGetreport testerGetreport = GsonUtils.parseJSON(s, TesterGetreport.class);
                     if (testerGetreport.getStatus() == 1) {
-                        if (fuzhi){
+                        if (fuzhi) {
                             ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                             cmb.setText(testerGetreport.getData_url());
-                            MyDialog.showTipDialog(NaoBoActivity.this,"已复制到剪切版");
-                        }else {
+                            MyDialog.showTipDialog(NaoBoActivity.this, "已复制到剪切版");
+                        } else {
                             showLoadingDialog();
-                            ApiClient.downLoadFile(NaoBoActivity.this, testerGetreport.getData_url(), "大脑雷达",  "详情报告" + System.currentTimeMillis() + ".pdf", new ApiClient.CallBack() {
+                            ApiClient.downLoadFile(NaoBoActivity.this, testerGetreport.getData_url(), "大脑雷达", "详情报告" + System.currentTimeMillis() + ".pdf", new ApiClient.CallBack() {
                                 @Override
                                 public void onSuccess(String s) {
-                                   cancelLoadingDialog();
+                                    cancelLoadingDialog();
                                     Intent intent = new Intent();
                                     intent.setClass(NaoBoActivity.this, PdfActivity.class);
                                     intent.putExtra(Constant.IntentKey.TITLE, "检测报告详情");
@@ -751,5 +763,74 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
     protected void onDestroy() {
         super.onDestroy();
         BleManager.getInstance().cancelScan();
+    }
+
+    /**
+     * 倒计时
+     */
+    @SuppressLint("WrongConstant")
+    public void daoJiShi() {
+        setJieMian(4);
+        isBack = false;
+        screenWidth = ScreenUtils.getScreenWidth(NaoBoActivity.this);
+        final ImageView imageView = new ImageView(NaoBoActivity.this);
+        imageView.setImageResource(R.mipmap.jianbianquan);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int) ((float) screenWidth * 0.6f), (int) ((float) screenWidth * 0.6f));
+        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        viewDaoJiShi.addView(imageView, layoutParams);
+        PropertyValuesHolder holder01 = PropertyValuesHolder.ofFloat("scaleX", 1f, 3f);
+        PropertyValuesHolder holder02 = PropertyValuesHolder.ofFloat("scaleY", 1f, 3f);
+        PropertyValuesHolder holder03 = PropertyValuesHolder.ofFloat("alpha", 1f, 0f);
+        animator01 = ObjectAnimator.ofPropertyValuesHolder(imageView, holder01, holder02, holder03);
+        animator01.setInterpolator(new LinearInterpolator());
+        animator01.setDuration(1000);
+        animator01.setRepeatCount(2);
+        animator01.setRepeatMode(ValueAnimator.INFINITE);
+        animator01.start();
+        animator01.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+            }
+        });
+
+        final int[] count = {1};
+        PropertyValuesHolder holder0101 = PropertyValuesHolder.ofFloat("scaleX", 1f, 2f);
+        PropertyValuesHolder holder0201 = PropertyValuesHolder.ofFloat("scaleY", 1f, 2f);
+        PropertyValuesHolder holder0301 = PropertyValuesHolder.ofFloat("alpha", 1f, 0.5f);
+        animator1 = ObjectAnimator.ofPropertyValuesHolder(imageDaoJiShi, holder0101, holder0201, holder0301);
+        animator1.setInterpolator(new LinearInterpolator());
+        animator1.setDuration(1000);
+        animator1.setRepeatCount(2);
+        animator1.setRepeatMode(ValueAnimator.INFINITE);
+        animator1.start();
+        animator1.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                onDaoJiShiJieShuListener.jieShu();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                super.onAnimationRepeat(animation);
+                count[0]++;
+                if (count[0] == 2) {
+                    imageDaoJiShi.setImageResource(R.mipmap.daojishi2);
+                } else if (count[0] == 3) {
+                    imageDaoJiShi.setImageResource(R.mipmap.daojishi1);
+                }
+            }
+        });
+    }
+
+    public void setOnDaoJiShiJieShuListener(OnDaoJiShiJieShuListener onDaoJiShiJieShuListener){
+        this.onDaoJiShiJieShuListener=onDaoJiShiJieShuListener;
     }
 }
