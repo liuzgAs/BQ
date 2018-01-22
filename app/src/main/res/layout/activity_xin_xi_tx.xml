@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/leftAndRight"
-                android:text="出身年月"
+                android:text="出生年月"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/normal_textsize" />
 
@@ -131,14 +131,15 @@
                 android:src="@mipmap/right_big" />
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/leftAndRight"
-            android:layout_marginRight="@dimen/leftAndRight"
-            android:background="@color/background" />
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_marginLeft="@dimen/leftAndRight"-->
+            <!--android:layout_marginRight="@dimen/leftAndRight"-->
+            <!--android:background="@color/background" />-->
 
         <RelativeLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/normalItemHeight">
 
@@ -165,14 +166,15 @@
                 android:textSize="@dimen/normal_textsize" />
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/leftAndRight"
-            android:layout_marginRight="@dimen/leftAndRight"
-            android:background="@color/background" />
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_marginLeft="@dimen/leftAndRight"-->
+            <!--android:layout_marginRight="@dimen/leftAndRight"-->
+            <!--android:background="@color/background" />-->
 
         <RelativeLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/normalItemHeight">
 

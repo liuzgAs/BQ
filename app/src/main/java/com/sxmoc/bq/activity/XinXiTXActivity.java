@@ -186,17 +186,17 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
                     return;
                 }
                 if (TextUtils.isEmpty(birthday)) {
-                    Toast.makeText(XinXiTXActivity.this, "请选择宝宝出身年月", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(XinXiTXActivity.this, "请选择宝宝出生年月", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(editSchool.getText().toString().trim())) {
-                    Toast.makeText(XinXiTXActivity.this, "请输入宝宝校区", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(editEmiel.getText().toString().trim())) {
-                    Toast.makeText(XinXiTXActivity.this, "请填写邮箱地址", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (TextUtils.isEmpty(editSchool.getText().toString().trim())) {
+//                    Toast.makeText(XinXiTXActivity.this, "请输入宝宝校区", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(editEmiel.getText().toString().trim())) {
+//                    Toast.makeText(XinXiTXActivity.this, "请填写邮箱地址", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 if (grade == -1) {
                     Toast.makeText(XinXiTXActivity.this, "请输入宝宝年级", Toast.LENGTH_SHORT).show();
                     return;

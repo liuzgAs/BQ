@@ -27,7 +27,6 @@ import com.sxmoc.bq.activity.WebActivity;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseFragment;
 import com.sxmoc.bq.constant.Constant;
-import com.sxmoc.bq.model.CheckIdCard;
 import com.sxmoc.bq.model.IndexCitylist;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.ProvinceBean;
@@ -319,11 +318,11 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                     Toast.makeText(getActivity(), "请填写联系电话", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                CheckIdCard checkIdCard = new CheckIdCard(editCard.getText().toString().trim());
-                if (!checkIdCard.validate()) {
-                    Toast.makeText(getActivity(), "请输入正确的身份证号", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                CheckIdCard checkIdCard = new CheckIdCard(editCard.getText().toString().trim());
+//                if (!checkIdCard.validate()) {
+//                    Toast.makeText(getActivity(), "请输入正确的身份证号", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 if (TextUtils.isEmpty(textAddress.getText().toString().trim())) {
                     Toast.makeText(getActivity(), "请选择寄货城市", Toast.LENGTH_SHORT).show();
                     return;
