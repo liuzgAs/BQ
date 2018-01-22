@@ -330,8 +330,10 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
                 try {
                     goodsInfo = GsonUtils.parseJSON(s, GoodsInfo.class);
                     if (goodsInfo.getStatus() == 1) {
-                        banner1.clear();
-                        banner1.addAll(goodsInfo.getBanner());
+                        if (goodsInfo.getBanner()!=null){
+                            banner1.clear();
+                            banner1.addAll(goodsInfo.getBanner());
+                        }
                         data = goodsInfo.getData();
                         List<GoodsInfo.DesListBean> desList = goodsInfo.getDesList();
                         adapter.clear();
