@@ -36,7 +36,7 @@ public class Constant {
         /**
          * 升级
          */
-        public static final String INDEX_VERSION = "";
+        public static final String INDEX_VERSION = "/Index/version";
         /**
          * 忘记密码
          */
