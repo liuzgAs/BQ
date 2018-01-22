@@ -37,6 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <EditText
+                android:hint="请输入提现金额"
                 android:id="@+id/editJinE"
                 android:paddingLeft="5dp"
                 android:background="@null"

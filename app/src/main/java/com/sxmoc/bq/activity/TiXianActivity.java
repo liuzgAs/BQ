@@ -101,8 +101,8 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
                 try {
                     WithdrawAddbefore withdrawAddbefore = GsonUtils.parseJSON(s, WithdrawAddbefore.class);
                     if (withdrawAddbefore.getStatus() == 1) {
-                        editJinE.setText(withdrawAddbefore.getMoney() + "");
-                        editJinE.setSelection((withdrawAddbefore.getMoney() + "").length());
+//                        editJinE.setText(withdrawAddbefore.getMoney() + "");
+//                        editJinE.setSelection((withdrawAddbefore.getMoney() + "").length());
                         textYuE.setText(withdrawAddbefore.getMoneyDes());
                         textDes.setText(withdrawAddbefore.getDes());
                     } else if (withdrawAddbefore.getStatus() == 3) {
