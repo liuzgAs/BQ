@@ -394,7 +394,7 @@
                             android:textSize="@dimen/litterText"
                             android:layout_marginTop="10dp"
                             android:layout_centerHorizontal="true"
-                            android:text="检测记录"
+                            android:text="脑力档案"
                             android:layout_below="@+id/imageMine07"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />

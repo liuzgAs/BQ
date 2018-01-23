@@ -64,7 +64,7 @@ public class CeShiLSActivity extends ZjbBaseActivity implements View.OnClickList
 
     @Override
     protected void initViews() {
-        ((TextView)findViewById(R.id.textViewTitle)).setText("检测记录");
+        ((TextView)findViewById(R.id.textViewTitle)).setText("脑力档案");
         initRecycler();
     }
 

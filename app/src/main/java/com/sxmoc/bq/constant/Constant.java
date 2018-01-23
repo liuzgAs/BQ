@@ -285,6 +285,10 @@ public class Constant {
          * 提现记录
          */
         public static final String WITHDRAW_GETWITHDRAW = "/Withdraw/getWithdraw";
+        /**
+         * 微信支付
+         */
+        public static final String PAY_WXPAY = "/pay/wxpay";
     }
 
     public static class IntentKey {

@@ -20,11 +20,14 @@ import com.sxmoc.bq.customview.SingleBtnDialog;
 import com.sxmoc.bq.model.AliPayBean;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.PayAlipay;
+import com.sxmoc.bq.model.PayWxpay;
 import com.sxmoc.bq.model.SimpleInfo;
 import com.sxmoc.bq.model.UserGetbalance;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
+import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -208,7 +211,7 @@ public class LiJiZFActivity extends ZjbBaseActivity implements View.OnClickListe
                         zhiFuBao(order);
                         break;
                     case 2:
-                        MyDialog.showTipDialog(this,"微信支付暂未开通，敬请期待");
+                        weiXin();
                         break;
                     default:
                         break;
@@ -220,6 +223,82 @@ public class LiJiZFActivity extends ZjbBaseActivity implements View.OnClickListe
             default:
                 break;
         }
+    }
+
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
+    private OkObject getWxOkObject() {
+        String url = Constant.HOST + Constant.Url.PAY_WXPAY;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime",tokenTime);
+        }
+        params.put("order_no", order);
+        return new OkObject(params, url);
+    }
+
+    /**
+     * 微信支付
+     */
+    private void weiXin() {
+        showLoadingDialog();
+        ApiClient.post(LiJiZFActivity.this, getWxOkObject(), new ApiClient.CallBack() {
+            @Override
+            public void onSuccess(String s) {
+                cancelLoadingDialog();
+                LogUtil.LogShitou("LiJiZFActivity--onSuccess",s+ "");
+                try {
+                    PayWxpay payWxpay = GsonUtils.parseJSON(s, PayWxpay.class);
+                    if (payWxpay.getStatus()==1){
+                        wechatPay(payWxpay);
+                    }else if (payWxpay.getStatus()==3){
+                        MyDialog.showReLoginDialog(LiJiZFActivity.this);
+                    }else {
+                        Toast.makeText(LiJiZFActivity.this, payWxpay.getInfo(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(LiJiZFActivity.this,"数据出错", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError() {
+                cancelLoadingDialog();
+                Toast.makeText(LiJiZFActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 微信支付
+     */
+    private void wechatPay(PayWxpay payWxpay) {
+        if (!checkIsSupportedWeachatPay()) {
+            Toast.makeText(LiJiZFActivity.this, "您暂未安装微信或您的微信版本暂不支持支付功能\n请下载安装最新版本的微信", Toast.LENGTH_SHORT).show();
+        } else {
+            api.registerApp(payWxpay.getAppid());
+            PayReq mPayReq = new PayReq();
+            mPayReq.appId = payWxpay.getAppid();
+            mPayReq.partnerId = payWxpay.getPartnerid();
+            mPayReq.prepayId = payWxpay.getPrepayid();
+            mPayReq.packageValue = payWxpay.getPackageX();
+            mPayReq.nonceStr = payWxpay.getNonceStr();
+            mPayReq.timeStamp = payWxpay.getTimeStamp() + "";
+            mPayReq.sign = payWxpay.getSign().toUpperCase();
+            api.sendReq(mPayReq);
+        }
+    }
+
+    /**
+     * 检查微信版本是否支付支付或是否安装可支付的微信版本
+     */
+    private boolean checkIsSupportedWeachatPay() {
+        boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
+        return isPaySupported;
     }
 
     /**
