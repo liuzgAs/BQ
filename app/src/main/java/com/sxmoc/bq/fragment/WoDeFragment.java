@@ -289,10 +289,9 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                         int can_share = userShare.getCan_share();
                         if (can_share == 1) {
                             isShare = true;
-                            MyDialog.share01(getActivity(), api, userShare.getShare_url(), getActivity().getResources().getString(R.string.app_name));
+                            MyDialog.share01(getActivity(), api, userShare.getShare_url(), userShare.getTitle(),userShare.getContent());
                         } else {
-                            MyDialog.showTipDialog(getActivity(), userShare.getInfo());
-                            final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(getActivity(), userShare.getInfo(), "去升级", "不，谢谢");
+                            final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(getActivity(), userShare.getInfo(), "升级", "返回");
                             twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
                                 @Override
                                 public void doConfirm() {

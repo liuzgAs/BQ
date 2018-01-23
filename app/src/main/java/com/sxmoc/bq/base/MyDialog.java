@@ -188,7 +188,7 @@ public class MyDialog {
         dialogWindow.setAttributes(lp);
     }
 
-    public static void share01(final Context context, final IWXAPI api, final String url, final String title) {
+    public static void share01(final Context context, final IWXAPI api, final String url, final String title,final  String des) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialog_shengji = inflater.inflate(R.layout.dianlog_share, null);
         final AlertDialog alertDialog1 = new AlertDialog.Builder(context, R.style.dialog)
@@ -208,7 +208,7 @@ public class MyDialog {
                     Toast.makeText(context, "您暂未安装微信,请下载安装最新版本的微信", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                wxShare(context, api, 0, url, title);
+                wxShare(context, api, 0, url, title,des);
                 alertDialog1.dismiss();
             }
         });
@@ -219,14 +219,14 @@ public class MyDialog {
                     Toast.makeText(context, "您暂未安装微信,请下载安装最新版本的微信", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                wxShare(context, api, 1, url, title);
+                wxShare(context, api, 1, url, title,des);
                 alertDialog1.dismiss();
             }
         });
         dialog_shengji.findViewById(R.id.relaShouCang).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                wxShare(context, api, 2, url, title);
+                wxShare(context, api, 2, url, title,des);
                 alertDialog1.dismiss();
                 alertDialog1.dismiss();
             }
@@ -285,12 +285,13 @@ public class MyDialog {
         }
     }
 
-    private static void wxShare(Context context, final IWXAPI api, final int flag, String url, String title) {
+    private static void wxShare(Context context, final IWXAPI api, final int flag, String url, String title,String des) {
         api.registerApp(Constant.WXAPPID);
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = url;
         final WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = title;
+        msg.description = des;
         msg.description = title;
 
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.logo);
