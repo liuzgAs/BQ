@@ -50,6 +50,10 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
     private int[] mI;
     private String mPhone_sms;
     private TextView textViewRight;
+    int bankID;
+    private TextView textBank1;
+    private View viewPhone;
+    private View viewCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,9 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
         editPhone = (EditText) findViewById(R.id.editPhone);
         editCode = (EditText) findViewById(R.id.editCode);
         textViewRight = (TextView) findViewById(R.id.textViewRight);
+        textBank1 = (TextView) findViewById(R.id.textBank1);
+        viewPhone = findViewById(R.id.viewPhone);
+        viewCode = findViewById(R.id.viewCode);
     }
 
     @Override
@@ -84,13 +91,17 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
         ((TextView) findViewById(R.id.textViewTitle)).setText("提现");
         MoneyInputFilter.init(editJinE);
         textViewRight.setText("提现记录");
+        viewPhone.setVisibility(View.GONE);
+        viewCode.setVisibility(View.GONE);
     }
 
     @Override
     protected void setListeners() {
         findViewById(R.id.imageBack).setOnClickListener(this);
         findViewById(R.id.btnLiJiTX).setOnClickListener(this);
+        findViewById(R.id.viewBank).setOnClickListener(this);
         buttonSms.setOnClickListener(this);
+        textViewRight.setOnClickListener(this);
     }
 
     /**
@@ -146,7 +157,7 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
      * author： ZhangJieBo
      * date： 2017/8/28 0028 上午 9:55
      */
-    private OkObject getTXOkObject(int bankID) {
+    private OkObject getTXOkObject() {
         String url = Constant.HOST + Constant.Url.WITHDRAW_ADDDONE;
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
@@ -155,15 +166,20 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
         }
         params.put("money", editJinE.getText().toString().trim());
         params.put("bank", String.valueOf(bankID));
+        params.put("userName", editPhone.getText().toString().trim());
+        params.put("code", editCode.getText().toString().trim());
         return new OkObject(params, url);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.viewBank:
+                chooseBank();
+                break;
             case R.id.textViewRight:
                 Intent intent = new Intent();
-                intent.setClass(TiXianActivity.this,TiXianJLActivity.class);
+                intent.setClass(TiXianActivity.this, TiXianJLActivity.class);
                 startActivity(intent);
                 break;
             case R.id.buttonSms:
@@ -178,6 +194,10 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
                     Toast.makeText(TiXianActivity.this, "提现金额必须大于0", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (bankID == 0) {
+                    Toast.makeText(TiXianActivity.this, "请选择提现银行卡", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (TextUtils.isEmpty(editPhone.getText().toString().trim())) {
                     Toast.makeText(TiXianActivity.this, "请输入银行预留手机号", Toast.LENGTH_SHORT).show();
                     return;
@@ -186,7 +206,7 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
                     Toast.makeText(TiXianActivity.this, "请输入验证码", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                chooseBank();
+                tiXian();
                 break;
             case R.id.imageBack:
                 finish();
@@ -314,7 +334,7 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent();
-                                intent.setClass(TiXianActivity.this, TiXianActivity.class);
+                                intent.setClass(TiXianActivity.this, XinZengYHKActivity.class);
                                 intent.putExtra(Constant.IntentKey.TITLE, "新增银行卡");
                                 startActivityForResult(intent, Constant.RequestResultCode.XIN_YONG_KA);
                                 alertDialog.dismiss();
@@ -323,7 +343,10 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                tiXian(dataBeanList.get(i).getId());
+                                bankID = dataBeanList.get(i).getId();
+                                textBank1.setText(dataBeanList.get(i).getBank() + "(" + dataBeanList.get(i).getBankCard() + ")");
+                                viewPhone.setVisibility(View.VISIBLE);
+                                viewCode.setVisibility(View.VISIBLE);
                                 alertDialog.dismiss();
                             }
                         });
@@ -395,9 +418,9 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
         }
     }
 
-    private void tiXian(int bankID) {
+    private void tiXian() {
         showLoadingDialog();
-        ApiClient.post(TiXianActivity.this, getTXOkObject(bankID), new ApiClient.CallBack() {
+        ApiClient.post(TiXianActivity.this, getTXOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
@@ -406,13 +429,14 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
                     SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
                     if (simpleInfo.getStatus() == 1) {
                         initData();
-                        Intent intent = new Intent(Constant.BroadcastCode.TIXIAN);
+                        final Intent intent = new Intent(Constant.BroadcastCode.TIXIAN);
                         sendBroadcast(intent);
-                        SingleBtnDialog singleBtnDialog = new SingleBtnDialog(TiXianActivity.this, simpleInfo.getInfo(), "确认");
+                        final SingleBtnDialog singleBtnDialog = new SingleBtnDialog(TiXianActivity.this, simpleInfo.getInfo(), "确认");
                         singleBtnDialog.show();
                         singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
                             @Override
                             public void doWhat() {
+                                singleBtnDialog.dismiss();
                                 Intent intent1 = new Intent();
                                 intent1.setClass(TiXianActivity.this, TiXianJLActivity.class);
                                 startActivity(intent1);

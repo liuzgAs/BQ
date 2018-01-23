@@ -43,7 +43,7 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
     private EditText editEmiel;
     private CheckBox checkBox;
     private int id;
-    String[] strings1 = {"一年级", "二年级", "三年级", "四年级", "五年级", "六年级", "七年级", "八年级", "九年级"};
+    String[] strings1 = {"幼儿园大班","一年级", "二年级", "三年级", "四年级", "五年级", "六年级", "七年级", "八年级", "九年级"};
     final String[] strings = {"男", "女"};
     private Button btnKaiShiCeShi;
 
@@ -258,7 +258,7 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
         params.put("name", editName.getText().toString().trim());
         params.put("school_name", editSchool.getText().toString().trim());
         params.put("mailbox", editEmiel.getText().toString().trim());
-        params.put("grade", grade + "");
+        params.put("grade", textGrade.getText().toString().trim());
         params.put("birthday", birthday);
         params.put("sex", String.valueOf(sex));
         if (id!=0){

@@ -329,6 +329,9 @@
         <activity
             android:name=".activity.TiShiActivity"
             android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.TiXianJLActivity"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>
