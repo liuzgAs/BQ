@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class GongXiangHYActivity extends ZjbBaseActivity implements SwipeRefresh
     private int id;
     private ImageView imageImg;
     private TextView textShenFen;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class GongXiangHYActivity extends ZjbBaseActivity implements SwipeRefresh
     protected void initIntent() {
         Intent intent = getIntent();
         id = intent.getIntExtra(Constant.IntentKey.ID, 0);
+        title = intent.getStringExtra(Constant.IntentKey.TITLE);
     }
 
     @Override
@@ -68,7 +71,7 @@ public class GongXiangHYActivity extends ZjbBaseActivity implements SwipeRefresh
 
     @Override
     protected void initViews() {
-        ((TextView) findViewById(R.id.textViewTitle)).setText("我的共享");
+        ((TextView) findViewById(R.id.textViewTitle)).setText(title);
         initRecycler();
     }
 
@@ -183,7 +186,13 @@ public class GongXiangHYActivity extends ZjbBaseActivity implements SwipeRefresh
      * date： 2017/8/28 0028 上午 9:55
      */
     private OkObject getOkObject() {
-        String url = Constant.HOST + Constant.Url.USER_GETMYSHARE1;
+        String url;
+        if (TextUtils.equals("我的合伙人",title)){
+            url = Constant.HOST + Constant.Url.USER_GETMYPARTNER1;
+        }else {
+             url = Constant.HOST + Constant.Url.USER_GETMYSHARE1;
+        }
+
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());

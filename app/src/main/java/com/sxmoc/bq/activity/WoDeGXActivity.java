@@ -87,7 +87,7 @@ public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListe
                 ApiClient.post(WoDeGXActivity.this, getOkObject(), new ApiClient.CallBack() {
                     @Override
                     public void onSuccess(String s) {
-                        LogUtil.LogShitou("DingDanGLActivity--加载更多", s+"");
+                        LogUtil.LogShitou("DingDanGLActivity--加载更多", s + "");
                         try {
                             page++;
                             UserGetmyshare userGetmyshare = GsonUtils.parseJSON(s, UserGetmyshare.class);
@@ -141,10 +141,19 @@ public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListe
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent = new Intent();
-                intent.setClass(WoDeGXActivity.this,GongXiangHYActivity.class);
-                intent.putExtra(Constant.IntentKey.ID,adapter.getItem(position).getId());
-                startActivity(intent);
+                if (isGongXiang){
+                    Intent intent = new Intent();
+                    intent.setClass(WoDeGXActivity.this, GongXiangHYActivity.class);
+                    intent.putExtra(Constant.IntentKey.TITLE,"我的共享");
+                    intent.putExtra(Constant.IntentKey.ID, adapter.getItem(position).getId());
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent();
+                    intent.setClass(WoDeGXActivity.this, GongXiangHYActivity.class);
+                    intent.putExtra(Constant.IntentKey.TITLE,"我的合伙人");
+                    intent.putExtra(Constant.IntentKey.ID, adapter.getItem(position).getId());
+                    startActivity(intent);
+                }
             }
         });
         recyclerView.setRefreshListener(this);
@@ -153,6 +162,8 @@ public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListe
     @Override
     protected void setListeners() {
         findViewById(R.id.imageBack).setOnClickListener(this);
+        findViewById(R.id.viewFenXiang).setOnClickListener(this);
+        findViewById(R.id.viewHeHuo).setOnClickListener(this);
     }
 
     @Override
@@ -163,6 +174,14 @@ public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.viewFenXiang:
+                isGongXiang=true;
+                onRefresh();
+                break;
+            case R.id.viewHeHuo:
+                isGongXiang=false;
+                onRefresh();
+                break;
             case R.id.imageBack:
                 finish();
                 break;
@@ -172,6 +191,7 @@ public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListe
     }
 
     int page = 1;
+    boolean isGongXiang = true;
 
     /**
      * des： 网络请求参数
@@ -179,13 +199,18 @@ public class WoDeGXActivity extends ZjbBaseActivity implements View.OnClickListe
      * date： 2017/8/28 0028 上午 9:55
      */
     private OkObject getOkObject() {
-        String url = Constant.HOST + Constant.Url.USER_GETMYSHARE;
+        String url;
+        if (isGongXiang){
+            url = Constant.HOST + Constant.Url.USER_GETMYSHARE;
+        }else {
+            url = Constant.HOST + Constant.Url.USER_GETMYPARTNER;
+        }
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
-        params.put("p",String.valueOf(page));
+        params.put("p", String.valueOf(page));
         return new OkObject(params, url);
     }
 

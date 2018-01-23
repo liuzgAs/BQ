@@ -186,6 +186,10 @@ public class Constant {
          */
         public static final String USER_GETMYSHARE = "/user/getMyShare";
         /**
+         * 我的合伙人
+         */
+        public static final String USER_GETMYPARTNER = "/user/getMyPartner";
+        /**
          * 地址列表
          */
         public static final String USER_ADDRESS = "/User/address";
@@ -241,6 +245,10 @@ public class Constant {
          * 0进下级共享好友
          */
         public static final String USER_GETMYSHARE1 = "/user/getMyShare1";
+        /**
+         * 0进下级合伙人
+         */
+        public static final String USER_GETMYPARTNER1 = "/user/getMyPartner1";
         /**
          * 订单详情
          */
