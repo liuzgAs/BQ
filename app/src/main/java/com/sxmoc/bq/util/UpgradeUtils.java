@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.sxmoc.bq.BuildConfig;
 import com.sxmoc.bq.R;
+import com.sxmoc.bq.application.MyApplication;
 import com.sxmoc.bq.model.OkObject;
 
 import java.io.File;
@@ -48,13 +49,9 @@ import java.net.URL;
 import java.util.HashMap;
 
 
-
-/**
- * @author Administrator
- */
 public class UpgradeUtils extends Activity {
     public static final String APK_UPGRADE = Environment
-            .getExternalStorageDirectory() + "/jinglingzhiquan/upgrade/jinglingzhiquan.apk";
+            .getExternalStorageDirectory() + "/danaoleida/upgrade/danaoleida.apk";
     private static Context mContext;
     private static NotificationManager mNotifiMgr;
     private static Notification mNotifi;
@@ -132,6 +129,7 @@ public class UpgradeUtils extends Activity {
                     public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
                             dialog.dismiss();
+                            MyApplication.getInstance().exit();
                             // 杀掉进程
                             Process.killProcess(Process.myPid());
                             System.exit(0);
@@ -172,6 +170,7 @@ public class UpgradeUtils extends Activity {
                 public void onClick(View view) {
                     if (upgrade.getUpStatus() == 1) {
                         alertDialog.dismiss();
+                        MyApplication.getInstance().exit();
                         // 杀掉进程
                         Process.killProcess(Process.myPid());
                         System.exit(0);
@@ -219,7 +218,7 @@ public class UpgradeUtils extends Activity {
                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Process.killProcess(Process.myPid());
+                            MyApplication.getInstance().exit();
                             System.exit(0);
                         }
                     }).show();
@@ -336,7 +335,7 @@ public class UpgradeUtils extends Activity {
                 // 单击后自动删除
                 // .setOngoing(true)// 无法删除的通知
                 // 定制通知布局
-                .setSmallIcon(R.mipmap.logo)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setTicker("正在下载")
                 .setWhen(System.currentTimeMillis())
 //                .setSound(Uri.parse("")) //声音
@@ -349,7 +348,7 @@ public class UpgradeUtils extends Activity {
     private static void updateNotify(int loadedLen) {
 //		int progress = loadedLen * 100 / upgrade.filelen;
         int progress = (int) (((double) loadedLen / (double) contentLength) * 100);
-        if (progressDialog != null) {
+        if (progressDialog!=null){
             progressDialog.setProgress(progress);
         }
         mNotifiviews.setTextViewText(R.id.tv_subtitle, progress + "%");
@@ -361,7 +360,7 @@ public class UpgradeUtils extends Activity {
 
     private static void finishNotify() {
         try {
-            if (progressDialog != null) {
+            if (progressDialog!=null){
                 progressDialog.dismiss();
             }
             Intent intent = new Intent(Intent.ACTION_VIEW);
