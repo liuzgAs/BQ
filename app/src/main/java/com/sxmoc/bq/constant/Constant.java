@@ -281,6 +281,10 @@ public class Constant {
          * 获取蓝牙设备
          */
         public static final String USER_GETBLUETOOTH = "/user/getBluetooth";
+        /**
+         * 提现记录
+         */
+        public static final String WITHDRAW_GETWITHDRAW = "/Withdraw/getWithdraw";
     }
 
     public static class IntentKey {

@@ -36,14 +36,14 @@ public class XinZengYHKActivity extends ZjbBaseActivity implements View.OnClickL
     private TextView textBankName;
     private String id;
     private TextView buttonSms;
-    private EditText editName;
-    private EditText editCard;
-    private EditText editBankCard;
     private EditText editPhone;
     private EditText editCode;
     private Runnable mR;
     private int[] mI;
     private String mPhone_sms;
+    private EditText editName;
+    private EditText editCard;
+    private EditText editBankCard;
     private String title;
 
     @Override
@@ -69,11 +69,11 @@ public class XinZengYHKActivity extends ZjbBaseActivity implements View.OnClickL
         viewBar = findViewById(R.id.viewBar);
         textBankName = (TextView) findViewById(R.id.textBankName);
         buttonSms = (TextView) findViewById(R.id.buttonSms);
+        editPhone = (EditText) findViewById(R.id.editPhone);
+        editCode = (EditText) findViewById(R.id.editCode);
         editName = (EditText) findViewById(R.id.editName);
         editCard = (EditText) findViewById(R.id.editCard);
         editBankCard = (EditText) findViewById(R.id.editBankCard);
-        editPhone = (EditText) findViewById(R.id.editPhone);
-        editCode = (EditText) findViewById(R.id.editCode);
     }
 
     @Override

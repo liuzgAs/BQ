@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textGongXiangNum"
                 android:layout_centerHorizontal="true"
-                android:text="共享用户"
+                android:text="分享用户"
                 android:textColor="@color/white"
                 android:textSize="@dimen/normal_textsize" />
         </RelativeLayout>
