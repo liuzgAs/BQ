@@ -3,9 +3,11 @@ package com.sxmoc.bq.customview;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.CornerPathEffect;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.support.annotation.Nullable;
@@ -51,7 +53,7 @@ public class NaoBoTu extends View {
     private float youBianTextMargin;
 
     /**
-     * 底部文字
+     * 右边文字
      */
     String[] strYouBian = new String[]{
             "128",
@@ -63,17 +65,17 @@ public class NaoBoTu extends View {
             "896",
     };
     /**
-     * 右边文字
+     * 底部文字
      */
     String[] strDiBu = new String[]{
             "10",
             "20",
             "30",
             "40",
-            "50",
-            "60",
-            "70",
-            "80",
+//            "50",
+//            "60",
+//            "70",
+//            "80",
     };
     /**
      * 底部横线宽度
@@ -114,22 +116,22 @@ public class NaoBoTu extends View {
             512, 512, 512, 512, 512, 512, 512, 512,
             512, 512, 512, 512, 512, 512, 512, 512,
             512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
-            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
+//            512, 512, 512, 512, 512, 512, 512, 512,
     };
     /**
      * 脑波画笔
@@ -185,9 +187,11 @@ public class NaoBoTu extends View {
         /**
          * 初始化脑波曲线画笔
          */
+        PathEffect pathEffect = new CornerPathEffect(DpUtils.convertDpToPixel(5f,context));
         paintNaoBo = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintNaoBo.setPathEffect(pathEffect);
         paintNaoBo.setStyle(Paint.Style.STROKE);
-        naoBoLineWidth = DpUtils.convertDpToPixel(2f, context);
+        naoBoLineWidth = DpUtils.convertDpToPixel(1f, context);
         paintNaoBo.setStrokeWidth(naoBoLineWidth);
 //        paintNaoBo.setColor(Color.parseColor("#ffb662"));
         Shader shader = new LinearGradient(getWidth(), 0, 0, getHeight(), Color.parseColor("#ffb06d"),
@@ -246,7 +250,7 @@ public class NaoBoTu extends View {
         path.reset();
         path.moveTo(getWidth() - youBianZiWidth, (getHeight() - diBuZiHeght) - (getHeight() - diBuZiHeght) * ((float) naoBoShuJuArr[0] / 1024f) + naoBoLineWidth * 2);
         for (int i = 0; i < naoBoShuJuArr.length; i++) {
-            path.lineTo((getWidth() - youBianZiWidth) - ((float) i / 64f) * ((getWidth() - youBianZiWidth)), (getHeight() - diBuZiHeght) - (getHeight() - diBuZiHeght) * ((float) naoBoShuJuArr[i] / 1024f) + naoBoLineWidth * 2);
+            path.lineTo((getWidth() - youBianZiWidth) - ((float) i / 32f) * ((getWidth() - youBianZiWidth)), (getHeight() - diBuZiHeght) - (getHeight() - diBuZiHeght) * ((float) naoBoShuJuArr[i] / 1024f) + naoBoLineWidth * 2);
         }
         canvas.drawPath(path, paintNaoBo);
         canvas.restore();
@@ -258,7 +262,7 @@ public class NaoBoTu extends View {
     }
 
     public void setNaoBoPoint(int value) {
-        int[] naoBoShuJuArrX = new int[256];
+        int[] naoBoShuJuArrX = new int[128];
         naoBoShuJuArrX[0] = value;
         for (int i = 0; i < naoBoShuJuArr.length - 1; i++) {
             naoBoShuJuArrX[i + 1] = naoBoShuJuArr[i];

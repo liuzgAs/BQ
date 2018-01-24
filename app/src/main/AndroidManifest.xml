@@ -70,7 +70,7 @@
         </provider>
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5a605db2f43e48402d000136" />
+            android:value="5a682c83f29d987a6c00008b" />
         <!-- 测试推送 -->
         <meta-data
             android:name="com.alibaba.app.appkey"
