@@ -1,6 +1,7 @@
 package com.sxmoc.bq.base;
 
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -29,12 +30,14 @@ public abstract class ZjbBaseFragment extends Fragment implements FragmentBackHa
     private AlertDialog mAlertDialog;
     public UserInfo userInfo;
     public String tokenTime;
+    public Activity mContext;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //禁止横屏
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        this.mContext = getActivity();
     }
 
     public void init() {
@@ -83,8 +86,8 @@ public abstract class ZjbBaseFragment extends Fragment implements FragmentBackHa
     public void showLoadingDialog() {
         try {
             if (mAlertDialog == null) {
-                View dialog_progress = LayoutInflater.from(getActivity()).inflate(R.layout.view_progress, null);
-                mAlertDialog = new AlertDialog.Builder(getActivity(), R.style.dialog)
+                View dialog_progress = LayoutInflater.from(mContext).inflate(R.layout.view_progress, null);
+                mAlertDialog = new AlertDialog.Builder(mContext, R.style.dialog)
                         .setView(dialog_progress)
                         .setCancelable(false)
                         .create();
@@ -94,7 +97,7 @@ public abstract class ZjbBaseFragment extends Fragment implements FragmentBackHa
                     public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
                             cancelLoadingDialog();
-                            getActivity().finish();
+                            mContext.finish();
                         }
                         return false;
                     }

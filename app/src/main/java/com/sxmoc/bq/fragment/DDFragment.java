@@ -110,13 +110,13 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
     }
 
     private void initRecycle() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         recyclerView.setLayoutManager(layoutManager);
-        DividerDecoration itemDecoration = new DividerDecoration(Color.TRANSPARENT, (int) DpUtils.convertDpToPixel(5f, getActivity()), 0, 0);
+        DividerDecoration itemDecoration = new DividerDecoration(Color.TRANSPARENT, (int) DpUtils.convertDpToPixel(5f, mContext), 0, 0);
         itemDecoration.setDrawLastItem(false);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setRefreshingColorResources(R.color.basic_color);
-        recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<Order.DataBean>(getActivity()) {
+        recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<Order.DataBean>(mContext) {
             @Override
             public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
                 int layout = R.layout.item_dd;
@@ -126,7 +126,7 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
         adapter.setMore(R.layout.view_more, new RecyclerArrayAdapter.OnMoreListener() {
             @Override
             public void onMoreShow() {
-                ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
+                ApiClient.post(mContext, getOkObject(), new ApiClient.CallBack() {
                     @Override
                     public void onSuccess(String s) {
                         LogUtil.LogShitou("DingDanGLActivity--加载更多", s + "");
@@ -138,7 +138,7 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
                                 List<Order.DataBean> dataBeanList = order.getData();
                                 adapter.addAll(dataBeanList);
                             } else if (status == 3) {
-                                MyDialog.showReLoginDialog(getActivity());
+                                MyDialog.showReLoginDialog(mContext);
                             } else {
                                 adapter.pauseMore();
                             }
@@ -185,7 +185,7 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(), DingDanXQActivity.class);
+                intent.setClass(mContext, DingDanXQActivity.class);
                 intent.putExtra(Constant.IntentKey.ID, adapter.getItem(position).getId());
                 intent.putExtra(Constant.IntentKey.VALUE, adapter.getItem(position).getOrder_no());
                 startActivity(intent);
@@ -223,7 +223,7 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
     @Override
     public void onRefresh() {
         page = 1;
-        ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
+        ApiClient.post(mContext, getOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
                 LogUtil.LogShitou("订单列表" + status, s);
@@ -235,7 +235,7 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
                         adapter.clear();
                         adapter.addAll(dataBeanList);
                     } else if (order.getStatus() == 3) {
-                        MyDialog.showReLoginDialog(getActivity());
+                        MyDialog.showReLoginDialog(mContext);
                     } else {
                         showError(order.getInfo());
                     }
@@ -255,7 +255,7 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
              */
             private void showError(String msg) {
                 try {
-                    View viewLoader = LayoutInflater.from(getActivity()).inflate(R.layout.view_loaderror, null);
+                    View viewLoader = LayoutInflater.from(mContext).inflate(R.layout.view_loaderror, null);
                     TextView textMsg = viewLoader.findViewById(R.id.textMsg);
                     textMsg.setText(msg);
                     viewLoader.findViewById(R.id.buttonReLoad).setOnClickListener(new View.OnClickListener() {
@@ -279,12 +279,12 @@ public class DDFragment extends ZjbBaseFragment implements SwipeRefreshLayout.On
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constant.BroadcastCode.SHUA_XIN_DD);
         filter.addAction(Constant.BroadcastCode.SHUA_XIN_PING_JIA);
-        getActivity().registerReceiver(reciver, filter);
+        mContext.registerReceiver(reciver, filter);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().unregisterReceiver(reciver);
+        mContext.unregisterReceiver(reciver);
     }
 }

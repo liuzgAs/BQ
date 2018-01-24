@@ -86,8 +86,8 @@ public class ShangChengFragment extends ZjbBaseFragment {
 
     @Override
     protected void initViews() {
-        viewBar.setPadding(0, ScreenUtils.getStatusBarHeight(getActivity()), 0, 0);
-        new BannerSettingUtil(id_viewpager, (int) DpUtils.convertDpToPixel(13, getActivity()), false).set();
+        viewBar.setPadding(0, ScreenUtils.getStatusBarHeight(mContext), 0, 0);
+        new BannerSettingUtil(id_viewpager, (int) DpUtils.convertDpToPixel(13, mContext), false).set();
         setZhiShiQi(0);
     }
 
@@ -129,7 +129,7 @@ public class ShangChengFragment extends ZjbBaseFragment {
     @Override
     protected void initData() {
         showLoadingDialog();
-        ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
+        ApiClient.post(mContext, getOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
@@ -141,28 +141,28 @@ public class ShangChengFragment extends ZjbBaseFragment {
                         id_viewpager.setAdapter(new MyPageAdapter(getChildFragmentManager(),dataBeanList));
                         id_viewpager.setCurrentItem(50);
                     }else if (goodsIndex.getStatus()==3){
-                        MyDialog.showReLoginDialog(getActivity());
+                        MyDialog.showReLoginDialog(mContext);
                     }else {
-                        Toast.makeText(getActivity(), goodsIndex.getInfo(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, goodsIndex.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(),"数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext,"数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onError() {
                 cancelLoadingDialog();
-                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void setZhiShiQi(int index){
         for (int i = 0; i < zhiShiQiView.length; i++) {
-            zhiShiQiView[i].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.zhiShiQi));
+            zhiShiQiView[i].setBackgroundColor(ContextCompat.getColor(mContext,R.color.zhiShiQi));
         }
-        zhiShiQiView[index].setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.white));
+        zhiShiQiView[index].setBackgroundColor(ContextCompat.getColor(mContext,R.color.white));
     }
 
     public class MyPageAdapter extends FragmentPagerAdapter {

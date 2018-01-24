@@ -132,7 +132,7 @@ public class ShengJiSYHHRFragment extends ZjbBaseFragment {
     @Override
     protected void initData() {
         showLoadingDialog();
-        ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
+        ApiClient.post(mContext, getOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
@@ -185,14 +185,14 @@ public class ShengJiSYHHRFragment extends ZjbBaseFragment {
                     }
                     viewContent.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onError() {
                 cancelLoadingDialog();
-                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
             }
         });
     }

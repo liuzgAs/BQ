@@ -71,13 +71,13 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                     break;
                 case Constant.BroadcastCode.WX_SHARE:
                     if (isShare) {
-                        MyDialog.showTipDialog(getActivity(), "分享成功");
+                        MyDialog.showTipDialog(mContext, "分享成功");
                         isShare = false;
                     }
                     break;
                 case Constant.BroadcastCode.WX_SHARE_FAIL:
                     if (isShare) {
-                        MyDialog.showTipDialog(getActivity(), "取消分享");
+                        MyDialog.showTipDialog(mContext, "取消分享");
                         isShare = false;
                     }
                     break;
@@ -99,7 +99,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         // Inflate the layout for this fragment
         if (mInflate == null) {
             mInflate = inflater.inflate(R.layout.fragment_wo_de, container, false);
-            api = WXAPIFactory.createWXAPI(getActivity(), Constant.WXAPPID, true);
+            api = WXAPIFactory.createWXAPI(mContext, Constant.WXAPPID, true);
             init();
         }
         //缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
@@ -132,8 +132,8 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
 
     @Override
     protected void initViews() {
-        viewBar.setPadding(0, ScreenUtils.getStatusBarHeight(getActivity()), 0, 0);
-        GlideApp.with(getActivity())
+        viewBar.setPadding(0, ScreenUtils.getStatusBarHeight(mContext), 0, 0);
+        GlideApp.with(mContext)
                 .asBitmap()
                 .load(userInfo.getHeadImg())
                 .placeholder(R.mipmap.ic_empty)
@@ -186,69 +186,69 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.viewTiXian:
-                intent.setClass(getActivity(), TiXianActivity.class);
+                intent.setClass(mContext, TiXianActivity.class);
                 startActivity(intent);
                 break;
             case R.id.viewBaoGao:
-                intent.setClass(getActivity(), BaoGaoMxActivity.class);
+                intent.setClass(mContext, BaoGaoMxActivity.class);
                 startActivity(intent);
                 break;
             case R.id.viewPingJiaGL:
-                intent.setClass(getActivity(), PingJiaGLActivity.class);
+                intent.setClass(mContext, PingJiaGLActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btnGouMai:
                 intent.putExtra(Constant.IntentKey.ID, userBuyerindex.getReport_id());
-                intent.setClass(getActivity(), ChanPinXQActivity.class);
+                intent.setClass(mContext, ChanPinXQActivity.class);
                 startActivity(intent);
                 break;
             case R.id.viewFenXiang:
                 fenXiang();
                 break;
             case R.id.viewZhuanRangBaoGao:
-                intent.setClass(getActivity(), ZhuanRangBaoGaoActivity.class);
+                intent.setClass(mContext, ZhuanRangBaoGaoActivity.class);
                 intent.putExtra(Constant.IntentKey.PHONE, userBuyerindex.getMobile());
                 startActivity(intent);
                 break;
             case R.id.viewYinHangKa:
-                intent.setClass(getActivity(), ChangJianWenTiActivity.class);
+                intent.setClass(mContext, ChangJianWenTiActivity.class);
                 startActivity(intent);
                 break;
             case R.id.viewWoDeGX:
-                intent.setClass(getActivity(), WoDeGXActivity.class);
+                intent.setClass(mContext, WoDeGXActivity.class);
                 startActivity(intent);
                 break;
             case R.id.imageXiaoXi:
-                intent.setClass(getActivity(), GongGaoActivity.class);
+                intent.setClass(mContext, GongGaoActivity.class);
                 startActivity(intent);
                 break;
             case R.id.textBlance:
-                intent.setClass(getActivity(), ShouYiMxActivity.class);
+                intent.setClass(mContext, ShouYiMxActivity.class);
                 startActivity(intent);
                 break;
             case R.id.viewWoDeSY:
                 intent.putExtra(Constant.IntentKey.VALUE, userBuyerindex.getMoney());
-                intent.setClass(getActivity(), WoDeSYActivity.class);
+                intent.setClass(mContext, WoDeSYActivity.class);
                 startActivity(intent);
                 break;
             case R.id.viewHeHuoRen:
-                intent.setClass(getActivity(), HeHuoRenActivity.class);
+                intent.setClass(mContext, HeHuoRenActivity.class);
                 startActivity(intent);
                 break;
             case R.id.viewGeRenXX:
-                intent.setClass(getActivity(), GeRenXXActivity.class);
+                intent.setClass(mContext, GeRenXXActivity.class);
                 startActivity(intent);
                 break;
             case R.id.viewWoDeDD:
-                intent.setClass(getActivity(), WoDeDDActivity.class);
+                intent.setClass(mContext, WoDeDDActivity.class);
                 startActivity(intent);
                 break;
             case R.id.viewJianCeJL:
-                intent.setClass(getActivity(), CeShiLSActivity.class);
+                intent.setClass(mContext, CeShiLSActivity.class);
                 startActivity(intent);
                 break;
             case R.id.imageSheZhi:
-                intent.setClass(getActivity(), SheZhiActivity.class);
+                intent.setClass(mContext, SheZhiActivity.class);
                 startActivity(intent);
                 break;
             default:
@@ -278,7 +278,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
      */
     private void fenXiang() {
         showLoadingDialog();
-        ApiClient.post(getActivity(), getFenXiangOkObject(), new ApiClient.CallBack() {
+        ApiClient.post(mContext, getFenXiangOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
@@ -289,9 +289,9 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                         int can_share = userShare.getCan_share();
                         if (can_share == 1) {
                             isShare = true;
-                            MyDialog.share01(getActivity(), api, userShare.getShare_url(), userShare.getTitle(),userShare.getContent());
+                            MyDialog.share01(mContext, api, userShare.getShare_url(), userShare.getTitle(),userShare.getContent());
                         } else {
-                            final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(getActivity(), userShare.getInfo(), "升级", "返回");
+                            final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(mContext, userShare.getInfo(), "升级", "返回");
                             twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
                                 @Override
                                 public void doConfirm() {
@@ -310,19 +310,19 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                             twoBtnDialog.show();
                         }
                     } else if (userShare.getStatus() == 3) {
-                        MyDialog.showReLoginDialog(getActivity());
+                        MyDialog.showReLoginDialog(mContext);
                     } else {
-                        Toast.makeText(getActivity(), userShare.getInfo(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, userShare.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onError() {
                 cancelLoadingDialog();
-                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -332,7 +332,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
     public void onResume() {
         super.onResume();
         showLoadingDialog();
-        ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
+        ApiClient.post(mContext, getOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
@@ -340,7 +340,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                 try {
                     userBuyerindex = GsonUtils.parseJSON(s, UserBuyerindex.class);
                     if (userBuyerindex.getStatus() == 1) {
-                        GlideApp.with(getActivity())
+                        GlideApp.with(mContext)
                                 .asBitmap()
                                 .load(userBuyerindex.getHeadimg())
                                 .placeholder(R.mipmap.ic_empty)
@@ -350,19 +350,19 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                         textBlance.setText(userBuyerindex.getMoney() + "");
                         textGradeName.setText(userBuyerindex.getGrade_name());
                     } else if (userBuyerindex.getStatus() == 3) {
-                        MyDialog.showReLoginDialog(getActivity());
+                        MyDialog.showReLoginDialog(mContext);
                     } else {
-                        Toast.makeText(getActivity(), userBuyerindex.getInfo(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, userBuyerindex.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onError() {
                 cancelLoadingDialog();
-                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -374,12 +374,12 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         filter.addAction(Constant.BroadcastCode.USERINFO);
         filter.addAction(Constant.BroadcastCode.WX_SHARE);
         filter.addAction(Constant.BroadcastCode.WX_SHARE_FAIL);
-        getActivity().registerReceiver(reciver, filter);
+        mContext.registerReceiver(reciver, filter);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().unregisterReceiver(reciver);
+        mContext.unregisterReceiver(reciver);
     }
 }

@@ -184,7 +184,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
     @Override
     protected void initData() {
         showLoadingDialog();
-        ApiClient.post(getActivity(), getShenQingQianOkObject(), new ApiClient.CallBack() {
+        ApiClient.post(mContext, getShenQingQianOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
@@ -258,19 +258,19 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                                 break;
                         }
                     } else if (userApplybefore.getStatus() == 3) {
-                        MyDialog.showReLoginDialog(getActivity());
+                        MyDialog.showReLoginDialog(mContext);
                     } else {
-                        Toast.makeText(getActivity(), userApplybefore.getInfo(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, userApplybefore.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onError() {
                 cancelLoadingDialog();
-                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -296,18 +296,18 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.textXieYi:
-                intent.setClass(getActivity(), WebActivity.class);
+                intent.setClass(mContext, WebActivity.class);
                 intent.putExtra(Constant.IntentKey.TITLE, "合作协议");
                 intent.putExtra(Constant.IntentKey.URL, Constant.Url.PARTNER);
                 startActivity(intent);
                 break;
             case R.id.btnTiJiao:
                 if (grade == -1) {
-                    Toast.makeText(getActivity(), "请选择事业合伙人等级", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "请选择事业合伙人等级", Toast.LENGTH_SHORT).show();
                     return;
                 }
 //                if (TextUtils.isEmpty(editCompany.getText().toString().trim())) {
-//                    Toast.makeText(getActivity(), "请填写公司名称", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mContext, "请填写公司名称", Toast.LENGTH_SHORT).show();
 //                    return;
 //                }
                 if (TextUtils.isEmpty(editRealName.getText().toString().trim())) {
@@ -315,39 +315,39 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                     return;
                 }
                 if (TextUtils.isEmpty(editPhone.getText().toString().trim())) {
-                    Toast.makeText(getActivity(), "请填写联系电话", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "请填写联系电话", Toast.LENGTH_SHORT).show();
                     return;
                 }
 //                CheckIdCard checkIdCard = new CheckIdCard(editCard.getText().toString().trim());
 //                if (!checkIdCard.validate()) {
-//                    Toast.makeText(getActivity(), "请输入正确的身份证号", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mContext, "请输入正确的身份证号", Toast.LENGTH_SHORT).show();
 //                    return;
 //                }
                 if (TextUtils.isEmpty(textAddress.getText().toString().trim())) {
-                    Toast.makeText(getActivity(), "请选择寄货城市", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "请选择寄货城市", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(textAddressDetail.getText().toString().trim())) {
-                    Toast.makeText(getActivity(), "请填写寄货详细地址", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "请填写寄货详细地址", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (!checkBox.isChecked()) {
-                    Toast.makeText(getActivity(), "请阅读并同意《合作协议》", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "请阅读并同意《合作协议》", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 tiJiao();
                 break;
             case R.id.viewAddress:
-                InputMethodManager imm = (InputMethodManager)getActivity(). getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager)mContext. getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
-                    imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(),
+                    imm.hideSoftInputFromWindow(mContext.getWindow().getDecorView().getWindowToken(),
                             0);
                 }
                 /**
                  * 注意 ：如果是三级联动的数据(省市区等)，请参照 JsonDataActivity 类里面的写法。
                  */
 
-                OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(), new OptionsPickerView.OnOptionsSelectListener() {
+                OptionsPickerView pvOptions = new OptionsPickerView.Builder(mContext, new OptionsPickerView.OnOptionsSelectListener() {
                     @Override
                     public void onOptionsSelect(int options1, int options2, int options3, View v) {
                         textAddress.setText(options1Items.get(options1).getPickerViewText() + "-" + options2Items.get(options1).get(options2) + "-" + options3Items.get(options1).get(options2).get(options3));
@@ -378,7 +378,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                 for (int i = 0; i < userApplybefore.getGrade().size(); i++) {
                     strings[i] = userApplybefore.getGrade().get(i).getName()  + userApplybefore.getGrade().get(i).getMoney();
                 }
-                new AlertDialog.Builder(getActivity())
+                new AlertDialog.Builder(mContext)
                         .setItems(strings, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -401,7 +401,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
      * date： 2017/8/28 0028 上午 9:55
      */
     private OkObject getOkObject() {
-        ACache aCache = ACache.get(getActivity(), Constant.Acache.LOCATION);
+        ACache aCache = ACache.get(mContext, Constant.Acache.LOCATION);
         String did = aCache.getAsString(Constant.Acache.DID);
         String url = Constant.HOST + Constant.Url.USER_APPLY;
         HashMap<String, String> params = new HashMap<>();
@@ -425,7 +425,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
      */
     private void tiJiao() {
         showLoadingDialog();
-        ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
+        ApiClient.post(mContext, getOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
@@ -435,19 +435,19 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                     if (userApply.getStatus() == 1) {
                         initData();
                     } else if (userApply.getStatus() == 3) {
-                        MyDialog.showReLoginDialog(getActivity());
+                        MyDialog.showReLoginDialog(mContext);
                     } else {
-                        Toast.makeText(getActivity(), userApply.getInfo(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, userApply.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(), "数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onError() {
                 cancelLoadingDialog();
-                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -459,7 +459,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
          * 关键逻辑在于循环体
          *
          * */
-        String JsonData = new GetJsonDataUtil().getJson(getActivity(), "province.json");//获取assets目录下的json文件数据
+        String JsonData = new GetJsonDataUtil().getJson(mContext, "province.json");//获取assets目录下的json文件数据
         Type type = new TypeToken<ArrayList<ProvinceBean>>() {
         }.getType();
         jsonBean = GsonUtils.parseJSONArray(JsonData, type);

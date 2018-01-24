@@ -125,7 +125,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
     @Override
     protected void initData() {
         showLoadingDialog();
-        ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
+        ApiClient.post(mContext, getOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
@@ -135,19 +135,19 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
                     if (userGetbluetooth.getStatus()==1){
                         Constant.bluetooth_name = userGetbluetooth.getBluetooth_name();
                     }else if (userGetbluetooth.getStatus()==3){
-                        MyDialog.showReLoginDialog(getActivity());
+                        MyDialog.showReLoginDialog(mContext);
                     }else {
-                        Toast.makeText(getActivity(), userGetbluetooth.getInfo(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, userGetbluetooth.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getActivity(),"数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext,"数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onError() {
                 cancelLoadingDialog();
-                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "请求失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -157,14 +157,14 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.imageNotify:
-                intent.setClass(getActivity(), TiShiActivity.class);
+                intent.setClass(mContext, TiShiActivity.class);
                 intent.putExtra(Constant.IntentKey.TITLE, "注意事项");
                 intent.putExtra(Constant.IntentKey.URL, Constant.Url.PRECAUTIONS);
                 startActivity(intent);
                 break;
             case R.id.btnKaiShiJC:
 //                if (isZhuYi){
-//                    intent.setClass(getActivity(), TiShiActivity.class);
+//                    intent.setClass(mContext, TiShiActivity.class);
 //                    intent.putExtra(Constant.IntentKey.TITLE, "注意事项");
 //                    intent.putExtra(Constant.IntentKey.URL, Constant.Url.PRECAUTIONS);
 //                    intent.putExtra(Constant.IntentKey.TYPE,1);
@@ -203,7 +203,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
 
     private void startTest() {
         Intent intent = new Intent();
-        intent.setClass(getActivity(), BaoBaoLBActivity.class);
+        intent.setClass(mContext, BaoBaoLBActivity.class);
         startActivity(intent);
     }
 

@@ -108,12 +108,12 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
      * 初始化recyclerview
      */
     private void initRecycler() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         DividerDecoration itemDecoration = new DividerDecoration(Color.TRANSPARENT, (int) getResources().getDimension(R.dimen.top), 0, 0);
         itemDecoration.setDrawLastItem(false);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setRefreshingColorResources(R.color.basic_color);
-        recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<OrderGeteeva.DataBean>(getActivity()) {
+        recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<OrderGeteeva.DataBean>(mContext) {
             @Override
             public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
                 int layout = R.layout.item_yipingjia;
@@ -123,7 +123,7 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
         adapter.setMore(R.layout.view_more, new RecyclerArrayAdapter.OnMoreListener() {
             @Override
             public void onMoreShow() {
-                ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
+                ApiClient.post(mContext, getOkObject(), new ApiClient.CallBack() {
                     @Override
                     public void onSuccess(String s) {
                         LogUtil.LogShitou("DingDanGLActivity--加载更多", s + "");
@@ -135,7 +135,7 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
                                 List<OrderGeteeva.DataBean> dataBeanList = orderGeteeva.getData();
                                 adapter.addAll(dataBeanList);
                             } else if (status == 3) {
-                                MyDialog.showReLoginDialog(getActivity());
+                                MyDialog.showReLoginDialog(mContext);
                             } else {
                                 adapter.pauseMore();
                             }
@@ -217,7 +217,7 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
     @Override
     public void onRefresh() {
         page = 1;
-        ApiClient.post(getActivity(), getOkObject(), new ApiClient.CallBack() {
+        ApiClient.post(mContext, getOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
                 LogUtil.LogShitou("评价管理", s);
@@ -229,7 +229,7 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
                         adapter.clear();
                         adapter.addAll(dataBeanList);
                     } else if (orderGeteeva.getStatus() == 3) {
-                        MyDialog.showReLoginDialog(getActivity());
+                        MyDialog.showReLoginDialog(mContext);
                     } else {
                         showError(orderGeteeva.getInfo());
                     }
@@ -249,7 +249,7 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
              */
             private void showError(String msg) {
                 try {
-                    View viewLoader = LayoutInflater.from(getActivity()).inflate(R.layout.view_loaderror, null);
+                    View viewLoader = LayoutInflater.from(mContext).inflate(R.layout.view_loaderror, null);
                     TextView textMsg = viewLoader.findViewById(R.id.textMsg);
                     textMsg.setText(msg);
                     viewLoader.findViewById(R.id.buttonReLoad).setOnClickListener(new View.OnClickListener() {
@@ -272,12 +272,12 @@ public class PingJiaFragment extends ZjbBaseFragment implements SwipeRefreshLayo
         super.onStart();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constant.BroadcastCode.SHUA_XIN_PING_JIA);
-        getActivity().registerReceiver(reciver, filter);
+        mContext.registerReceiver(reciver, filter);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().unregisterReceiver(reciver);
+        mContext.unregisterReceiver(reciver);
     }
 }

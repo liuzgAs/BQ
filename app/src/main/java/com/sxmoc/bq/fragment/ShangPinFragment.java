@@ -85,7 +85,7 @@ public class ShangPinFragment extends ZjbBaseFragment implements View.OnClickLis
         SpannableString span = new SpannableString("¥"+price);
         span.setSpan(new RelativeSizeSpan(0.6f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         textPrice.setText(span);
-        GlideApp.with(getActivity())
+        GlideApp.with(mContext)
                 .asBitmap()
                 .load(dataBean.getCover())
                 .placeholder(R.mipmap.ic_empty)
@@ -109,7 +109,7 @@ public class ShangPinFragment extends ZjbBaseFragment implements View.OnClickLis
             case R.id.viewShangPin:
                 Intent intent = new Intent();
                 intent.putExtra(Constant.IntentKey.ID,dataBean.getId());
-                intent.setClass(getActivity(), ChanPinXQActivity.class);
+                intent.setClass(mContext, ChanPinXQActivity.class);
                 startActivity(intent);
                 break;
             default:
