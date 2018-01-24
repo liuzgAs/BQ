@@ -240,22 +240,22 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         List<String> naoBoDataList03 = new ArrayList<>();
         List<String> naoBoDataList04 = new ArrayList<>();
         List<String> naoBoDataList05 = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 80; i++) {
             naoBoDataList00.add(naoBoDataList.get(i));
         }
-        for (int i = 20; i < 40; i++) {
+        for (int i = 80; i < 160; i++) {
             naoBoDataList01.add(naoBoDataList.get(i));
         }
-        for (int i = 40; i < 60; i++) {
+        for (int i = 160; i < 240; i++) {
             naoBoDataList02.add(naoBoDataList.get(i));
         }
-        for (int i = 60; i < 80; i++) {
+        for (int i = 240; i < 320; i++) {
             naoBoDataList03.add(naoBoDataList.get(i));
         }
-        for (int i = 80; i < 100; i++) {
+        for (int i = 320; i < 400; i++) {
             naoBoDataList04.add(naoBoDataList.get(i));
         }
-        for (int i = 100; i < 120; i++) {
+        for (int i = 400; i < 480; i++) {
             naoBoDataList05.add(naoBoDataList.get(i));
         }
         String str00 = "";
@@ -264,58 +264,52 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         String str03 = "";
         String str04 = "";
         String str05 = "";
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 80; i++) {
             if (i % 2 == 0) {
                 str00 = str00 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
             } else {
                 str00 = str00 + "\"" + naoBoDataList.get(i) + "\",";
             }
         }
-        for (int i = 20; i < 40; i++) {
+        for (int i = 80; i < 160; i++) {
             if (i % 2 == 0) {
                 str01 = str01 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
             } else {
                 str01 = str01 + "\"" + naoBoDataList.get(i) + "\",";
             }
         }
-        for (int i = 40; i < 60; i++) {
+        for (int i = 160; i < 240; i++) {
             if (i % 2 == 0) {
                 str02 = str02 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
             } else {
                 str02 = str02 + "\"" + naoBoDataList.get(i) + "\",";
             }
         }
-        for (int i = 60; i < 80; i++) {
+        for (int i = 240; i < 320; i++) {
             if (i % 2 == 0) {
                 str03 = str03 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
             } else {
                 str03 = str03 + "\"" + naoBoDataList.get(i) + "\",";
             }
         }
-        for (int i = 80; i < 100; i++) {
+        for (int i = 320; i < 400; i++) {
             if (i % 2 == 0) {
                 str04 = str04 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
             } else {
                 str04 = str04 + "\"" + naoBoDataList.get(i) + "\",";
             }
         }
-        for (int i = 100; i < 120; i++) {
+        for (int i = 400; i < 480; i++) {
             if (i % 2 == 0) {
                 str05 = str05 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
             } else {
-                if (i == 119) {
+                if (i == 479) {
                     str05 = str05 + "\"" + naoBoDataList.get(i) + "\"";
                 } else {
                     str05 = str05 + "\"" + naoBoDataList.get(i) + "\",";
                 }
             }
         }
-//        params.put("raw_data1", GsonUtils.parseObject(naoBoDataList00));
-//        params.put("raw_data2", GsonUtils.parseObject(naoBoDataList01));
-//        params.put("raw_data3", GsonUtils.parseObject(naoBoDataList02));
-//        params.put("raw_data4", GsonUtils.parseObject(naoBoDataList03));
-//        params.put("raw_data5", GsonUtils.parseObject(naoBoDataList04));
-//        params.put("raw_data6", GsonUtils.parseObject(naoBoDataList05));
         params.put("raw_data1", str00);
         params.put("raw_data2", str01);
         params.put("raw_data3", str02);
