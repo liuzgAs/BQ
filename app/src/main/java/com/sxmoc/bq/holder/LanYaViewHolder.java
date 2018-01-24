@@ -145,7 +145,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                     public void onNotifyFailure(BleException exception) {
                         LogUtil.LogShitou("NaoBoActivity--onNotifyFailure", "打开通知操作失败");
                         // 打开通知操作失败
-                        MyDialog.showTipDialog(getContext(), "打开通知操作失败，请重试");
+                        MyDialog.showTipDialog(getContext(), "请检查设备是否开机");
                     }
 
                     @Override
