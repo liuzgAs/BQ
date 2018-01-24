@@ -2,7 +2,6 @@ package com.sxmoc.bq.util;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -171,42 +170,6 @@ public class UpgradeUtils extends Activity {
             dialogWindow.setAttributes(lp);
         } else {
             Toast.makeText(mContext, "已是最新版本", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private static void checkUpgradeIsAble(String json) {
-        upgrade = GsonUtils.parseJSON(json, Upgrade.class);
-        int currVersion = VersionUtils.getCurrVersion(mContext);
-        if (upgrade.version > currVersion) {
-            new AlertDialog.Builder(mContext)
-                    .setTitle("升级")
-                    .setMessage(upgrade.feature)
-                    .setPositiveButton("升级",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                            != PackageManager.PERMISSION_GRANTED) {
-                                        //申请WRITE_EXTERNAL_STORAGE权限
-                                        ActivityCompat.requestPermissions((Activity) mContext, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                                0);
-                                    } else {
-                                        upgrade(upgrade);
-                                        ProgressDialog progressDialog = new ProgressDialog(mContext);
-                                        progressDialog.setMessage("正在下载……");
-                                        progressDialog.setCancelable(false);
-                                        progressDialog.show();
-                                    }
-                                }
-                            })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            MyApplication.getInstance().exit();
-                            System.exit(0);
-                        }
-                    }).show();
         }
     }
 
