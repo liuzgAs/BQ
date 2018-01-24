@@ -292,7 +292,6 @@ public class MyDialog {
         final WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = title;
         msg.description = des;
-        msg.description = title;
 
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.logo);
         msg.setThumbImage(bitmap);
