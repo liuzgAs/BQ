@@ -254,6 +254,7 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
                                     ((CeShiLSActivity)getContext()).onRefresh();
                                     Intent intent = new Intent();
                                     intent.setClass(getContext(), PdfActivity.class);
+                                    intent.putExtra(Constant.IntentKey.TYPE,1);
                                     intent.putExtra(Constant.IntentKey.TITLE, data.getName() + "的检测报告");
                                     intent.putExtra(Constant.IntentKey.VALUE, s);
                                     getContext().startActivity(intent);

@@ -19,6 +19,7 @@ public class PdfActivity extends ZjbBaseNotLeftActivity implements View.OnClickL
     private RelativeLayout viewZhu;
     private String pdf;
     private String title;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class PdfActivity extends ZjbBaseNotLeftActivity implements View.OnClickL
         Intent intent = getIntent();
         pdf = intent.getStringExtra(Constant.IntentKey.VALUE);
         title = intent.getStringExtra(Constant.IntentKey.TITLE);
+        type = intent.getIntExtra(Constant.IntentKey.TYPE, 0);
     }
 
     @Override
@@ -47,8 +49,8 @@ public class PdfActivity extends ZjbBaseNotLeftActivity implements View.OnClickL
     @Override
     protected void initViews() {
         PDFViewPager pdfViewPager = new PDFViewPager(this, pdf);
-        viewZhu.addView(pdfViewPager,new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        ((TextView)findViewById(R.id.textViewTitle)).setText(title);
+        viewZhu.addView(pdfViewPager, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        ((TextView) findViewById(R.id.textViewTitle)).setText(title);
     }
 
     @Override
@@ -63,12 +65,24 @@ public class PdfActivity extends ZjbBaseNotLeftActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.imageBack:
                 finish();
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (type == 1) {
+            Intent intent = new Intent();
+            intent.setClass(this,CeShiLSActivity.class);
+            startActivity(intent);
+            super.onBackPressed();
+        } else {
+            super.onBackPressed();
         }
     }
 }
