@@ -7,10 +7,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.LayoutRes;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,34 +39,42 @@ import java.util.HashMap;
  */
 public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBean> {
 
-    private final Button btnCaoZuo;
+    private final TextView btnCaoZuo;
     private final TextView textName;
     private final TextView textDate;
     private ProductQueryhistory.DataBean data;
     private final TextView textXiaZai;
-    private final Button btnFuZhi;
+    private final TextView btnFuZhi;
+    private final View viewChaKan;
+    private final View viewFuZHi;
+    private final ImageView image0000;
+    private final ImageView image0001;
 
     public CeShiLSViewHolder(ViewGroup parent, @LayoutRes int res) {
         super(parent, res);
         btnCaoZuo = $(R.id.btnCaoZuo);
         textName = $(R.id.textName);
         textDate = $(R.id.textDate);
-        btnCaoZuo.setOnClickListener(new View.OnClickListener() {
+        viewChaKan = $(R.id.viewChaKan);
+        viewFuZHi = $(R.id.viewFuZHi);
+        image0000 = $(R.id.image0000);
+        image0001 = $(R.id.image0001);
+        viewChaKan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (data.getStatus() == 1) {
-                    chaKanBaoGao();
-                } else {
-                    shengChengBaoGao();
-                }
+                chaKanBaoGao();
             }
         });
         btnFuZhi = $(R.id.btnFuZhi);
         textXiaZai = $(R.id.textXiaZai);
-        btnFuZhi.setOnClickListener(new View.OnClickListener() {
+        viewFuZHi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                upLoad(true);
+                if (data.getStatus() == 1) {
+                    upLoad(true);
+                } else {
+                    shengChengBaoGao();
+                }
             }
         });
     }
@@ -147,33 +154,31 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
         this.data = data;
         data.setDownLoad(false);
         if (data.getStatus() == 1) {
-            btnFuZhi.setVisibility(View.VISIBLE);
-            btnCaoZuo.setText("查看报告");
-            btnCaoZuo.setTextColor(ContextCompat.getColor(getContext(),R.color.basic_color));
-            btnCaoZuo.setBackgroundResource(R.drawable.shape_basic01_1dp_25dp);
+            viewChaKan.setVisibility(View.VISIBLE);
+            btnFuZhi.setText("复制报告");
+            image0000.setImageResource(R.mipmap.fuzhi);
         } else {
-            btnFuZhi.setVisibility(View.GONE);
-            btnCaoZuo.setTextColor(ContextCompat.getColor(getContext(),R.color.red));
-            btnCaoZuo.setText("生成报告");
-            btnCaoZuo.setBackgroundResource(R.drawable.shape_red01_1dp_25dp);
+            viewChaKan.setVisibility(View.GONE);
+            btnFuZhi.setText("生成报告");
+            image0000.setImageResource(R.mipmap.shengcheng);
         }
         textName.setText(data.getName());
         textDate.setText(data.getCreate_time());
         MySql mySql = new MySql(getContext());
         SQLiteDatabase sdb = mySql.getWritableDatabase();
-        Cursor cursor = sdb.query("baogao", new String[]{"id", "filepath"}, "id = "+data.getId(), null, null, null, null);
+        Cursor cursor = sdb.query("baogao", new String[]{"id", "filepath"}, "id = " + data.getId(), null, null, null, null);
         boolean b = cursor.moveToFirst();
-        if (b){
+        if (b) {
             String filePath = cursor.getString(1);
             LogUtil.LogShitou("CeShiLSActivity--initSP", "" + filePath);
             data.setDownLoad(true);
             data.setFilePath(filePath);
         }
-        if (data.isDownLoad()) {
-            textXiaZai.setVisibility(View.VISIBLE);
-        } else {
-            textXiaZai.setVisibility(View.GONE);
-        }
+//        if (data.isDownLoad()) {
+//            textXiaZai.setVisibility(View.VISIBLE);
+//        } else {
+//            textXiaZai.setVisibility(View.GONE);
+//        }
     }
 
     /**
@@ -199,13 +204,13 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
     private void chaKanBaoGao() {
         if (data.isDownLoad()) {
             File file = new File(data.getFilePath());
-            if (file.exists()){
+            if (file.exists()) {
                 Intent intent = new Intent();
                 intent.setClass(getContext(), PdfActivity.class);
                 intent.putExtra(Constant.IntentKey.TITLE, data.getName() + "的检测报告");
                 intent.putExtra(Constant.IntentKey.VALUE, data.getFilePath());
                 getContext().startActivity(intent);
-            }else {
+            } else {
                 SingleBtnDialog singleBtnDialog = new SingleBtnDialog(getContext(), "文件不存在或被移动", "重新下载");
                 singleBtnDialog.show();
                 singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
@@ -233,11 +238,11 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
                 try {
                     final TesterGetreport testerGetreport = GsonUtils.parseJSON(s, TesterGetreport.class);
                     if (testerGetreport.getStatus() == 1) {
-                        if (fuzhi){
+                        if (fuzhi) {
                             ClipboardManager cmb = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                             cmb.setText(testerGetreport.getData_url());
-                            MyDialog.showTipDialog(getContext(),"已复制到剪切版");
-                        }else {
+                            MyDialog.showTipDialog(getContext(), "已复制到剪切版");
+                        } else {
                             ((CeShiLSActivity) getContext()).showLoadingDialog();
                             ApiClient.downLoadFile(getContext(), testerGetreport.getData_url(), "大脑雷达", data.getName() + "的详情报告" + System.currentTimeMillis() + ".pdf", new ApiClient.CallBack() {
                                 @Override
@@ -251,10 +256,9 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
                                     values.put("filepath", s);
                                     sdb.insert("baogao", null, values);
                                     sdb.close();
-                                    ((CeShiLSActivity)getContext()).onRefresh();
+                                    ((CeShiLSActivity) getContext()).onRefresh();
                                     Intent intent = new Intent();
                                     intent.setClass(getContext(), PdfActivity.class);
-                                    intent.putExtra(Constant.IntentKey.TYPE,1);
                                     intent.putExtra(Constant.IntentKey.TITLE, data.getName() + "的检测报告");
                                     intent.putExtra(Constant.IntentKey.VALUE, s);
                                     getContext().startActivity(intent);

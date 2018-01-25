@@ -3,78 +3,105 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/layout_selector_white_system_gray">
-    <LinearLayout
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_centerVertical="true"
-        android:orientation="vertical"
+
+    <TextView
+        android:id="@+id/textName"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/textName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/leftAndRight"
-            android:text="李大伟"
-            android:textColor="@color/light_black"
-            android:textSize="@dimen/normal_textsize" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/leftAndRight"
+        android:layout_marginTop="15dp"
+        android:text="李大伟"
+        android:textColor="@color/light_black"
+        android:textSize="@dimen/normal_textsize" />
 
-        <TextView
-            android:layout_marginTop="2dp"
-            android:id="@+id/textXiaZai"
-            android:textSize="@dimen/litterText"
-            android:layout_marginLeft="@dimen/leftAndRight"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_red01_1dp_25dp"
-            android:text="已下载"
-            android:textColor="@color/red" />
-    </LinearLayout>
-
+    <TextView
+        android:id="@+id/textXiaZai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/leftAndRight"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/shape_red01_1dp_25dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="2dp"
+        android:text="已下载"
+        android:textColor="@color/red"
+        android:textSize="@dimen/litterText"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/textDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@+id/textName"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="@dimen/leftAndRight"
+        android:layout_marginTop="5dp"
         android:text="2017.11.11"
         android:textColor="@color/light_black"
         android:textSize="@dimen/normal_textsize" />
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
+
+
+    <RelativeLayout
+        android:layout_toLeftOf="@+id/viewFuZHi"
+        android:id="@+id/viewChaKan"
         android:layout_width="wrap_content"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
-        <Button
+        android:layout_marginRight="5dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/image0001"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@mipmap/chakan" />
+
+        <TextView
             android:id="@+id/btnCaoZuo"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="@dimen/leftAndRight"
-            android:background="@drawable/shape_basic01_1dp_25dp"
-            android:text="查看报告"
-            android:textColor="@color/basic_color"
-            android:textSize="@dimen/litterText" />
-        <Button
             android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/image0001"
+            android:text="查看报告"
+            android:textColor="@color/light_black"
+            android:textSize="@dimen/litterText" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/viewFuZHi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/image0000"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@mipmap/fuzhi" />
+
+        <TextView
             android:id="@+id/btnFuZhi"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="@dimen/leftAndRight"
-            android:background="@drawable/shape_basic01_1dp_25dp"
-            android:text="复制地址"
-            android:textColor="@color/basic_color"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/image0000"
+            android:text="复制报告"
+            android:textColor="@color/light_black"
             android:textSize="@dimen/litterText" />
-    </LinearLayout>
+    </RelativeLayout>
+
 
 </RelativeLayout>
