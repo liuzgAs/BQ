@@ -42,6 +42,7 @@ import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
 import com.sxmoc.bq.util.RecycleViewDistancaUtil;
+import com.sxmoc.bq.util.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -136,7 +137,12 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
             @Override
             public View onCreateView(ViewGroup parent) {
                 View view = LayoutInflater.from(ChanPinXQActivity.this).inflate(R.layout.header_chanpin, null);
+                int screenWidth = ScreenUtils.getScreenWidth(ChanPinXQActivity.this);
                 banner =  view.findViewById(R.id.banner);
+                ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
+                layoutParams.width = screenWidth;
+                layoutParams.height = screenWidth*(int) (1080f/635f);
+                banner.setLayoutParams(layoutParams);
                 banner.setScrollDuration(1000);
                 banner.startTurning(3000);
                 textZhiShiQi =  view.findViewById(R.id.textZhiShiQi);
