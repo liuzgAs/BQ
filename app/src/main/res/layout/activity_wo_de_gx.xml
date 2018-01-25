@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textGongXiangNum"
                 android:layout_centerHorizontal="true"
-                android:text="分享用户"
+                android:text="一级用户"
                 android:textColor="@color/white"
                 android:textSize="@dimen/normal_textsize" />
         </RelativeLayout>
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textHeHuoRen"
                 android:layout_centerHorizontal="true"
-                android:text="我的合伙人"
+                android:text="一级合伙人"
                 android:textColor="@color/white"
                 android:textSize="@dimen/normal_textsize" />
         </RelativeLayout>
