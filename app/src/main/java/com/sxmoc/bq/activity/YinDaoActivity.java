@@ -22,6 +22,7 @@ public class YinDaoActivity extends FragmentActivity {
             R.mipmap.welcome1,
             R.mipmap.welcome2,
             R.mipmap.welcome3,
+            R.mipmap.welcome,
     };
 
     @Override

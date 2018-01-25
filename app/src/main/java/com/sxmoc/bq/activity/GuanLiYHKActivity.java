@@ -70,12 +70,12 @@ public class GuanLiYHKActivity extends ZjbBaseNotLeftActivity implements View.On
         layoutParams.height = (int) (getResources().getDimension(R.dimen.titleHeight) + ScreenUtils.getStatusBarHeight(this));
         viewBar.setLayoutParams(layoutParams);
         textShanChu.setVisibility(View.VISIBLE);
-        textShanChu.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                textShanChu.setVisibility(View.GONE);
-            }
-        }, 2000);
+//        textShanChu.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                textShanChu.setVisibility(View.GONE);
+//            }
+//        }, 2000);
         initRecycler();
     }
 
