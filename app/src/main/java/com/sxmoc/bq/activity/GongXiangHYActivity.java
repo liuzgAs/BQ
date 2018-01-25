@@ -40,6 +40,7 @@ public class GongXiangHYActivity extends ZjbBaseActivity implements SwipeRefresh
     private ImageView imageImg;
     private TextView textShenFen;
     private String title;
+    private int value;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class GongXiangHYActivity extends ZjbBaseActivity implements SwipeRefresh
         Intent intent = getIntent();
         id = intent.getIntExtra(Constant.IntentKey.ID, 0);
         title = intent.getStringExtra(Constant.IntentKey.TITLE);
+        value = intent.getIntExtra(Constant.IntentKey.VALUE, 0);
     }
 
     @Override
@@ -151,7 +153,14 @@ public class GongXiangHYActivity extends ZjbBaseActivity implements SwipeRefresh
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                if (value==1){
+                    Intent intent = new Intent();
+                    intent.setClass(GongXiangHYActivity.this, GongXiangHYActivity.class);
+                    intent.putExtra(Constant.IntentKey.TITLE,"我的共享");
+                    intent.putExtra(Constant.IntentKey.VALUE,1);
+                    intent.putExtra(Constant.IntentKey.ID, adapter.getItem(position).getId());
+                    startActivity(intent);
+                }
             }
         });
         recyclerView.setRefreshListener(this);
