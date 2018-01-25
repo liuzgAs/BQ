@@ -186,6 +186,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.viewTiXian:
+                intent.putExtra(Constant.IntentKey.PHONE,userBuyerindex.getMobile());
                 intent.setClass(mContext, TiXianActivity.class);
                 startActivity(intent);
                 break;
@@ -227,6 +228,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.viewWoDeSY:
+                intent.putExtra(Constant.IntentKey.PHONE, userBuyerindex.getMobile());
                 intent.putExtra(Constant.IntentKey.VALUE, userBuyerindex.getMoney());
                 intent.setClass(mContext, WoDeSYActivity.class);
                 startActivity(intent);

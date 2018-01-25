@@ -44,7 +44,7 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
     private TextView textYuE;
     private TextView textDes;
     private TextView buttonSms;
-    private EditText editPhone;
+    private TextView editPhone;
     private EditText editCode;
     private Runnable mR;
     private int[] mI;
@@ -54,6 +54,7 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
     private TextView textBank1;
     private View viewPhone;
     private View viewCode;
+    private String mobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,8 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
 
     @Override
     protected void initSP() {
-
+        Intent intent = getIntent();
+        mobile = intent.getStringExtra(Constant.IntentKey.PHONE);
     }
 
     @Override
@@ -78,7 +80,7 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
         textYuE = (TextView) findViewById(R.id.textYuE);
         textDes = (TextView) findViewById(R.id.textDes);
         buttonSms = (TextView) findViewById(R.id.buttonSms);
-        editPhone = (EditText) findViewById(R.id.editPhone);
+        editPhone = (TextView) findViewById(R.id.editPhone);
         editCode = (EditText) findViewById(R.id.editCode);
         textViewRight = (TextView) findViewById(R.id.textViewRight);
         textBank1 = (TextView) findViewById(R.id.textBank1);
@@ -93,6 +95,7 @@ public class TiXianActivity extends ZjbBaseActivity implements View.OnClickListe
         textViewRight.setText("提现记录");
         viewPhone.setVisibility(View.GONE);
         viewCode.setVisibility(View.GONE);
+        editPhone.setText(mobile);
     }
 
     @Override

@@ -65,6 +65,7 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
     };
     private TextView textStart;
     private TextView textEnd;
+    private String mobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,7 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
     @Override
     protected void initIntent() {
         Intent intent = getIntent();
+        mobile = intent.getStringExtra(Constant.IntentKey.PHONE);
     }
 
     @Override
@@ -357,6 +359,7 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
                 datePickerDialog.show();
                 break;
             case R.id.btnLiJiTX:
+                intent.putExtra(Constant.IntentKey.PHONE,mobile);
                 intent.setClass(this, TiXianActivity.class);
                 startActivity(intent);
                 break;
