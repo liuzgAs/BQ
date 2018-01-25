@@ -11,13 +11,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sxmoc.bq.R;
-import com.sxmoc.bq.base.ZjbBaseActivity;
+import com.sxmoc.bq.base.ZjbBaseNotLeftActivity;
 import com.sxmoc.bq.fragment.DDFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WoDeDDActivity extends ZjbBaseActivity implements View.OnClickListener {
+public class WoDeDDActivity extends ZjbBaseNotLeftActivity implements View.OnClickListener {
     private TabLayout tablayout;
     private ViewPager viewPager;
     List<String> list = new ArrayList<>();
