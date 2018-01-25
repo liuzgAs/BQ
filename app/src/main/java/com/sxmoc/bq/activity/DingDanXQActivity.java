@@ -270,6 +270,17 @@ public class DingDanXQActivity extends ZjbBaseActivity implements View.OnClickLi
                                     }
                                 });
                                 break;
+                            case 5:
+                                btn01.setVisibility(View.GONE);
+                                btn02.setVisibility(View.VISIBLE);
+                                btn02.setText("已完成");
+                                btn02.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                      finish();
+                                    }
+                                });
+                                break;
                             default:
 
                                 break;

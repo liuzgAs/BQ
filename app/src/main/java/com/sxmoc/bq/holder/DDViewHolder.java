@@ -171,6 +171,11 @@ public class DDViewHolder extends BaseViewHolder<Order.DataBean> {
                     }
                 });
                 break;
+            case 5:
+                textCancle.setVisibility(View.GONE);
+                btnPingJia.setVisibility(View.VISIBLE);
+                btnPingJia.setText("已完成");
+                break;
             default:
 
                 break;
