@@ -11,6 +11,8 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -83,6 +85,8 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
     boolean isBack = true;
     private OnDaoJiShiJieShuListener onDaoJiShiJieShuListener;
     private RelativeLayout viewDaoJiShi;
+    private int load80;
+    private int load40;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +99,9 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
 
     @Override
     protected void initSP() {
-
+        soundPool = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);
+        load80 = soundPool.load(this, R.raw.naobo80, 1);
+        load40 = soundPool.load(this, R.raw.naobo40, 1);
     }
 
     @Override
@@ -530,6 +536,8 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         setJieMian(1);
     }
 
+    private SoundPool soundPool;
+
     /**
      * 刷新剩余时间
      *
@@ -537,6 +545,16 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
      */
     public void leftTime(int leftTime) {
         textLeftTime.setText(String.valueOf(120 - leftTime));
+
+
+
+        if (leftTime == 80) {
+            soundPool.play(load40, 1, 1, 0, 0, 1);
+        }
+        if (leftTime == 40) {
+
+            soundPool.play(load80, 1, 1, 0, 0, 1);
+        }
     }
 
     private boolean isUpload = false;
@@ -724,7 +742,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                                     cancelLoadingDialog();
                                     Intent intent = new Intent();
                                     intent.setClass(NaoBoActivity.this, PdfActivity.class);
-                                    intent.putExtra(Constant.IntentKey.TYPE,1);
+                                    intent.putExtra(Constant.IntentKey.TYPE, 1);
                                     intent.putExtra(Constant.IntentKey.TITLE, "检测报告详情");
                                     intent.putExtra(Constant.IntentKey.VALUE, s);
                                     startActivity(intent);
@@ -825,7 +843,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         });
     }
 
-    public void setOnDaoJiShiJieShuListener(OnDaoJiShiJieShuListener onDaoJiShiJieShuListener){
-        this.onDaoJiShiJieShuListener=onDaoJiShiJieShuListener;
+    public void setOnDaoJiShiJieShuListener(OnDaoJiShiJieShuListener onDaoJiShiJieShuListener) {
+        this.onDaoJiShiJieShuListener = onDaoJiShiJieShuListener;
     }
 }

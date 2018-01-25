@@ -141,7 +141,7 @@ public class ChanPinXQActivity extends ZjbBaseActivity implements View.OnClickLi
                 banner =  view.findViewById(R.id.banner);
                 ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
                 layoutParams.width = screenWidth;
-                layoutParams.height = screenWidth*(int) (1080f/635f);
+                layoutParams.height = (int) ((float)screenWidth*(635f/1080f));
                 banner.setLayoutParams(layoutParams);
                 banner.setScrollDuration(1000);
                 banner.startTurning(3000);

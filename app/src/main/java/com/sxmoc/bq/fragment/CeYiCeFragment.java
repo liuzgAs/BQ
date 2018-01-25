@@ -68,7 +68,6 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
 
     @Override
     protected void initSP() {
-
     }
 
     @Override
@@ -117,7 +116,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
         return new OkObject(params, url);
     }
@@ -129,18 +128,18 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
-                LogUtil.LogShitou("CeYiCeFragment--onSuccess",s+ "");
+                LogUtil.LogShitou("CeYiCeFragment--onSuccess", s + "");
                 try {
                     UserGetbluetooth userGetbluetooth = GsonUtils.parseJSON(s, UserGetbluetooth.class);
-                    if (userGetbluetooth.getStatus()==1){
+                    if (userGetbluetooth.getStatus() == 1) {
                         Constant.bluetooth_name = userGetbluetooth.getBluetooth_name();
-                    }else if (userGetbluetooth.getStatus()==3){
+                    } else if (userGetbluetooth.getStatus() == 3) {
                         MyDialog.showReLoginDialog(mContext);
-                    }else {
+                    } else {
                         Toast.makeText(mContext, userGetbluetooth.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(mContext,"数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -173,6 +172,7 @@ public class CeYiCeFragment extends ZjbBaseFragment implements View.OnClickListe
 //                }else {
                     startTest();
 //                }
+
                 break;
             default:
                 break;
