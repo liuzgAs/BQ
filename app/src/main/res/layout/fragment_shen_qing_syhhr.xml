@@ -458,7 +458,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/leftAndRight"
-                    android:text="收款金额"
+                    android:text="付款金额"
                     android:textColor="@color/light_black"
                     android:textSize="@dimen/normal_textsize" />
 

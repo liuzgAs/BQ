@@ -117,7 +117,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@+id/image0200"
                 android:gravity="right"
-                android:hint="请选择出身年月"
+                android:hint="请选择出生年月"
                 android:textColor="@color/light_black"
                 android:textSize="@dimen/normal_textsize" />
 
