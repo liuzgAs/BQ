@@ -132,7 +132,7 @@ public class DDViewHolder extends BaseViewHolder<Order.DataBean> {
                     textCancle.setVisibility(View.GONE);
                     btnPingJia.setVisibility(View.GONE);
                 } else {
-                    textCancle.setVisibility(View.VISIBLE);
+                    textCancle.setVisibility(View.GONE);
                     textCancle.setText("取消订单");
                     textCancle.setOnClickListener(new View.OnClickListener() {
                         @Override
