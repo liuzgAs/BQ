@@ -15,7 +15,8 @@
 
 
         <ImageView
-            android:scaleType="centerInside"
+            android:layout_margin="30dp"
+            android:scaleType="fitCenter"
             android:id="@+id/imageImg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
