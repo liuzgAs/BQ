@@ -297,6 +297,10 @@ public class Constant {
          * 微信支付
          */
         public static final String PAY_WXPAY = "/pay/wxpay";
+        /**
+         * 提醒发货
+         */
+        public static final String ORDER_REMIND = "/order/remind";
     }
 
     public static class IntentKey {

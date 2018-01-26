@@ -186,18 +186,56 @@ public class DingDanXQActivity extends ZjbBaseActivity implements View.OnClickLi
             @Override
             public void onSuccess(String s) {
                 LogUtil.LogShitou("订单详情", s);
-//                try {
-                    orderGetorderdetail = GsonUtils.parseJSON(s, OrderGetorderdetail.class);
-                    if (orderGetorderdetail.getStatus() == 1) {
-                        switch (orderGetorderdetail.getOrder_status()) {
-                            case 1:
+                try {
+                orderGetorderdetail = GsonUtils.parseJSON(s, OrderGetorderdetail.class);
+                if (orderGetorderdetail.getStatus() == 1) {
+                    switch (orderGetorderdetail.getOrder_status()) {
+                        case 1:
+                            btn01.setVisibility(View.VISIBLE);
+                            btn02.setVisibility(View.VISIBLE);
+                            btn01.setText("取消订单");
+                            btn01.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(DingDanXQActivity.this, "确定取消该订单吗？", "是", "否");
+                                    twoBtnDialog.show();
+                                    twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
+                                        @Override
+                                        public void doConfirm() {
+                                            Intent intent = new Intent();
+                                            intent.setAction(Constant.BroadcastCode.SHUA_XIN_DD);
+                                            sendBroadcast(intent);
+                                            quXiaoDD();
+                                            twoBtnDialog.dismiss();
+                                        }
+
+                                        @Override
+                                        public void doCancel() {
+                                            twoBtnDialog.dismiss();
+                                        }
+                                    });
+                                }
+                            });
+                            btn02.setText("立即付款");
+                            btn02.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    liJiFK();
+                                }
+                            });
+                            break;
+                        case 2:
+                            if (orderGetorderdetail.getGoods_info().get(0).getGoods_type() == 2) {
+                                btn01.setVisibility(View.GONE);
+                                btn02.setVisibility(View.GONE);
+                            } else {
                                 btn01.setVisibility(View.VISIBLE);
-                                btn02.setVisibility(View.VISIBLE);
+
                                 btn01.setText("取消订单");
                                 btn01.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(DingDanXQActivity.this,"确定取消该订单吗？", "是", "否");
+                                        final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(DingDanXQActivity.this, "确定取消该订单吗？", "是", "否");
                                         twoBtnDialog.show();
                                         twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
                                             @Override
@@ -216,90 +254,84 @@ public class DingDanXQActivity extends ZjbBaseActivity implements View.OnClickLi
                                         });
                                     }
                                 });
-                                btn02.setText("立即付款");
+
+                                btn02.setVisibility(View.VISIBLE);
+                                btn02.setText("提醒发货");
                                 btn02.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        liJiFK();
+                                        tiXingFaHuo();
                                     }
                                 });
-                                break;
-                            case 2:
-                                if (orderGetorderdetail.getGoods_info().get(0).getGoods_type()==2){
-                                    btn01.setVisibility(View.GONE);
-                                    btn02.setVisibility(View.GONE);
-                                }else {
-                                    btn01.setVisibility(View.GONE);
-                                    btn02.setVisibility(View.VISIBLE);
-                                    btn02.setText("查看物流");
-                                    btn02.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            Intent intent = new Intent();
-                                            intent.setClass(DingDanXQActivity.this, WebActivity.class);
-                                            intent.putExtra(Constant.IntentKey.TITLE, "物流信息");
-                                            intent.putExtra(Constant.IntentKey.URL,orderGetorderdetail.getLogistics_url());
-                                            startActivity(intent);
-                                        }
-                                    });
+                            }
+
+                            break;
+                        case 3:
+                            btn01.setVisibility(View.VISIBLE);
+                            btn01.setText("查看物流");
+                            btn01.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent();
+                                    intent.setClass(DingDanXQActivity.this, WebActivity.class);
+                                    intent.putExtra(Constant.IntentKey.TITLE, "物流信息");
+                                    intent.putExtra(Constant.IntentKey.URL, orderGetorderdetail.getLogistics_url());
+                                    startActivity(intent);
                                 }
+                            });
+                            btn02.setVisibility(View.VISIBLE);
+                            btn02.setText("确认收货");
+                            btn02.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    queRenSH();
+                                }
+                            });
+                            break;
+                        case 4:
+                            btn01.setVisibility(View.GONE);
+                            btn02.setVisibility(View.VISIBLE);
+                            btn02.setText("立即评价");
+                            btn02.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent();
+                                    intent.setClass(DingDanXQActivity.this, PingJiaActivity.class);
+                                    intent.putExtra(Constant.IntentKey.ID, id);
+                                    startActivity(intent);
+                                }
+                            });
+                            break;
+                        case 5:
+                            btn01.setVisibility(View.GONE);
+                            btn02.setVisibility(View.VISIBLE);
+                            btn02.setText("已完成");
+                            btn02.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    finish();
+                                }
+                            });
+                            break;
+                        default:
 
-                                break;
-                            case 3:
-                                btn01.setVisibility(View.GONE);
-                                btn02.setVisibility(View.VISIBLE);
-                                btn02.setText("确认收货");
-                                btn02.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        queRenSH();
-                                    }
-                                });
-                                break;
-                            case 4:
-                                btn01.setVisibility(View.GONE);
-                                btn02.setVisibility(View.VISIBLE);
-                                btn02.setText("立即评价");
-                                btn02.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Intent intent = new Intent();
-                                        intent.setClass(DingDanXQActivity.this, PingJiaActivity.class);
-                                        intent.putExtra(Constant.IntentKey.ID,id);
-                                        startActivity(intent);
-                                    }
-                                });
-                                break;
-                            case 5:
-                                btn01.setVisibility(View.GONE);
-                                btn02.setVisibility(View.VISIBLE);
-                                btn02.setText("已完成");
-                                btn02.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                      finish();
-                                    }
-                                });
-                                break;
-                            default:
-
-                                break;
-                        }
-
-
-                        viewDiBu.setVisibility(View.VISIBLE);
-                        adapter.clear();
-                        List<OrderGetorderdetail.GoodsInfoBean> goodsInfoBeanList = orderGetorderdetail.getGoods_info();
-                        adapter.addAll(goodsInfoBeanList);
-
-                    } else if (orderGetorderdetail.getStatus() == 3) {
-                        MyDialog.showReLoginDialog(DingDanXQActivity.this);
-                    } else {
-                        showError(orderGetorderdetail.getInfo());
+                            break;
                     }
-//                } catch (Exception e) {
-//                    showError("数据出错");
-//                }
+
+
+                    viewDiBu.setVisibility(View.VISIBLE);
+                    adapter.clear();
+                    List<OrderGetorderdetail.GoodsInfoBean> goodsInfoBeanList = orderGetorderdetail.getGoods_info();
+                    adapter.addAll(goodsInfoBeanList);
+
+                } else if (orderGetorderdetail.getStatus() == 3) {
+                    MyDialog.showReLoginDialog(DingDanXQActivity.this);
+                } else {
+                    showError(orderGetorderdetail.getInfo());
+                }
+                } catch (Exception e) {
+                    showError("数据出错");
+                }
             }
 
             @Override
@@ -344,14 +376,62 @@ public class DingDanXQActivity extends ZjbBaseActivity implements View.OnClickLi
      * author： ZhangJieBo
      * date： 2017/8/28 0028 上午 9:55
      */
+    private OkObject getTXOkObject() {
+        String url = Constant.HOST + Constant.Url.ORDER_REMIND;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime", tokenTime);
+        }
+        params.put("oid", String.valueOf(id));
+        return new OkObject(params, url);
+    }
+
+    /**
+     * 提醒发货
+     */
+    private void tiXingFaHuo() {
+        showLoadingDialog();
+        ApiClient.post(DingDanXQActivity.this, getTXOkObject(), new ApiClient.CallBack() {
+            @Override
+            public void onSuccess(String s) {
+                cancelLoadingDialog();
+                LogUtil.LogShitou("DDViewHolder--onSuccess", s + "");
+                try {
+                    SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
+                    if (simpleInfo.getStatus() == 1) {
+                        MyDialog.showTipDialog(DingDanXQActivity.this, "已提醒卖家发货");
+                    } else if (simpleInfo.getStatus() == 3) {
+                        MyDialog.showReLoginDialog(DingDanXQActivity.this);
+                    } else {
+                        Toast.makeText(DingDanXQActivity.this, simpleInfo.getInfo(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(DingDanXQActivity.this, "数据出错", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError() {
+                cancelLoadingDialog();
+                Toast.makeText(DingDanXQActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
     private OkObject getQueRenDDOkObject() {
         String url = Constant.HOST + Constant.Url.ORDER_CONFIRMORDER;
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
-        params.put("oid",String.valueOf(id));
+        params.put("oid", String.valueOf(id));
         return new OkObject(params, url);
     }
 
@@ -364,18 +444,18 @@ public class DingDanXQActivity extends ZjbBaseActivity implements View.OnClickLi
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
-                LogUtil.LogShitou("DDViewHolder--onSuccess",s+ "");
+                LogUtil.LogShitou("DDViewHolder--onSuccess", s + "");
                 try {
                     SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
-                    if (simpleInfo.getStatus()==1){
-                        MyDialog.showTipDialog(DingDanXQActivity.this,simpleInfo.getInfo());
-                    }else if (simpleInfo.getStatus()==3){
+                    if (simpleInfo.getStatus() == 1) {
+                        MyDialog.showTipDialog(DingDanXQActivity.this, simpleInfo.getInfo());
+                    } else if (simpleInfo.getStatus() == 3) {
                         MyDialog.showReLoginDialog(DingDanXQActivity.this);
-                    }else {
+                    } else {
                         Toast.makeText(DingDanXQActivity.this, simpleInfo.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(DingDanXQActivity.this,"数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DingDanXQActivity.this, "数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -408,9 +488,9 @@ public class DingDanXQActivity extends ZjbBaseActivity implements View.OnClickLi
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
-        params.put("id",String.valueOf(id));
+        params.put("id", String.valueOf(id));
         return new OkObject(params, url);
     }
 
@@ -423,24 +503,24 @@ public class DingDanXQActivity extends ZjbBaseActivity implements View.OnClickLi
             @Override
             public void onSuccess(String s) {
                 cancelLoadingDialog();
-                LogUtil.LogShitou("DDViewHolder--onSuccess",s+ "");
+                LogUtil.LogShitou("DDViewHolder--onSuccess", s + "");
                 try {
                     SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
-                    if (simpleInfo.getStatus()==1){
-                        MyDialog.showTipDialog(DingDanXQActivity.this,simpleInfo.getInfo());
-                    }else if (simpleInfo.getStatus()==3){
+                    if (simpleInfo.getStatus() == 1) {
+                        MyDialog.showTipDialog(DingDanXQActivity.this, simpleInfo.getInfo());
+                    } else if (simpleInfo.getStatus() == 3) {
                         MyDialog.showReLoginDialog(DingDanXQActivity.this);
-                    }else {
+                    } else {
                         Toast.makeText(DingDanXQActivity.this, simpleInfo.getInfo(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(DingDanXQActivity.this,"数据出错", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DingDanXQActivity.this, "数据出错", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onError() {
-               cancelLoadingDialog();
+                cancelLoadingDialog();
                 Toast.makeText(DingDanXQActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
             }
         });
