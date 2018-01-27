@@ -67,6 +67,9 @@ public class PdfActivity extends ZjbBaseNotLeftActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imageBack:
+                Intent intent = new Intent();
+                intent.setClass(this,CeShiLSActivity.class);
+                startActivity(intent);
                 finish();
                 break;
             default:

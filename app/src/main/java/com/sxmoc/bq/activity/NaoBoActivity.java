@@ -11,9 +11,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -88,8 +86,8 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
     private OnDaoJiShiJieShuListener onDaoJiShiJieShuListener;
     private RelativeLayout viewDaoJiShi;
     private RelativeLayout viewMusic;
-    private int load80;
-    private int load40;
+    //    private int load80;
+//    private int load40;
     private ImageView imageMusic;
     private MediaPlayer mMediaPlayer;
 
@@ -99,15 +97,15 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         setContentView(R.layout.activity_nao_bo);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         BleManager.getInstance().init(getApplication());
-        mMediaPlayer =MediaPlayer.create(this, R.raw.zhunbei);
         init();
     }
 
     @Override
     protected void initSP() {
-        soundPool = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);
-        load80 = soundPool.load(this, R.raw.naobo80, 1);
-        load40 = soundPool.load(this, R.raw.naobo40, 1);
+//        soundPool = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);
+//        load80 = soundPool.load(this, R.raw.naobo80, 1);
+//        load40 = soundPool.load(this, R.raw.naobo40, 1);
+        mMediaPlayer = MediaPlayer.create(this, R.raw.zhunbei);
     }
 
     @Override
@@ -547,7 +545,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         setJieMian(1);
     }
 
-    private SoundPool soundPool;
+//    private SoundPool soundPool;
 
     /**
      * 刷新剩余时间
@@ -559,11 +557,15 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
 
 
         if (leftTime == 80) {
-            soundPool.play(load40, 1, 1, 0, 0, 1);
+//            soundPool.play(load40, 1, 1, 0, 0, 1);
+            mMediaPlayer = MediaPlayer.create(this, R.raw.naobo40);
+            mMediaPlayer.start();
+
         }
         if (leftTime == 40) {
-
-            soundPool.play(load80, 1, 1, 0, 0, 1);
+            mMediaPlayer = MediaPlayer.create(this, R.raw.naobo80);
+            mMediaPlayer.start();
+//            soundPool.play(load80, 1, 1, 0, 0, 1);
         }
     }
 
@@ -652,7 +654,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnKaiShiCS:
-                if (mMediaPlayer!=null){
+                if (mMediaPlayer != null) {
                     mMediaPlayer.stop();
                     mMediaPlayer.release();
                     mMediaPlayer = null;
@@ -805,6 +807,11 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
     protected void onDestroy() {
         super.onDestroy();
         BleManager.getInstance().cancelScan();
+        if (mMediaPlayer != null) {
+            mMediaPlayer.stop();
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
     }
 
     /**
@@ -874,7 +881,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
 
     @SuppressLint("WrongConstant")
     public void setMusicView() {
-        mMediaPlayer.start();
+//        mMediaPlayer.start();
         ViewGroup.LayoutParams layoutParams2 = imageMusic.getLayoutParams();
         layoutParams2.width = (int) ((float) screenWidth * 0.6f);
         layoutParams2.height = (int) ((float) screenWidth * 0.6f);
