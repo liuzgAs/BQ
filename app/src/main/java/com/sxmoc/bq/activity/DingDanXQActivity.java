@@ -229,7 +229,7 @@ public class DingDanXQActivity extends ZjbBaseActivity implements View.OnClickLi
                                 btn01.setVisibility(View.GONE);
                                 btn02.setVisibility(View.GONE);
                             } else {
-                                btn01.setVisibility(View.VISIBLE);
+                                btn01.setVisibility(View.GONE);
 
                                 btn01.setText("取消订单");
                                 btn01.setOnClickListener(new View.OnClickListener() {
@@ -449,6 +449,7 @@ public class DingDanXQActivity extends ZjbBaseActivity implements View.OnClickLi
                     SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
                     if (simpleInfo.getStatus() == 1) {
                         MyDialog.showTipDialog(DingDanXQActivity.this, simpleInfo.getInfo());
+                        initData();
                     } else if (simpleInfo.getStatus() == 3) {
                         MyDialog.showReLoginDialog(DingDanXQActivity.this);
                     } else {
@@ -508,6 +509,7 @@ public class DingDanXQActivity extends ZjbBaseActivity implements View.OnClickLi
                     SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
                     if (simpleInfo.getStatus() == 1) {
                         MyDialog.showTipDialog(DingDanXQActivity.this, simpleInfo.getInfo());
+                        initData();
                     } else if (simpleInfo.getStatus() == 3) {
                         MyDialog.showReLoginDialog(DingDanXQActivity.this);
                     } else {
