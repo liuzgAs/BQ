@@ -35,7 +35,6 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
     private EditText editName;
     private TextView textSex;
     private int sex = -1;
-    private int grade = -1;
     private String birthday;
     private TextView textBirthday;
     private EditText editSchool;
@@ -43,7 +42,7 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
     private EditText editEmiel;
     private CheckBox checkBox;
     private int id;
-    String[] strings1 = {"幼儿园大班","一年级", "二年级", "三年级", "四年级", "五年级", "六年级", "七年级", "八年级", "九年级"};
+    String[] strings1 = {"幼儿园大班", "一年级", "二年级", "三年级", "四年级", "五年级", "六年级", "七年级", "八年级", "九年级"};
     final String[] strings = {"男", "女"};
     private Button btnKaiShiCeShi;
 
@@ -81,9 +80,9 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
     @Override
     protected void initViews() {
         ((TextView) findViewById(R.id.textViewTitle)).setText("信息填写");
-        if (id==0){
+        if (id == 0) {
             btnKaiShiCeShi.setText("添加");
-        }else {
+        } else {
             btnKaiShiCeShi.setText("确认修改");
         }
     }
@@ -130,9 +129,8 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
                             editName.setSelection(testerTesteredit.getData().getName().length());
                             editSchool.setText(testerTesteredit.getData().getSchool_name());
                             editEmiel.setText(testerTesteredit.getData().getMailbox());
-                            textGrade.setText(strings1[testerTesteredit.getData().getGrade()]);
-                            grade = testerTesteredit.getData().getGrade();
-                            textBirthday.setText(testerTesteredit.getData().getSchool_name());
+                            textGrade.setText(testerTesteredit.getData().getGrade() + "");
+                            textBirthday.setText(testerTesteredit.getData().getBirthday());
                             textSex.setText(strings[testerTesteredit.getData().getSex()]);
                             sex = testerTesteredit.getData().getSex();
                         } else if (testerTesteredit.getStatus() == 3) {
@@ -197,8 +195,8 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
 //                    Toast.makeText(XinXiTXActivity.this, "请填写邮箱地址", Toast.LENGTH_SHORT).show();
 //                    return;
 //                }
-                if (grade == -1) {
-                    Toast.makeText(XinXiTXActivity.this, "请输入宝宝年级", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(textGrade.getText().toString().trim())) {
+                    Toast.makeText(XinXiTXActivity.this, "请选择宝宝年级", Toast.LENGTH_SHORT).show();
                     return;
                 }
 //                if (!checkBox.isChecked()) {
@@ -230,7 +228,6 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 LogUtil.LogShitou("XinXiTXActivity--onClick", "" + i);
                                 textGrade.setText(strings1[i]);
-                                grade = i;
                             }
                         })
                         .show();
@@ -261,7 +258,7 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
         params.put("grade", textGrade.getText().toString().trim());
         params.put("birthday", birthday);
         params.put("sex", String.valueOf(sex));
-        if (id!=0){
+        if (id != 0) {
             params.put("bid", String.valueOf(id));
         }
         return new OkObject(params, url);
@@ -290,10 +287,10 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
 //                            startActivity(intent);
 //                            finish();
 //                        }else {
-                            Intent intent1 = new Intent();
-                            intent1.setAction(Constant.BroadcastCode.KAISHICESHI);
-                            sendBroadcast(intent1);
-                            finish();
+                        Intent intent1 = new Intent();
+                        intent1.setAction(Constant.BroadcastCode.KAISHICESHI);
+                        sendBroadcast(intent1);
+                        finish();
 //                        }
                     } else if (buyerAddinfo.getStatus() == 3) {
                         MyDialog.showReLoginDialog(XinXiTXActivity.this);

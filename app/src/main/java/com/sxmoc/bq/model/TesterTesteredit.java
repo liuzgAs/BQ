@@ -61,7 +61,7 @@ public class TesterTesteredit {
         private int sex;
         private String school_name;
         private String mailbox;
-        private int grade;
+        private String grade;
         private String create_time;
 
         public int getUid() {
@@ -120,11 +120,11 @@ public class TesterTesteredit {
             this.mailbox = mailbox;
         }
 
-        public int getGrade() {
+        public String getGrade() {
             return grade;
         }
 
-        public void setGrade(int grade) {
+        public void setGrade(String grade) {
             this.grade = grade;
         }
 
