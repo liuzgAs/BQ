@@ -292,6 +292,9 @@ public class DDViewHolder extends BaseViewHolder<Order.DataBean> {
                 try {
                     SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
                     if (simpleInfo.getStatus() == 1) {
+                        Intent intent = new Intent();
+                        intent.setAction(Constant.BroadcastCode.SHUA_XIN_DD);
+                        getContext().sendBroadcast(intent);
                         MyDialog.showTipDialog(getContext(), simpleInfo.getInfo());
                     } else if (simpleInfo.getStatus() == 3) {
                         MyDialog.showReLoginDialog(getContext());
@@ -352,6 +355,9 @@ public class DDViewHolder extends BaseViewHolder<Order.DataBean> {
                 try {
                     SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
                     if (simpleInfo.getStatus() == 1) {
+                        Intent intent = new Intent();
+                        intent.setAction(Constant.BroadcastCode.SHUA_XIN_DD);
+                        getContext().sendBroadcast(intent);
                         MyDialog.showTipDialog(getContext(), simpleInfo.getInfo());
                     } else if (simpleInfo.getStatus() == 3) {
                         MyDialog.showReLoginDialog(getContext());

@@ -38,7 +38,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/leftAndRight"
-                        android:text="事业合伙人"
+                        android:text="事业合伙人等级"
                         android:textSize="@dimen/normal_textsize" />
 
                     <TextView
