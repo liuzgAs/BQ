@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,7 +61,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListener {
-    private View[] viewJieMian = new View[5];
+    private View[] viewJieMian = new View[6];
     private EasyRecyclerView recyclerView;
     private RecyclerArrayAdapter<BlueBean> adapter;
     private String saoMiaoStatue = "正在搜索……";
@@ -74,6 +75,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
     private RoateImg roateImg;
     private RelativeLayout viewDuQuBG;
     ObjectAnimator[] animator = new ObjectAnimator[5];
+    ObjectAnimator[] animatorMusic = new ObjectAnimator[5];
     private TextView textShangChuanStatue;
     private int screenWidth;
     private int id;
@@ -85,8 +87,11 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
     boolean isBack = true;
     private OnDaoJiShiJieShuListener onDaoJiShiJieShuListener;
     private RelativeLayout viewDaoJiShi;
+    private RelativeLayout viewMusic;
     private int load80;
     private int load40;
+    private ImageView imageMusic;
+    private MediaPlayer mMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +99,7 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         setContentView(R.layout.activity_nao_bo);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         BleManager.getInstance().init(getApplication());
+        mMediaPlayer =MediaPlayer.create(this, R.raw.zhunbei);
         init();
     }
 
@@ -129,6 +135,9 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         imageDaoJiShi = (ImageView) findViewById(R.id.imageDaoJiShi);
         viewJieMian[4] = (RelativeLayout) findViewById(R.id.viewDaoJiShi);
         viewDaoJiShi = (RelativeLayout) findViewById(R.id.viewDaoJiShi);
+        viewJieMian[5] = (RelativeLayout) findViewById(R.id.viewMusic);
+        viewMusic = (RelativeLayout) findViewById(R.id.viewMusic);
+        imageMusic = (ImageView) findViewById(R.id.imageMusic);
     }
 
     @SuppressLint("WrongConstant")
@@ -410,6 +419,8 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
     @Override
     protected void setListeners() {
         findViewById(R.id.btnDuQuBG).setOnClickListener(this);
+        findViewById(R.id.btnFangSongDN).setOnClickListener(this);
+        findViewById(R.id.btnKaiShiCS).setOnClickListener(this);
     }
 
     @Override
@@ -547,7 +558,6 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         textLeftTime.setText(String.valueOf(120 - leftTime));
 
 
-
         if (leftTime == 80) {
             soundPool.play(load40, 1, 1, 0, 0, 1);
         }
@@ -636,9 +646,28 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         return new OkObject(params, url);
     }
 
+    private boolean isBoFang = false;
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.btnKaiShiCS:
+                if (mMediaPlayer!=null){
+                    mMediaPlayer.stop();
+                    mMediaPlayer.release();
+                    mMediaPlayer = null;
+                }
+                daoJiShi();
+                break;
+            case R.id.btnFangSongDN:
+                if (mMediaPlayer != null) {
+                    if (mMediaPlayer.isPlaying()) {
+                        mMediaPlayer.pause();
+                    } else {
+                        mMediaPlayer.start();
+                    }
+                }
+                break;
             case R.id.btnDuQuBG:
                 showLoadingDialog();
                 ApiClient.post(NaoBoActivity.this, getBaoGaoOkObject(), new ApiClient.CallBack() {
@@ -841,6 +870,48 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                 }
             }
         });
+    }
+
+    @SuppressLint("WrongConstant")
+    public void setMusicView() {
+        mMediaPlayer.start();
+        ViewGroup.LayoutParams layoutParams2 = imageMusic.getLayoutParams();
+        layoutParams2.width = (int) ((float) screenWidth * 0.6f);
+        layoutParams2.height = (int) ((float) screenWidth * 0.6f);
+        imageMusic.setLayoutParams(layoutParams2);
+//        ImageView imageView1 = new ImageView(NaoBoActivity.this);
+//        imageView1.setImageResource(R.mipmap.jianbianquan);
+//        RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams((int) ((float) screenWidth * 0.6f), (int) ((float) screenWidth * 0.6f));
+//        layoutParams1.addRule(RelativeLayout.CENTER_IN_PARENT);
+//        viewMusic.addView(imageView1, layoutParams1);
+        for (int i = 0; i < 5; i++) {
+            final ImageView imageView = new ImageView(NaoBoActivity.this);
+            imageView.setImageResource(R.mipmap.jianbianquan);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int) ((float) screenWidth * 0.58f), (int) ((float) screenWidth * 0.58f));
+            layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+            viewMusic.addView(imageView, layoutParams);
+            if (i > 0) {
+                imageView.setVisibility(View.GONE);
+            }
+            PropertyValuesHolder holder01 = PropertyValuesHolder.ofFloat("scaleX", 1f, 3f);
+            PropertyValuesHolder holder02 = PropertyValuesHolder.ofFloat("scaleY", 1f, 3f);
+            PropertyValuesHolder holder03 = PropertyValuesHolder.ofFloat("alpha", 1f, 0f);
+            animatorMusic[i] = ObjectAnimator.ofPropertyValuesHolder(imageView, holder01, holder02, holder03);
+            animatorMusic[i].setInterpolator(new LinearInterpolator());
+            animatorMusic[i].setDuration(4000);
+            animatorMusic[i].setStartDelay(0 + 1000 * i);
+            animatorMusic[i].setRepeatCount(ValueAnimator.INFINITE);
+            animatorMusic[i].setRepeatMode(ValueAnimator.INFINITE);
+            animatorMusic[i].start();
+            animatorMusic[i].addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    super.onAnimationStart(animation);
+                    imageView.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+        setJieMian(5);
     }
 
     public void setOnDaoJiShiJieShuListener(OnDaoJiShiJieShuListener onDaoJiShiJieShuListener) {

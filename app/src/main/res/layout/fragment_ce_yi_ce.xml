@@ -55,7 +55,7 @@
             android:background="@drawable/shape_ceyice"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
-            android:text="开始检测"
+            android:text="进入检测"
             android:textColor="@color/ceyice"
             android:textSize="@dimen/MoreBigText" />
         <TextView

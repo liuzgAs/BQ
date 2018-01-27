@@ -58,24 +58,6 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
                 case Constant.BroadcastCode.XIUGAIBAOBAO:
                     onRefresh();
                     break;
-                case BluetoothAdapter.ACTION_STATE_CHANGED:
-                    int blueState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);
-                    switch (blueState) {
-                        case BluetoothAdapter.STATE_TURNING_ON:
-                            break;
-                        case BluetoothAdapter.STATE_ON:
-                            cancelLoadingDialog();
-                            //开始扫描
-                            test();
-                            break;
-                        case BluetoothAdapter.STATE_TURNING_OFF:
-                            break;
-                        case BluetoothAdapter.STATE_OFF:
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
                 default:
 
                     break;
@@ -191,19 +173,14 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                boolean supportBle = BleManager.getInstance().isSupportBle();
-                bid = adapter.getItem(position).getBid();
-                if (!supportBle) {
-                    MyDialog.showTipDialog(BaoBaoLBActivity.this, "该设备不支持蓝牙");
-                    return;
-                }
-                if (!checkGPSIsOpen()) {
-                    LogUtil.LogShitou("WelcomeActivity--onCreate", "GPS未开启");
-                    openGPSSettings();
-                } else {
-                    LogUtil.LogShitou("WelcomeActivity--onCreate", "GPS开启");
-                    methodRequiresTwoPermission();
-                }
+                Intent intent = new Intent();
+                intent.setClass(BaoBaoLBActivity.this, TiShiActivity.class);
+                intent.putExtra(Constant.IntentKey.TITLE, "注意事项");
+                intent.putExtra(Constant.IntentKey.URL, Constant.Url.PRECAUTIONS);
+                intent.putExtra(Constant.IntentKey.TYPE,1);
+                intent.putExtra(Constant.IntentKey.ID,adapter.getItem(position).getBid());
+                startActivity(intent);
+                finish();
             }
         });
         recyclerView.setRefreshListener(this);

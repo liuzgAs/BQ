@@ -21,7 +21,6 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.activity.NaoBoActivity;
 import com.sxmoc.bq.base.MyDialog;
-import com.sxmoc.bq.customview.TwoBtnDialog;
 import com.sxmoc.bq.interfacepage.OnDaoJiShiJieShuListener;
 import com.sxmoc.bq.model.BlueBean;
 import com.sxmoc.bq.model.NaoBo;
@@ -60,24 +59,26 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                     ((NaoBoActivity) getContext()).showLoadingDialog();
                     connect();
                 } else if (data.getStatue() == 1) {
-                    final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(getContext(), "设备准备就绪", "开始测试", "取消");
-                    twoBtnDialog.show();
-                    twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
+//                    final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(getContext(), "设备准备就绪", getContext().getResources().getString(R.string.xiayibu), "取消");
+//                    twoBtnDialog.show();
+//                    twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
+//                        @Override
+//                        public void doConfirm() {
+//                            twoBtnDialog.dismiss();
+//                            ((NaoBoActivity) getContext()).daoJiShi();
+//
+//                        }
+//
+//                        @Override
+//                        public void doCancel() {
+//                            twoBtnDialog.dismiss();
+//                        }
+//                    });
+                    ((NaoBoActivity) getContext()).setMusicView();
+                    ((NaoBoActivity) getContext()).setOnDaoJiShiJieShuListener(new OnDaoJiShiJieShuListener() {
                         @Override
-                        public void doConfirm() {
-                            twoBtnDialog.dismiss();
-                            ((NaoBoActivity)getContext()).daoJiShi();
-                            ((NaoBoActivity)getContext()).setOnDaoJiShiJieShuListener(new OnDaoJiShiJieShuListener() {
-                                @Override
-                                public void jieShu() {
-                                    caoZuo();
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void doCancel() {
-                            twoBtnDialog.dismiss();
+                        public void jieShu() {
+                            caoZuo();
                         }
                     });
                 } else {
@@ -101,9 +102,9 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
 //            data.setStatue(1);
 //            btnLianJie.setText("测试");
 //        } else {
-            textStatue.setVisibility(View.GONE);
-            btnLianJie.setText("连接");
-            data.setStatue(0);
+        textStatue.setVisibility(View.GONE);
+        btnLianJie.setText("连接");
+        data.setStatue(0);
 //        }
         BleManager.getInstance().disconnectAllDevice();
         ((NaoBoActivity) getContext()).initNaoBo();
@@ -164,9 +165,9 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                         LogUtil.LogShitou("LanYaViewHolder--onCharacteristicChanged截取前", "" + hexString);
                         pingJie++;
                         pingJieStr = pingJieStr + hexString;
-                        if (pingJie==8){
+                        if (pingJie == 8) {
                             String[] split = pingJieStr.split("a55a02");
-                            pingJie=0;
+                            pingJie = 0;
                             pingJieStr = "";
                             for (int i = 0; i < split.length; i++) {
 
@@ -193,7 +194,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                                             closeNotify();
                                             List<String> naoBoDataList = new ArrayList<>();
                                             for (int j = 0; j < naoBoList.size(); j++) {
-                                                naoBoDataList.add("A  " + j * 256+"\\n");
+                                                naoBoDataList.add("A  " + j * 256 + "\\n");
                                                 StringBuffer zuoNaoData = new StringBuffer();
                                                 for (int k = 0; k < naoBoList.get(j).size(); k++) {
                                                     if (k < naoBoList.get(j).size() - 1) {
@@ -211,7 +212,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                                                     }
                                                 }
                                                 naoBoDataList.add(zuoNaoData.toString());
-                                                naoBoDataList.add("B  " + j * 256+"\\n");
+                                                naoBoDataList.add("B  " + j * 256 + "\\n");
                                                 StringBuffer youNaoData = new StringBuffer();
                                                 for (int k = 0; k < naoBoList.get(j).size(); k++) {
                                                     if (k < naoBoList.get(j).size() - 1) {
@@ -252,7 +253,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
         boolean connected = BleManager.getInstance().isConnected(bleDevice);
         if (connected) {
             textStatue.setVisibility(View.VISIBLE);
-            btnLianJie.setText("开始测试");
+            btnLianJie.setText(getContext().getResources().getString(R.string.xiayibu));
             data.setStatue(1);
         } else {
             textStatue.setVisibility(View.GONE);
@@ -285,7 +286,7 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
             public void onConnectSuccess(final BleDevice bleDevice, BluetoothGatt gatt, int status) {
                 data.setStatue(1);
                 textStatue.setVisibility(View.VISIBLE);
-                btnLianJie.setText("开始测试");
+                btnLianJie.setText(getContext().getResources().getString(R.string.xiayibu));
                 ((NaoBoActivity) getContext()).cancelLoadingDialog();
             }
 
