@@ -183,7 +183,7 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
                     Toast.makeText(XinXiTXActivity.this, "请选择宝宝性别", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(birthday)) {
+                if (TextUtils.isEmpty(textBirthday.getText().toString().trim())) {
                     Toast.makeText(XinXiTXActivity.this, "请选择宝宝出生年月", Toast.LENGTH_SHORT).show();
                     return;
                 }
