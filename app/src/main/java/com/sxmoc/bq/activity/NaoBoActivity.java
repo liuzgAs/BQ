@@ -278,49 +278,25 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
         String str04 = "";
         String str05 = "";
         for (int i = 0; i < 80; i++) {
-            if (i % 2 == 0) {
-                str00 = str00 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
-            } else {
-                str00 = str00 + "\"" + naoBoDataList.get(i) + "\",";
-            }
+            str00 = str00 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
         }
         for (int i = 80; i < 160; i++) {
-            if (i % 2 == 0) {
-                str01 = str01 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
-            } else {
-                str01 = str01 + "\"" + naoBoDataList.get(i) + "\",";
-            }
+            str01 = str01 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
         }
         for (int i = 160; i < 240; i++) {
-            if (i % 2 == 0) {
-                str02 = str02 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
-            } else {
-                str02 = str02 + "\"" + naoBoDataList.get(i) + "\",";
-            }
+            str02 = str02 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
         }
         for (int i = 240; i < 320; i++) {
-            if (i % 2 == 0) {
-                str03 = str03 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
-            } else {
-                str03 = str03 + "\"" + naoBoDataList.get(i) + "\",";
-            }
+            str03 = str03 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
         }
         for (int i = 320; i < 400; i++) {
-            if (i % 2 == 0) {
-                str04 = str04 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
-            } else {
-                str04 = str04 + "\"" + naoBoDataList.get(i) + "\",";
-            }
+            str04 = str04 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
         }
         for (int i = 400; i < 480; i++) {
-            if (i % 2 == 0) {
-                str05 = str05 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
+            if (i == 479) {
+                str05 = str05 + "\"" + naoBoDataList.get(i) + "\"";
             } else {
-                if (i == 479) {
-                    str05 = str05 + "\"" + naoBoDataList.get(i) + "\"";
-                } else {
-                    str05 = str05 + "\"" + naoBoDataList.get(i) + "\",";
-                }
+                str05 = str05 + "\"" + naoBoDataList.get(i) + "\"," + "\n";
             }
         }
         params.put("raw_data1", str00);
