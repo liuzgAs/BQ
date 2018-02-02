@@ -301,6 +301,10 @@ public class Constant {
          * 提醒发货
          */
         public static final String ORDER_REMIND = "/order/remind";
+        /**
+         * 脑力档案切换
+         */
+        public static final String BUYER_DELONEHISTORY = "/buyer/delOneHistory";
     }
 
     public static class IntentKey {

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
@@ -17,9 +18,11 @@ import com.sxmoc.bq.R;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
+import com.sxmoc.bq.customview.TwoBtnDialog;
 import com.sxmoc.bq.holder.CeShiLSViewHolder;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.ProductQueryhistory;
+import com.sxmoc.bq.model.SimpleInfo;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
@@ -147,6 +150,68 @@ public class CeShiLSActivity extends ZjbBaseActivity implements View.OnClickList
             }
         });
         recyclerView.setRefreshListener(this);
+        adapter.setOnItemLongClickListener(new RecyclerArrayAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final int position) {
+                final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(CeShiLSActivity.this, "您确认要删除这份报告吗？", "确认", "取消");
+                twoBtnDialog.show();
+                twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm() {
+                        twoBtnDialog.dismiss();
+                        int id = adapter.getItem(position).getId();
+                        showLoadingDialog();
+                        ApiClient.post(CeShiLSActivity.this, getSCOkObject(id), new ApiClient.CallBack() {
+                            @Override
+                            public void onSuccess(String s) {
+                                cancelLoadingDialog();
+                                LogUtil.LogShitou("CeShiLSActivity--onSuccess",s+ "");
+                                try {
+                                    SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
+                                    if (simpleInfo.getStatus()==1){
+                                        adapter.remove(position);
+                                    }else if (simpleInfo.getStatus()==3){
+                                        MyDialog.showReLoginDialog(CeShiLSActivity.this);
+                                    }else {
+                                        Toast.makeText(CeShiLSActivity.this, simpleInfo.getInfo(), Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (Exception e) {
+                                    Toast.makeText(CeShiLSActivity.this,"数据出错", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError() {
+                                cancelLoadingDialog();
+                                Toast.makeText(CeShiLSActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        twoBtnDialog.dismiss();
+                    }
+                });
+                return false;
+            }
+        });
+    }
+
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
+    private OkObject getSCOkObject(int id) {
+        String url = Constant.HOST + Constant.Url.BUYER_DELONEHISTORY;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime",tokenTime);
+        }
+        params.put("id",String.valueOf(id));
+        return new OkObject(params, url);
     }
 
     @Override
