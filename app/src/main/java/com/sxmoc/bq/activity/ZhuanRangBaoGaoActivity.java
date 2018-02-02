@@ -15,8 +15,10 @@ import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.customview.SingleBtnDialog;
+import com.sxmoc.bq.customview.TwoBtnDialog;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.SimpleInfo;
+import com.sxmoc.bq.model.UserTransfertips;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
@@ -93,7 +95,7 @@ public class ZhuanRangBaoGaoActivity extends ZjbBaseActivity implements View.OnC
                     Toast.makeText(ZhuanRangBaoGaoActivity.this, "请输入要转让的报告数量", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                zhuanRang();
+                zhuanRangQian();
                 break;
             case R.id.imageBack:
                 finish();
@@ -101,6 +103,67 @@ public class ZhuanRangBaoGaoActivity extends ZjbBaseActivity implements View.OnC
             default:
                 break;
         }
+    }
+
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
+    private OkObject getQOkObject() {
+        String url = Constant.HOST + Constant.Url.USER_TRANSFERTIPS;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime",tokenTime);
+        }
+        params.put("d_phone",editToPhone.getText().toString().trim());
+        return new OkObject(params, url);
+    }
+
+    /**
+     * 转让报告前
+     */
+    private void zhuanRangQian() {
+        showLoadingDialog();
+        ApiClient.post(ZhuanRangBaoGaoActivity.this, getQOkObject(), new ApiClient.CallBack() {
+            @Override
+            public void onSuccess(String s) {
+                cancelLoadingDialog();
+                LogUtil.LogShitou("ZhuanRangBaoGaoActivity--onSuccess",s+ "");
+                try {
+                    UserTransfertips userTransfertips = GsonUtils.parseJSON(s, UserTransfertips.class);
+                    if (userTransfertips.getStatus()==1){
+                        final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(ZhuanRangBaoGaoActivity.this, "确认要转让给\"" + userTransfertips.getD_nickname() + "\"吗？", "确认", "取消");
+                        twoBtnDialog.show();
+                        twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
+                            @Override
+                            public void doConfirm() {
+                                twoBtnDialog.dismiss();
+                                zhuanRang();
+                            }
+
+                            @Override
+                            public void doCancel() {
+                                twoBtnDialog.dismiss();
+                            }
+                        });
+                    }else if (userTransfertips.getStatus()==3){
+                        MyDialog.showReLoginDialog(ZhuanRangBaoGaoActivity.this);
+                    }else {
+                        Toast.makeText(ZhuanRangBaoGaoActivity.this, userTransfertips.getInfo(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(ZhuanRangBaoGaoActivity.this,"数据出错", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError() {
+                cancelLoadingDialog();
+                Toast.makeText(ZhuanRangBaoGaoActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**

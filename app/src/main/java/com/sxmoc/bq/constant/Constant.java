@@ -305,6 +305,10 @@ public class Constant {
          * 脑力档案切换
          */
         public static final String BUYER_DELONEHISTORY = "/buyer/delOneHistory";
+        /**
+         * 转让报告前提示
+         */
+        public static final String USER_TRANSFERTIPS = "/user/transferTips";
     }
 
     public static class IntentKey {
