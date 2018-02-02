@@ -1,5 +1,6 @@
 package com.sxmoc.bq.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -155,7 +156,7 @@ public class IndexFindindex {
         }
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * des : 2018-01-11
          * img : http://www.qizhibq.com
@@ -167,6 +168,15 @@ public class IndexFindindex {
         private String img;
         private String title;
         private String url;
+        private String shareDes;
+
+        public String getShareDes() {
+            return shareDes;
+        }
+
+        public void setShareDes(String shareDes) {
+            this.shareDes = shareDes;
+        }
 
         public String getDes() {
             return des;

@@ -240,6 +240,7 @@ public class FaXianFragment extends ZjbBaseFragment implements SwipeRefreshLayou
                 intent.setClass(mContext, WebActivity.class);
                 intent.putExtra(Constant.IntentKey.TITLE, adapter.getItem(position).getTitle());
                 intent.putExtra(Constant.IntentKey.URL, adapter.getItem(position).getUrl());
+                intent.putExtra(Constant.IntentKey.BEAN, adapter.getItem(position));
                 startActivity(intent);
             }
         });

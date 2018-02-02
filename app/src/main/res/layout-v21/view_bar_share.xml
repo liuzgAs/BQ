@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    android:gravity="bottom"
+    app:cardCornerRadius="0dp"
+    android:minHeight="?attr/actionBarSize"
+    android:orientation="vertical"
+    app:cardBackgroundColor="@color/tranblack">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titleHeight"
+        android:layout_gravity="bottom"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/imageBack"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/white_selector"
+            android:paddingBottom="15dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:paddingTop="15dp"
+            android:src="@mipmap/left_black" />
+
+        <TextView
+            android:maxLength="8"
+            android:textStyle="bold"
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/light_black"
+            android:textSize="@dimen/titleSize"
+            tools:text="标题" />
+
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/imageShare"
+            android:paddingRight="10dp"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/share_web"
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

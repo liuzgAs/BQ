@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".activity.WebActivity">
 
-    <include layout="@layout/view_bar_white"></include>
+    <include layout="@layout/view_bar_share"></include>
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
