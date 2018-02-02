@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -87,6 +88,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         }
     };
     private UserBuyerindex userBuyerindex;
+    private Button btnGouMai;
 
     public WoDeFragment() {
         // Required empty public constructor
@@ -128,6 +130,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         textBlance = mInflate.findViewById(R.id.textBlance);
         textBaoGaoNum = mInflate.findViewById(R.id.textBaoGaoNum);
         textGradeName = mInflate.findViewById(R.id.textGradeName);
+        btnGouMai = mInflate.findViewById(R.id.btnGouMai);
     }
 
     @Override
@@ -154,7 +157,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
         mInflate.findViewById(R.id.viewYinHangKa).setOnClickListener(this);
         mInflate.findViewById(R.id.viewZhuanRangBaoGao).setOnClickListener(this);
         mInflate.findViewById(R.id.viewFenXiang).setOnClickListener(this);
-        mInflate.findViewById(R.id.btnGouMai).setOnClickListener(this);
+        btnGouMai.setOnClickListener(this);
         mInflate.findViewById(R.id.viewPingJiaGL).setOnClickListener(this);
         mInflate.findViewById(R.id.viewBaoGao).setOnClickListener(this);
         mInflate.findViewById(R.id.viewTiXian).setOnClickListener(this);
@@ -199,9 +202,15 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.btnGouMai:
-                intent.putExtra(Constant.IntentKey.ID, userBuyerindex.getReport_id());
-                intent.setClass(mContext, ChanPinXQActivity.class);
-                startActivity(intent);
+                if (userBuyerindex.getIs_share()==1){
+                    intent.putExtra(Constant.IntentKey.ID, userBuyerindex.getGoods_id());
+                    intent.setClass(getContext(), ChanPinXQActivity.class);
+                    startActivity(intent);
+                }else {
+                    intent.putExtra(Constant.IntentKey.ID, userBuyerindex.getReport_id());
+                    intent.setClass(mContext, ChanPinXQActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.viewFenXiang:
                 fenXiang();
@@ -351,6 +360,11 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                         textBaoGaoNum.setText(userBuyerindex.getReport_num());
                         textBlance.setText(userBuyerindex.getMoney() + "");
                         textGradeName.setText(userBuyerindex.getGrade_name());
+                        if (userBuyerindex.getIs_share()==1){
+                            btnGouMai.setText("进入升级");
+                        }else {
+                            btnGouMai.setText("购买报告");
+                        }
                     } else if (userBuyerindex.getStatus() == 3) {
                         MyDialog.showReLoginDialog(mContext);
                     } else {

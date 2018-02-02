@@ -28,7 +28,25 @@ public class UserBuyerindex {
     private String mobile;
     private int status;
     private int report_id;
+    private int is_share;
+    private int goods_id;
     private String info;
+
+    public int getIs_share() {
+        return is_share;
+    }
+
+    public void setIs_share(int is_share) {
+        this.is_share = is_share;
+    }
+
+    public int getGoods_id() {
+        return goods_id;
+    }
+
+    public void setGoods_id(int goods_id) {
+        this.goods_id = goods_id;
+    }
 
     public int getReport_id() {
         return report_id;

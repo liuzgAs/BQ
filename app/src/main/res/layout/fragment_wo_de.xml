@@ -252,6 +252,7 @@
 
                 </RelativeLayout>
                 <RelativeLayout
+                    android:background="@drawable/layout_selector_white_system_gray"
                     android:id="@+id/viewWoDeGX"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
