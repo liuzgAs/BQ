@@ -3,6 +3,7 @@ package com.sxmoc.bq.activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,6 +81,7 @@ public class CeShiLSActivity extends ZjbBaseActivity implements View.OnClickList
         itemDecoration.setDrawLastItem(false);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setRefreshingColorResources(R.color.basic_color);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<ProductQueryhistory.DataBean>(CeShiLSActivity.this) {
             @Override
             public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {

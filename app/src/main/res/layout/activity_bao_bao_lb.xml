@@ -15,7 +15,16 @@
         android:orientation="vertical">
 
         <include layout="@layout/view_bar_white" />
-
+        <TextView
+            android:id="@+id/textShanChu"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/basic_color"
+            android:gravity="center"
+            android:text="长按删除宝宝信息~"
+            android:textColor="@color/white"
+            android:textSize="@dimen/normal_textsize"
+            android:visibility="visible" />
         <com.jude.easyrecyclerview.EasyRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"

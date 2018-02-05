@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +30,10 @@ import com.sxmoc.bq.R;
 import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
+import com.sxmoc.bq.customview.TwoBtnDialog;
 import com.sxmoc.bq.holder.BaoBaoViewHolder;
 import com.sxmoc.bq.model.OkObject;
+import com.sxmoc.bq.model.SimpleInfo;
 import com.sxmoc.bq.model.TesterGettester;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.GsonUtils;
@@ -106,6 +109,7 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
         itemDecoration.setDrawLastItem(false);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setRefreshingColorResources(R.color.basic_color);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<TesterGettester.DataBean>(BaoBaoLBActivity.this) {
             @Override
             public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
@@ -183,7 +187,69 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
                 finish();
             }
         });
+        adapter.setOnItemLongClickListener(new RecyclerArrayAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final int position) {
+                final TwoBtnDialog twoBtnDialog = new TwoBtnDialog(BaoBaoLBActivity.this, "您确认要删除该宝宝信息吗？", "确认", "取消");
+                twoBtnDialog.show();
+                twoBtnDialog.setClicklistener(new TwoBtnDialog.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm() {
+                        twoBtnDialog.dismiss();
+                        int id = adapter.getItem(position).getBid();
+                        showLoadingDialog();
+                        ApiClient.post(BaoBaoLBActivity.this, getSCOkObject(id), new ApiClient.CallBack() {
+                            @Override
+                            public void onSuccess(String s) {
+                                cancelLoadingDialog();
+                                LogUtil.LogShitou("BaoBaoLBActivity--onSuccess",s+ "");
+                                try {
+                                    SimpleInfo simpleInfo = GsonUtils.parseJSON(s, SimpleInfo.class);
+                                    if (simpleInfo.getStatus()==1){
+                                        adapter.remove(position);
+                                    }else if (simpleInfo.getStatus()==3){
+                                        MyDialog.showReLoginDialog(BaoBaoLBActivity.this);
+                                    }else {
+                                        Toast.makeText(BaoBaoLBActivity.this, simpleInfo.getInfo(), Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (Exception e) {
+                                    Toast.makeText(BaoBaoLBActivity.this,"数据出错", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError() {
+                                cancelLoadingDialog();
+                                Toast.makeText(BaoBaoLBActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        twoBtnDialog.dismiss();
+                    }
+                });
+                return false;
+            }
+        });
         recyclerView.setRefreshListener(this);
+    }
+
+    /**
+     * des： 网络请求参数
+     * author： ZhangJieBo
+     * date： 2017/8/28 0028 上午 9:55
+     */
+    private OkObject getSCOkObject(int id) {
+        String url = Constant.HOST + Constant.Url.BUYER_DELBAOBAO;
+        HashMap<String, String> params = new HashMap<>();
+        if (isLogin) {
+            params.put("uid", userInfo.getUid());
+            params.put("tokenTime",tokenTime);
+        }
+        params.put("id",String.valueOf(id));
+        return new OkObject(params, url);
     }
 
     @Override

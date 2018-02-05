@@ -309,6 +309,10 @@ public class Constant {
          * 转让报告前提示
          */
         public static final String USER_TRANSFERTIPS = "/user/transferTips";
+        /**
+         * 删除宝宝
+         */
+        public static final String BUYER_DELBAOBAO = "/buyer/delBaobao";
     }
 
     public static class IntentKey {

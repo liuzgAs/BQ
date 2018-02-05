@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,6 +95,7 @@ public class GuanLiYHKActivity extends ZjbBaseNotLeftActivity implements View.On
         final DividerDecoration itemDecoration = new DividerDecoration(getResources().getColor(R.color.line_gray), (int) getResources().getDimension(R.dimen.line_width), 0, 0);
         itemDecoration.setDrawLastItem(false);
         recyclerView.addItemDecoration(itemDecoration);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setRefreshingColor(getResources().getColor(R.color.basic_color));
         recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<BankCardlist.DataBean>(GuanLiYHKActivity.this) {
             @Override
