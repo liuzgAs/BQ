@@ -29,8 +29,17 @@ public class UserBuyerindex {
     private int status;
     private int report_id;
     private int is_share;
+    private int is_up;
     private int goods_id;
     private String info;
+
+    public int getIs_up() {
+        return is_up;
+    }
+
+    public void setIs_up(int is_up) {
+        this.is_up = is_up;
+    }
 
     public int getIs_share() {
         return is_share;

@@ -202,7 +202,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.btnGouMai:
-                if (userBuyerindex.getIs_share()==1){
+                if (userBuyerindex.getIs_up()==1){
                     intent.putExtra(Constant.IntentKey.ID, userBuyerindex.getGoods_id());
                     intent.setClass(getContext(), ChanPinXQActivity.class);
                     startActivity(intent);
@@ -360,7 +360,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                         textBaoGaoNum.setText(userBuyerindex.getReport_num());
                         textBlance.setText(userBuyerindex.getMoney() + "");
                         textGradeName.setText(userBuyerindex.getGrade_name());
-                        if (userBuyerindex.getIs_share()==1){
+                        if (userBuyerindex.getIs_up()==1){
                             btnGouMai.setText("进入升级");
                         }else {
                             btnGouMai.setText("购买报告");
