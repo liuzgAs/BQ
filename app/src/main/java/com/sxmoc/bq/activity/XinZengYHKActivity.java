@@ -45,6 +45,7 @@ public class XinZengYHKActivity extends ZjbBaseActivity implements View.OnClickL
     private EditText editCard;
     private EditText editBankCard;
     private String title;
+    private EditText editZhiHang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,7 @@ public class XinZengYHKActivity extends ZjbBaseActivity implements View.OnClickL
         editName = (EditText) findViewById(R.id.editName);
         editCard = (EditText) findViewById(R.id.editCard);
         editBankCard = (EditText) findViewById(R.id.editBankCard);
+        editZhiHang = (EditText) findViewById(R.id.editZhiHang);
     }
 
     @Override
@@ -160,6 +162,10 @@ public class XinZengYHKActivity extends ZjbBaseActivity implements View.OnClickL
                 }
                 if (TextUtils.isEmpty(id)) {
                     Toast.makeText(XinZengYHKActivity.this, "请选择开户银行", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(editZhiHang.getText().toString().trim())) {
+                    Toast.makeText(XinZengYHKActivity.this, "请选择开户支行", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(editBankCard.getText().toString().trim())) {
@@ -289,6 +295,7 @@ public class XinZengYHKActivity extends ZjbBaseActivity implements View.OnClickL
         params.put("card", editCard.getText().toString().trim());
         params.put("phone", editPhone.getText().toString().trim());
         params.put("bankCard", editBankCard.getText().toString().trim());
+        params.put("opening_bank", editZhiHang.getText().toString().trim());
         params.put("bank", id + "");
         params.put("code", editCode.getText().toString().trim());
         return new OkObject(params, url);
