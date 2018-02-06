@@ -204,7 +204,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
             case R.id.btnGouMai:
                 if (userBuyerindex.getIs_up()==1){
                     intent.putExtra(Constant.IntentKey.ID, userBuyerindex.getGoods_id());
-                    intent.setClass(getContext(), ChanPinXQActivity.class);
+                    intent.setClass(mContext, ChanPinXQActivity.class);
                     startActivity(intent);
                 }else {
                     intent.putExtra(Constant.IntentKey.ID, userBuyerindex.getReport_id());
