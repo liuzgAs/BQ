@@ -200,12 +200,16 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                                                     if (k < naoBoList.get(j).size() - 1) {
                                                         if (naoBoList.get(j).get(k).getZuoNao() > 700) {
                                                             zuoNaoData.append("700,");
+                                                        } else if (naoBoList.get(j).get(k).getZuoNao() == 0) {
+                                                            zuoNaoData.append("100,");
                                                         } else {
                                                             zuoNaoData.append(String.valueOf(naoBoList.get(j).get(k).getZuoNao() + ","));
                                                         }
                                                     } else {
                                                         if (naoBoList.get(j).get(k).getZuoNao() > 700) {
-                                                            zuoNaoData.append("700,");
+                                                            zuoNaoData.append("700");
+                                                        } else if (naoBoList.get(j).get(k).getZuoNao() == 0) {
+                                                            zuoNaoData.append("100");
                                                         } else {
                                                             zuoNaoData.append(String.valueOf(naoBoList.get(j).get(k).getZuoNao()));
                                                         }
@@ -218,12 +222,16 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
                                                     if (k < naoBoList.get(j).size() - 1) {
                                                         if (naoBoList.get(j).get(k).getYouNao() > 700) {
                                                             youNaoData.append("700,");
+                                                        } else if (naoBoList.get(j).get(k).getYouNao() == 0) {
+                                                            youNaoData.append("100,");
                                                         } else {
                                                             youNaoData.append(String.valueOf(naoBoList.get(j).get(k).getYouNao() + ","));
                                                         }
                                                     } else {
                                                         if (naoBoList.get(j).get(k).getYouNao() > 700) {
-                                                            youNaoData.append("700,");
+                                                            youNaoData.append("700");
+                                                        } else if (naoBoList.get(j).get(k).getYouNao() == 0) {
+                                                            youNaoData.append("100");
                                                         } else {
                                                             youNaoData.append(String.valueOf(naoBoList.get(j).get(k).getYouNao()));
                                                         }
