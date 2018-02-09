@@ -211,11 +211,12 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
                 intent.putExtra(Constant.IntentKey.VALUE, data.getFilePath());
                 getContext().startActivity(intent);
             } else {
-                SingleBtnDialog singleBtnDialog = new SingleBtnDialog(getContext(), "文件不存在或被移动", "重新下载");
+                final SingleBtnDialog singleBtnDialog = new SingleBtnDialog(getContext(), "文件不存在或被移动", "重新下载");
                 singleBtnDialog.show();
                 singleBtnDialog.setClicklistener(new SingleBtnDialog.ClickListenerInterface() {
                     @Override
                     public void doWhat() {
+                        singleBtnDialog.dismiss();
                         upLoad(false);
                     }
                 });

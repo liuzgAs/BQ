@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.sxmoc.bq.R;
 import com.sxmoc.bq.base.ZjbBaseNotLeftActivity;
 import com.sxmoc.bq.constant.Constant;
+import com.sxmoc.bq.util.LogUtil;
 
 import es.voghdev.pdfviewpager.library.PDFViewPager;
 
@@ -39,6 +40,7 @@ public class PdfActivity extends ZjbBaseNotLeftActivity implements View.OnClickL
         pdf = intent.getStringExtra(Constant.IntentKey.VALUE);
         title = intent.getStringExtra(Constant.IntentKey.TITLE);
         type = intent.getIntExtra(Constant.IntentKey.TYPE, 0);
+        LogUtil.LogShitou("PdfActivity--initIntent", "type" + type);
     }
 
     @Override
@@ -67,10 +69,14 @@ public class PdfActivity extends ZjbBaseNotLeftActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imageBack:
-                Intent intent = new Intent();
-                intent.setClass(this,CeShiLSActivity.class);
-                startActivity(intent);
-                finish();
+                if (type == 1) {
+                    Intent intent = new Intent();
+                    intent.setClass(this, CeShiLSActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    finish();
+                }
                 break;
             default:
                 break;
@@ -81,7 +87,7 @@ public class PdfActivity extends ZjbBaseNotLeftActivity implements View.OnClickL
     public void onBackPressed() {
         if (type == 1) {
             Intent intent = new Intent();
-            intent.setClass(this,CeShiLSActivity.class);
+            intent.setClass(this, CeShiLSActivity.class);
             startActivity(intent);
             super.onBackPressed();
         } else {

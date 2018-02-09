@@ -206,6 +206,16 @@ public class ApiClient {
                         public void onSuccess(Response<File> response) {
                             callBack.onSuccess(response.body().toString());
                         }
+
+                        @Override
+                        public void onError(Response<File> response) {
+                            super.onError(response);
+                            LogUtil.LogShitou("ApiClient--onErrorbody", ""+response.body());
+                            LogUtil.LogShitou("ApiClient--onErrorcode", ""+response.code());
+                            LogUtil.LogShitou("ApiClient--onErrormessage", ""+response.message());
+                            LogUtil.LogShitou("ApiClient--onErrorgetException", ""+response.getException().toString());
+                            callBack.onError();
+                        }
                     });
         } else {
             Toast.makeText(context, "SD卡不存在或者不可读写", Toast.LENGTH_SHORT).show();
