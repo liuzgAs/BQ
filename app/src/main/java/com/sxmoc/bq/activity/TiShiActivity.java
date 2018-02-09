@@ -263,7 +263,7 @@ public class TiShiActivity extends ZjbBaseActivity implements View.OnClickListen
 
     @AfterPermissionGranted(LOCATION)
     private void methodRequiresTwoPermission() {
-        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE};
         if (EasyPermissions.hasPermissions(this, perms)) {
             // Already have permission, do the thing
             test();
