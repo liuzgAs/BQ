@@ -273,8 +273,11 @@ public class CeShiLSViewHolder extends BaseViewHolder<ProductQueryhistory.DataBe
                         }
                     } else if (testerGetreport.getStatus() == 3) {
                         MyDialog.showReLoginDialog(getContext());
-                    } else {
-                        Toast.makeText(getContext(), testerGetreport.getInfo(), Toast.LENGTH_SHORT).show();
+                    } else if (testerGetreport.getStatus() == 2) {
+                        MyDialog.showTipDialog(getContext(),testerGetreport.getInfo());
+                        ((CeShiLSActivity)getContext()).onRefresh();
+                    }else {
+                        MyDialog.showTipDialog(getContext(),testerGetreport.getInfo());
                     }
                 } catch (Exception e) {
                     Toast.makeText(getContext(), "数据出错", Toast.LENGTH_SHORT).show();
