@@ -442,6 +442,9 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
 
     private boolean isScan = false;
 
+    /**
+     * 开始扫描
+     */
     private void startScan() {
         isScan = true;
         BleManager.getInstance().scan(new BleScanCallback() {
@@ -763,8 +766,10 @@ public class NaoBoActivity extends ZjbBaseActivity implements View.OnClickListen
                         }
                     } else if (testerGetreport.getStatus() == 3) {
                         MyDialog.showReLoginDialog(NaoBoActivity.this);
-                    } else {
-                        Toast.makeText(NaoBoActivity.this, testerGetreport.getInfo(), Toast.LENGTH_SHORT).show();
+                    } else if (testerGetreport.getStatus() == 2) {
+                        MyDialog.dialogFinish(NaoBoActivity.this,testerGetreport.getInfo());
+                    }else {
+                        MyDialog.showTipDialog(NaoBoActivity.this,testerGetreport.getInfo());
                     }
                 } catch (Exception e) {
                     Toast.makeText(NaoBoActivity.this, "数据出错", Toast.LENGTH_SHORT).show();
