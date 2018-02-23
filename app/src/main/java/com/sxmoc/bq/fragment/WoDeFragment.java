@@ -361,7 +361,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                         textBlance.setText(userBuyerindex.getMoney() + "");
                         textGradeName.setText(userBuyerindex.getGrade_name());
                         if (userBuyerindex.getIs_up()==1){
-                            btnGouMai.setText("进入升级");
+                            btnGouMai.setText("升级共享");
                         }else {
                             btnGouMai.setText("购买报告");
                         }
