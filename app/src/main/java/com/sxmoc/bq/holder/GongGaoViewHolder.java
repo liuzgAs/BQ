@@ -30,7 +30,7 @@ public class GongGaoViewHolder extends BaseViewHolder<UserMsg.DataBean> {
     public void setData(UserMsg.DataBean data) {
         super.setData(data);
         this.data=data;
-        textAddTime.setText(DateTransforam.stampToDate(data.getCreate_time()));
+        textAddTime.setText(DateTransforam.stampToDate(data.getCreate_time()*1000));
         textTitle.setText(data.getTitle());
         textIntro.setText(data.getDes());
     }
