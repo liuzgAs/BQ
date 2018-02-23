@@ -2,6 +2,7 @@ package com.sxmoc.bq.fragment;
 
 
 import android.annotation.SuppressLint;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -179,6 +180,11 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
         mInflate.findViewById(R.id.viewAddress).setOnClickListener(this);
         mInflate.findViewById(R.id.btnTiJiao).setOnClickListener(this);
         mInflate.findViewById(R.id.textXieYi).setOnClickListener(this);
+        mInflate.findViewById(R.id.viewShiBieMa).setOnClickListener(this);
+        mInflate.findViewById(R.id.viewGongSiMingCheng).setOnClickListener(this);
+        mInflate.findViewById(R.id.viewDuiGongZhangHao).setOnClickListener(this);
+        mInflate.findViewById(R.id.viewKiaHuHang).setOnClickListener(this);
+        mInflate.findViewById(R.id.viewFuKuanJinE).setOnClickListener(this);
     }
 
     @Override
@@ -224,10 +230,10 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                                 editCard.setText(userApplybefore.getData().getCard());
                                 textAddress.setText(userApplybefore.getData().getArea());
                                 textAddressDetail.setText(userApplybefore.getData().getAddress());
-                                if (userApplybefore.getIsup()==1){
+                                if (userApplybefore.getIsup() == 1) {
                                     imageChengGong.setVisibility(View.VISIBLE);
                                     lineShangJi.setVisibility(View.VISIBLE);
-                                }else {
+                                } else {
                                     imageChengGong.setVisibility(View.GONE);
                                     lineShangJi.setVisibility(View.GONE);
                                 }
@@ -295,6 +301,21 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
+            case R.id.viewShiBieMa:
+                fuZhi(textCode.getText().toString().trim());
+                break;
+            case R.id.viewGongSiMingCheng:
+                fuZhi(textCompany.getText().toString().trim());
+                break;
+            case R.id.viewDuiGongZhangHao:
+                fuZhi(textAccount.getText().toString().trim());
+                break;
+            case R.id.viewKiaHuHang:
+                fuZhi(textBank.getText().toString().trim());
+                break;
+            case R.id.viewFuKuanJinE:
+                fuZhi(textReceiving.getText().toString().trim());
+                break;
             case R.id.textXieYi:
                 intent.setClass(mContext, WebActivity.class);
                 intent.putExtra(Constant.IntentKey.TITLE, "合作协议");
@@ -338,7 +359,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
                 tiJiao();
                 break;
             case R.id.viewAddress:
-                InputMethodManager imm = (InputMethodManager)mContext. getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
                     imm.hideSoftInputFromWindow(mContext.getWindow().getDecorView().getWindowToken(),
                             0);
@@ -376,7 +397,7 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
             case R.id.viewShiYEHHR:
                 final String[] strings = new String[userApplybefore.getGrade().size()];
                 for (int i = 0; i < userApplybefore.getGrade().size(); i++) {
-                    strings[i] = userApplybefore.getGrade().get(i).getName()  + userApplybefore.getGrade().get(i).getMoney();
+                    strings[i] = userApplybefore.getGrade().get(i).getName() + userApplybefore.getGrade().get(i).getMoney();
                 }
                 new AlertDialog.Builder(mContext)
                         .setItems(strings, new DialogInterface.OnClickListener() {
@@ -393,6 +414,15 @@ public class ShenQIngSYHHRFragment extends ZjbBaseFragment implements View.OnCli
             default:
                 break;
         }
+    }
+
+    /**
+     * 复制文本
+     */
+    private void fuZhi(String text) {
+        ClipboardManager cmb = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        cmb.setText(text); //将内容放入粘贴管理器,在别的地方长按选择"粘贴"即可
+        Toast.makeText(getContext(), "复制文本成功", Toast.LENGTH_SHORT).show();
     }
 
     /**

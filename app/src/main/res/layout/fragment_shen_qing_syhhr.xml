@@ -313,7 +313,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -325,9 +325,10 @@
             <include layout="@layout/view_hehuozhaungtai" />
 
             <RelativeLayout
+                android:id="@+id/viewShiBieMa"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/normalItemHeight"
-                android:background="@color/white">
+                android:background="@drawable/layout_selector_white_system_gray">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -356,9 +357,10 @@
                 android:background="@color/background" />
 
             <RelativeLayout
+                android:id="@+id/viewGongSiMingCheng"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/normalItemHeight"
-                android:background="@color/white">
+                android:background="@drawable/layout_selector_white_system_gray">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -387,9 +389,10 @@
                 android:background="@color/background" />
 
             <RelativeLayout
+                android:id="@+id/viewDuiGongZhangHao"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/normalItemHeight"
-                android:background="@color/white">
+                android:background="@drawable/layout_selector_white_system_gray">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -418,9 +421,10 @@
                 android:background="@color/background" />
 
             <RelativeLayout
+                android:id="@+id/viewKiaHuHang"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/normalItemHeight"
-                android:background="@color/white">
+                android:background="@drawable/layout_selector_white_system_gray">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -449,9 +453,10 @@
                 android:background="@color/background" />
 
             <RelativeLayout
+                android:id="@+id/viewFuKuanJinE"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/normalItemHeight"
-                android:background="@color/white">
+                android:background="@drawable/layout_selector_white_system_gray">
 
                 <TextView
                     android:layout_width="wrap_content"
