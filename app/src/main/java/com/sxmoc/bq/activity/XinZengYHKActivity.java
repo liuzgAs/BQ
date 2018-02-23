@@ -16,7 +16,6 @@ import com.sxmoc.bq.base.MyDialog;
 import com.sxmoc.bq.base.ZjbBaseActivity;
 import com.sxmoc.bq.constant.Constant;
 import com.sxmoc.bq.model.BankCardaddbefore;
-import com.sxmoc.bq.model.CheckIdCard;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.SimpleInfo;
 import com.sxmoc.bq.util.ApiClient;
@@ -42,7 +41,7 @@ public class XinZengYHKActivity extends ZjbBaseActivity implements View.OnClickL
     private int[] mI;
     private String mPhone_sms;
     private EditText editName;
-    private EditText editCard;
+//    private EditText editCard;
     private EditText editBankCard;
     private String title;
     private EditText editZhiHang;
@@ -73,7 +72,7 @@ public class XinZengYHKActivity extends ZjbBaseActivity implements View.OnClickL
         editPhone = (EditText) findViewById(R.id.editPhone);
         editCode = (EditText) findViewById(R.id.editCode);
         editName = (EditText) findViewById(R.id.editName);
-        editCard = (EditText) findViewById(R.id.editCard);
+//        editCard = (EditText) findViewById(R.id.editCard);
         editBankCard = (EditText) findViewById(R.id.editBankCard);
         editZhiHang = (EditText) findViewById(R.id.editZhiHang);
     }
@@ -155,17 +154,17 @@ public class XinZengYHKActivity extends ZjbBaseActivity implements View.OnClickL
                     Toast.makeText(XinZengYHKActivity.this, "请输入真实姓名", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                CheckIdCard checkIdCard = new CheckIdCard(editCard.getText().toString().trim());
-                if (!checkIdCard.validate()) {
-                    Toast.makeText(XinZengYHKActivity.this, "请输入正确的身份证号", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                CheckIdCard checkIdCard = new CheckIdCard(editCard.getText().toString().trim());
+//                if (!checkIdCard.validate()) {
+//                    Toast.makeText(XinZengYHKActivity.this, "请输入正确的身份证号", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 if (TextUtils.isEmpty(id)) {
                     Toast.makeText(XinZengYHKActivity.this, "请选择开户银行", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(editZhiHang.getText().toString().trim())) {
-                    Toast.makeText(XinZengYHKActivity.this, "请选择开户支行", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(XinZengYHKActivity.this, "请填写开户支行", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(editBankCard.getText().toString().trim())) {
@@ -292,7 +291,7 @@ public class XinZengYHKActivity extends ZjbBaseActivity implements View.OnClickL
         params.put("uid", userInfo.getUid());
         params.put("tokenTime", tokenTime);
         params.put("name", editName.getText().toString().trim());
-        params.put("card", editCard.getText().toString().trim());
+//        params.put("card", editCard.getText().toString().trim());
         params.put("phone", editPhone.getText().toString().trim());
         params.put("bankCard", editBankCard.getText().toString().trim());
         params.put("opening_bank", editZhiHang.getText().toString().trim());

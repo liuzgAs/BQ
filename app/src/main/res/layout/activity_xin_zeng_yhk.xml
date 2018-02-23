@@ -44,11 +44,13 @@
     </RelativeLayout>
 
     <TextView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_width"
         android:background="@color/line_gray" />
 
     <RelativeLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_gravity="center_horizontal"
