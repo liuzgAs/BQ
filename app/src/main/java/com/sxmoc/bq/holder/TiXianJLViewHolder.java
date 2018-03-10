@@ -28,11 +28,13 @@ public class TiXianJLViewHolder extends BaseViewHolder<WithdrawGetwithdraw.DataB
     @Override
     public void setData(WithdrawGetwithdraw.DataBean data) {
         super.setData(data);
-        textDes.setText("提现"+data.getMoney());
+        textDes.setText("提现" + data.getMoney());
         textCreatetime.setText(data.getCreate_time());
-        if (data.getStatus()==1){
+        if (data.getStatus() == 1) {
             textPrice.setText("提现中");
-        }else{
+        } else if (data.getStatus() == 2) {
+            textPrice.setText("已拒绝");
+        } else {
             textPrice.setText("已到账");
         }
     }
