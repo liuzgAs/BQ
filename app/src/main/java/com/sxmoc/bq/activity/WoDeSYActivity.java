@@ -66,6 +66,7 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
     private TextView textStart;
     private TextView textEnd;
     private String mobile;
+    private TextView textLeiJi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
         recyclerView = (EasyRecyclerView) findViewById(R.id.recyclerView);
         textStart = (TextView) findViewById(R.id.textStart);
         textEnd = (TextView) findViewById(R.id.textEnd);
+        textLeiJi = (TextView) findViewById(R.id.textLeiJi);
     }
 
     @Override
@@ -248,6 +250,9 @@ public class WoDeSYActivity extends ZjbBaseActivity implements View.OnClickListe
                         SpannableString span = new SpannableString("¥" + userBuyerindex.getMoney());
                         span.setSpan(new RelativeSizeSpan(0.4f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         textShouYi.setText(span);
+                        SpannableString span1 = new SpannableString("¥" + userBuyerindex.getProfit_money());
+                        span.setSpan(new RelativeSizeSpan(0.4f), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        textLeiJi.setText(span1);
                     } else if (userBuyerindex.getStatus() == 3) {
                         MyDialog.showReLoginDialog(WoDeSYActivity.this);
                     } else {

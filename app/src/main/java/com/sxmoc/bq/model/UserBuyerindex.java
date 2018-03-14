@@ -25,6 +25,7 @@ public class UserBuyerindex {
     private String nickname;
     private int grade;
     private String grade_name;
+    private String profit_money;
     private String mobile;
     private int status;
     private int report_id;
@@ -32,6 +33,14 @@ public class UserBuyerindex {
     private int is_up;
     private int goods_id;
     private String info;
+
+    public String getProfit_money() {
+        return profit_money;
+    }
+
+    public void setProfit_money(String profit_money) {
+        this.profit_money = profit_money;
+    }
 
     public int getIs_up() {
         return is_up;
