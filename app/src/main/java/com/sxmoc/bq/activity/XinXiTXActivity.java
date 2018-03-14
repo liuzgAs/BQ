@@ -1,6 +1,5 @@
 package com.sxmoc.bq.activity;
 
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,12 +20,9 @@ import com.sxmoc.bq.model.BuyerAddinfo;
 import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.TesterTesteredit;
 import com.sxmoc.bq.util.ApiClient;
-import com.sxmoc.bq.util.DateTransforam;
 import com.sxmoc.bq.util.GsonUtils;
 import com.sxmoc.bq.util.LogUtil;
 
-import java.text.ParseException;
-import java.util.Calendar;
 import java.util.HashMap;
 
 public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickListener {
@@ -35,8 +30,6 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
     private EditText editName;
     private TextView textSex;
     private int sex = -1;
-    private String birthday;
-    private TextView textBirthday;
     private EditText editSchool;
     private TextView textGrade;
     private EditText editEmiel;
@@ -45,6 +38,7 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
     String[] strings1 = {"幼儿园大班", "一年级", "二年级", "三年级", "四年级", "五年级", "六年级", "七年级", "八年级", "九年级"};
     final String[] strings = {"男", "女"};
     private Button btnKaiShiCeShi;
+    private EditText editBirthday;
 
 
     @Override
@@ -69,12 +63,12 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
     protected void findID() {
         editName = (EditText) findViewById(R.id.editName);
         textSex = (TextView) findViewById(R.id.textSex);
-        textBirthday = (TextView) findViewById(R.id.textBirthday);
         editSchool = (EditText) findViewById(R.id.editSchool);
         textGrade = (TextView) findViewById(R.id.textGrade);
         editEmiel = (EditText) findViewById(R.id.editEmiel);
         checkBox = (CheckBox) findViewById(R.id.checkBox);
         btnKaiShiCeShi = (Button) findViewById(R.id.btnKaiShiCeShi);
+        editBirthday = (EditText) findViewById(R.id.editBirthday);
     }
 
     @Override
@@ -90,7 +84,6 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
     @Override
     protected void setListeners() {
         findViewById(R.id.viewSex).setOnClickListener(this);
-        findViewById(R.id.viewBirthday).setOnClickListener(this);
         findViewById(R.id.imageBack).setOnClickListener(this);
         btnKaiShiCeShi.setOnClickListener(this);
         findViewById(R.id.viewGrade).setOnClickListener(this);
@@ -130,7 +123,7 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
                             editSchool.setText(testerTesteredit.getData().getSchool_name());
                             editEmiel.setText(testerTesteredit.getData().getMailbox());
                             textGrade.setText(testerTesteredit.getData().getGrade() + "");
-                            textBirthday.setText(testerTesteredit.getData().getBirthday());
+                            editBirthday.setText(testerTesteredit.getData().getBirthday());
                             textSex.setText(strings[testerTesteredit.getData().getSex()]);
                             sex = testerTesteredit.getData().getSex();
                         } else if (testerTesteredit.getStatus() == 3) {
@@ -183,8 +176,8 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
                     Toast.makeText(XinXiTXActivity.this, "请选择宝宝性别", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(textBirthday.getText().toString().trim())) {
-                    Toast.makeText(XinXiTXActivity.this, "请选择宝宝出生年月", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(editBirthday.getText().toString().trim())) {
+                    Toast.makeText(XinXiTXActivity.this, "请输入宝宝出生年月", Toast.LENGTH_SHORT).show();
                     return;
                 }
 //                if (TextUtils.isEmpty(editSchool.getText().toString().trim())) {
@@ -205,22 +198,22 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
 //                }
                 tiJiaoXinXi();
                 break;
-            case R.id.viewBirthday:
-                Calendar c = Calendar.getInstance();
-                DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        try {
-                            birthday = DateTransforam.dateToStamp(year + "-" + (month + 1) + "-" + dayOfMonth);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        textBirthday.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
-                    }
-                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-                datePickerDialog.show();
-                break;
+//            case R.id.viewBirthday:
+//                Calendar c = Calendar.getInstance();
+//                DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+//                    @Override
+//                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//                        try {
+//                            birthday = DateTransforam.dateToStamp(year + "-" + (month + 1) + "-" + dayOfMonth);
+//                        } catch (ParseException e) {
+//                            e.printStackTrace();
+//                        }
+//                        textBirthday.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+//                    }
+//                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+//                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+//                datePickerDialog.show();
+//                break;
             case R.id.viewGrade:
                 new AlertDialog.Builder(this)
                         .setItems(strings1, new DialogInterface.OnClickListener() {
@@ -256,7 +249,7 @@ public class XinXiTXActivity extends ZjbBaseActivity implements View.OnClickList
         params.put("school_name", editSchool.getText().toString().trim());
         params.put("mailbox", editEmiel.getText().toString().trim());
         params.put("grade", textGrade.getText().toString().trim());
-        params.put("birthday", birthday);
+        params.put("birthday", editBirthday.getText().toString().trim());
         params.put("sex", String.valueOf(sex));
         if (id != 0) {
             params.put("bid", String.valueOf(id));
