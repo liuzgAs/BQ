@@ -137,7 +137,7 @@ public class ShengJiSYHHRFragment extends ZjbBaseFragment {
             public void onSuccess(String s) {
                 cancelLoadingDialog();
                 LogUtil.LogShitou("ShengJiSYHHRFragment--onSuccess", s + "");
-                try {
+//                try {
                     UserUpgrade userUpgrade = GsonUtils.parseJSON(s, UserUpgrade.class);
                     List<UserUpgrade.DataBean> data = userUpgrade.getData();
                     text0001.setText(data.get(0).getName());
@@ -151,8 +151,8 @@ public class ShengJiSYHHRFragment extends ZjbBaseFragment {
                     text0201.setText(gradeBeanList.get(0).getDes());
                     text0300.setText(gradeBeanList.get(1).getName());
                     text0301.setText(gradeBeanList.get(1).getDes());
-                    text0400.setText(gradeBeanList.get(2).getName());
-                    text0401.setText(gradeBeanList.get(2).getDes());
+//                    text0400.setText(gradeBeanList.get(2).getName());
+//                    text0401.setText(gradeBeanList.get(2).getDes());
                     btn0200.setVisibility(View.GONE);
                     image0200.setVisibility(View.GONE);
                     btn0300.setVisibility(View.GONE);
@@ -184,9 +184,9 @@ public class ShengJiSYHHRFragment extends ZjbBaseFragment {
                         image0400.setVisibility(View.GONE);
                     }
                     viewContent.setVisibility(View.VISIBLE);
-                } catch (Exception e) {
-                    Toast.makeText(mContext, "数据出错", Toast.LENGTH_SHORT).show();
-                }
+//                } catch (Exception e) {
+//                    Toast.makeText(mContext, "数据出错", Toast.LENGTH_SHORT).show();
+//                }
             }
 
             @Override
