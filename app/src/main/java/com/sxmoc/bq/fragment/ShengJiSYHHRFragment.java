@@ -137,7 +137,7 @@ public class ShengJiSYHHRFragment extends ZjbBaseFragment {
             public void onSuccess(String s) {
                 cancelLoadingDialog();
                 LogUtil.LogShitou("ShengJiSYHHRFragment--onSuccess", s + "");
-//                try {
+                try {
                     UserUpgrade userUpgrade = GsonUtils.parseJSON(s, UserUpgrade.class);
                     List<UserUpgrade.DataBean> data = userUpgrade.getData();
                     text0001.setText(data.get(0).getName());
@@ -167,10 +167,10 @@ public class ShengJiSYHHRFragment extends ZjbBaseFragment {
                         btn0300.setVisibility(View.GONE);
                         image0300.setVisibility(View.VISIBLE);
                     }
-                    if (gradeBeanList.get(2).getIsLock() == 1) {
-                        btn0400.setVisibility(View.GONE);
-                        image0400.setVisibility(View.VISIBLE);
-                    }
+//                    if (gradeBeanList.get(2).getIsLock() == 1) {
+//                        btn0400.setVisibility(View.GONE);
+//                        image0400.setVisibility(View.VISIBLE);
+//                    }
                     if (gradeBeanList.get(0).getIsUp() == 1) {
                         btn0200.setVisibility(View.VISIBLE);
                         image0200.setVisibility(View.GONE);
@@ -179,14 +179,14 @@ public class ShengJiSYHHRFragment extends ZjbBaseFragment {
                         btn0300.setVisibility(View.VISIBLE);
                         image0300.setVisibility(View.GONE);
                     }
-                    if (gradeBeanList.get(2).getIsUp() == 1) {
-                        btn0400.setVisibility(View.VISIBLE);
-                        image0400.setVisibility(View.GONE);
-                    }
+//                    if (gradeBeanList.get(2).getIsUp() == 1) {
+//                        btn0400.setVisibility(View.VISIBLE);
+//                        image0400.setVisibility(View.GONE);
+//                    }
                     viewContent.setVisibility(View.VISIBLE);
-//                } catch (Exception e) {
-//                    Toast.makeText(mContext, "数据出错", Toast.LENGTH_SHORT).show();
-//                }
+                } catch (Exception e) {
+                    Toast.makeText(mContext, "数据出错", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://F:\project\BQ-NaoBo\BQ.iml" filepath="F:\project\BQ-NaoBo\BQ.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/BQ-NaoBo.iml" filepath="$PROJECT_DIR$/.idea/BQ-NaoBo.iml" />
+      <module fileurl="file://D:\project\BQ-NaoBo\.idea\BQ-NaoBo.iml" filepath="D:\project\BQ-NaoBo\.idea\BQ-NaoBo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\project\BQ-NaoBo\app\app.iml" filepath="D:\project\BQ-NaoBo\app\app.iml" />
       <module fileurl="file://F:\project\BQ-NaoBo\app\app.iml" filepath="F:\project\BQ-NaoBo\app\app.iml" />
     </modules>
   </component>
