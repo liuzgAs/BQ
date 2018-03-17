@@ -26,6 +26,7 @@ import com.sxmoc.bq.model.OkObject;
 import com.sxmoc.bq.model.OrderCreateorder;
 import com.sxmoc.bq.model.OrderSubmitorder;
 import com.sxmoc.bq.model.UserAddress;
+import com.sxmoc.bq.util.ACache;
 import com.sxmoc.bq.util.ApiClient;
 import com.sxmoc.bq.util.Arith;
 import com.sxmoc.bq.util.GsonUtils;
@@ -222,12 +223,15 @@ public class QueRenDDActivity extends ZjbBaseActivity implements View.OnClickLis
      */
     private OkObject getTiJiaoDDOkObject() {
         String url = Constant.HOST + Constant.Url.ORDER_SUBMITORDER;
+        ACache aCache = ACache.get(this, Constant.Acache.LOCATION);
+        String did = aCache.getAsString(Constant.Acache.DID);
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
             params.put("tokenTime", tokenTime);
         }
         params.put("id", id + "");
+        params.put("did", did + "");
         params.put("num", orderCreateorder.getNum() + "");
         params.put("type_id", String.valueOf(orderCreateorder.getType_id()));
         params.put("phone", orderCreateorder.getPhone());

@@ -101,7 +101,6 @@
             android:background="@drawable/layout_selector_white_system_gray">
 
             <TextView
-                android:id="@+id/text0200"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -109,18 +108,27 @@
                 android:text="出生年月"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/normal_textsize" />
-            <EditText
-                android:id="@+id/editBirthday"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@+id/text0200"
-                android:background="@null"
-                android:gravity="right|center_vertical"
-                android:hint="填输入出身年月"
-                android:paddingRight="@dimen/leftAndRight"
+
+            <TextView
+                android:id="@+id/textBirthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/image0200"
+                android:gravity="right"
+                android:hint="请选择出生年月"
                 android:textColor="@color/light_black"
                 android:textSize="@dimen/normal_textsize" />
 
+            <ImageView
+                android:id="@+id/image0200"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/leftAndRight"
+                android:src="@mipmap/right_big" />
         </RelativeLayout>
 
         <!--<TextView-->
