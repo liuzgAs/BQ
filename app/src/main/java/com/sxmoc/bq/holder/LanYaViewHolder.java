@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleGattCallback;
@@ -126,6 +127,10 @@ public class LanYaViewHolder extends BaseViewHolder<BlueBean> {
         }
         BluetoothGatt bluetoothGatt = BleManager.getInstance().getBluetoothGatt(data.getBleDevice());
         final List<BluetoothGattService> services = bluetoothGatt.getServices();
+        if (services==null){
+            Toast.makeText(getContext(), "获取服务失败，请返回重试", Toast.LENGTH_SHORT).show();
+            return;
+        }
         List<BluetoothGattCharacteristic> characteristics = services.get(2).getCharacteristics();
         final BluetoothGattCharacteristic bluetoothGattCharacteristic = characteristics.get(0);
         BleManager.getInstance().notify(
