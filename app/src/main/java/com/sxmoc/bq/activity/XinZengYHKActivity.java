@@ -171,14 +171,14 @@ public class XinZengYHKActivity extends ZjbBaseActivity implements View.OnClickL
                     Toast.makeText(XinZengYHKActivity.this, "请输入持卡人卡号", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty(editPhone.getText().toString().trim())) {
-                    Toast.makeText(XinZengYHKActivity.this, "请输入银行预留手机号", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(editCode.getText().toString().trim())) {
-                    Toast.makeText(XinZengYHKActivity.this, "请输入验证码", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (TextUtils.isEmpty(editPhone.getText().toString().trim())) {
+//                    Toast.makeText(XinZengYHKActivity.this, "请输入银行预留手机号", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(editCode.getText().toString().trim())) {
+//                    Toast.makeText(XinZengYHKActivity.this, "请输入验证码", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 tiJiao();
                 break;
             case R.id.XuanZeYH:
@@ -292,11 +292,11 @@ public class XinZengYHKActivity extends ZjbBaseActivity implements View.OnClickL
         params.put("tokenTime", tokenTime);
         params.put("name", editName.getText().toString().trim());
 //        params.put("card", editCard.getText().toString().trim());
-        params.put("phone", editPhone.getText().toString().trim());
+//        params.put("phone", editPhone.getText().toString().trim());
         params.put("bankCard", editBankCard.getText().toString().trim());
         params.put("opening_bank", editZhiHang.getText().toString().trim());
         params.put("bank", id + "");
-        params.put("code", editCode.getText().toString().trim());
+//        params.put("code", editCode.getText().toString().trim());
         return new OkObject(params, url);
     }
 

@@ -402,7 +402,15 @@
                     android:text="对公账号"
                     android:textColor="@color/light_black"
                     android:textSize="@dimen/normal_textsize" />
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="复制"
+                    android:textSize="@dimen/normal_textsize"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/textAccount"
+                    android:textColor="@color/basic_color"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/textAccount"
                     android:layout_width="wrap_content"

@@ -222,6 +222,7 @@ public class WoDeFragment extends ZjbBaseFragment implements View.OnClickListene
                 break;
             case R.id.viewYinHangKa:
                 intent.setClass(mContext, ChangJianWenTiActivity.class);
+                intent.putExtra(Constant.IntentKey.TYPE,1);
                 startActivity(intent);
                 break;
             case R.id.viewWoDeGX:

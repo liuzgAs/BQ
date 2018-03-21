@@ -313,6 +313,7 @@ public class Constant {
          * 删除宝宝
          */
         public static final String BUYER_DELBAOBAO = "/buyer/delBaobao";
+        public static final String FAQ_SEVERADDR = "/Faq/severAddr";
     }
 
     public static class IntentKey {

@@ -1,5 +1,6 @@
 package com.sxmoc.bq.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -34,6 +35,7 @@ public class ChangJianWenTiActivity extends ZjbBaseActivity implements View.OnCl
     private EasyRecyclerView recyclerView;
     private RecyclerArrayAdapter<Faq.DataBean> adapter;
     private int page = 1;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,8 @@ public class ChangJianWenTiActivity extends ZjbBaseActivity implements View.OnCl
 
     @Override
     protected void initIntent() {
-
+        Intent intent = getIntent();
+        type = intent.getIntExtra(Constant.IntentKey.TYPE, 0);
     }
 
     @Override
@@ -59,7 +62,14 @@ public class ChangJianWenTiActivity extends ZjbBaseActivity implements View.OnCl
 
     @Override
     protected void initViews() {
-        ((TextView) findViewById(R.id.textViewTitle)).setText("常见问题");
+        switch (type) {
+            case 1:
+                ((TextView) findViewById(R.id.textViewTitle)).setText("报告解读");
+                break;
+            default:
+                ((TextView) findViewById(R.id.textViewTitle)).setText("常见问题");
+                break;
+        }
         initRecycler();
     }
 
@@ -82,31 +92,31 @@ public class ChangJianWenTiActivity extends ZjbBaseActivity implements View.OnCl
         adapter.setMore(R.layout.view_more, new RecyclerArrayAdapter.OnMoreListener() {
             @Override
             public void onMoreShow() {
-               ApiClient.post(ChangJianWenTiActivity.this, getOkObject(), new ApiClient.CallBack() {
-                   @Override
-                   public void onSuccess(String s) {
-                       try {
-                           page++;
-                           Faq faq = GsonUtils.parseJSON(s, Faq.class);
-                           int status = faq.getStatus();
-                           if (status == 1) {
-                               List<Faq.DataBean> userMoneylogData = faq.getData();
-                               adapter.addAll(userMoneylogData);
-                           } else if (status == 3) {
-                               MyDialog.showReLoginDialog(ChangJianWenTiActivity.this);
-                           } else {
-                               adapter.pauseMore();
-                           }
-                       } catch (Exception e) {
-                           adapter.pauseMore();
-                       }
-                   }
+                ApiClient.post(ChangJianWenTiActivity.this, getOkObject(), new ApiClient.CallBack() {
+                    @Override
+                    public void onSuccess(String s) {
+                        try {
+                            page++;
+                            Faq faq = GsonUtils.parseJSON(s, Faq.class);
+                            int status = faq.getStatus();
+                            if (status == 1) {
+                                List<Faq.DataBean> userMoneylogData = faq.getData();
+                                adapter.addAll(userMoneylogData);
+                            } else if (status == 3) {
+                                MyDialog.showReLoginDialog(ChangJianWenTiActivity.this);
+                            } else {
+                                adapter.pauseMore();
+                            }
+                        } catch (Exception e) {
+                            adapter.pauseMore();
+                        }
+                    }
 
-                   @Override
-                   public void onError() {
-                       adapter.pauseMore();
-                   }
-               });
+                    @Override
+                    public void onError() {
+                        adapter.pauseMore();
+                    }
+                });
             }
 
             @Override
@@ -170,19 +180,27 @@ public class ChangJianWenTiActivity extends ZjbBaseActivity implements View.OnCl
      * date： 2017/8/28 0028 上午 9:55
      */
     private OkObject getOkObject() {
-        String url = Constant.HOST + Constant.Url.FAQ;
+        String url;
+        switch (type) {
+            case 1:
+                url = Constant.HOST+Constant.Url.FAQ_SEVERADDR;
+                break;
+            default:
+                url = Constant.HOST + Constant.Url.FAQ;
+                break;
+        }
         HashMap<String, String> params = new HashMap<>();
         if (isLogin) {
             params.put("uid", userInfo.getUid());
-            params.put("tokenTime",tokenTime);
+            params.put("tokenTime", tokenTime);
         }
-        params.put("p",page+"");
+        params.put("p", page + "");
         return new OkObject(params, url);
     }
 
     @Override
     public void onRefresh() {
-        page=1;
+        page = 1;
         ApiClient.post(this, getOkObject(), new ApiClient.CallBack() {
             @Override
             public void onSuccess(String s) {
@@ -194,7 +212,7 @@ public class ChangJianWenTiActivity extends ZjbBaseActivity implements View.OnCl
                         List<Faq.DataBean> dataBeanList = faq.getData();
                         adapter.clear();
                         adapter.addAll(dataBeanList);
-                    } else if (faq.getStatus()== 3) {
+                    } else if (faq.getStatus() == 3) {
                         MyDialog.showReLoginDialog(ChangJianWenTiActivity.this);
                     } else {
                         showError(faq.getInfo());
@@ -208,6 +226,7 @@ public class ChangJianWenTiActivity extends ZjbBaseActivity implements View.OnCl
             public void onError() {
                 showError("网络出错");
             }
+
             /**
              * 错误显示
              * @param msg

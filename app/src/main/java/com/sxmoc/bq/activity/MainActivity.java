@@ -76,6 +76,7 @@ public class MainActivity extends ZjbBaseNotLeftActivity {
             tabsImg.setImageResource(imgRes[i]);
             mTabHost.addTab(mTabHost.newTabSpec(tabsItem[i]).setIndicator(inflate), fragment[i], null);
         }
+        mTabHost.setCurrentTab(2);
     }
 
     @Override
