@@ -34,6 +34,10 @@ public class Constant {
         public static final String PARTNERDES =WEB_HOST+"/Article/info/type/partnerDes";
         public static final String PRECAUTIONS =WEB_HOST+"/Article/info/type/precautions";
         /**
+         * 注意事项
+         */
+        public static final String Precautions = "http://www.qizhibq.com/Mobile/Index/precautions.html";
+        /**
          * 升级
          */
         public static final String INDEX_VERSION = "/Index/version";

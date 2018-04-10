@@ -13,7 +13,13 @@ import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,11 +45,11 @@ import pub.devrel.easypermissions.EasyPermissions;
  */
 public class TiShiActivity extends ZjbBaseActivity implements View.OnClickListener , EasyPermissions.PermissionCallbacks {
 
-//    private WebView mWebView;
+    private WebView mWebView;
 //    private String mUrl;
 //    private String title;
-//    private WebSettings mSettings;
-//    private ProgressBar pb1;
+    private WebSettings mSettings;
+    private ProgressBar pb1;
     private TextView mTv_title;
     private View viewBar;
     private Button btnZhiDao;
@@ -104,8 +110,8 @@ public class TiShiActivity extends ZjbBaseActivity implements View.OnClickListen
     @Override
     protected void findID() {
         viewBar = findViewById(R.id.viewBar);
-//        mWebView = (WebView) findViewById(R.id.webView);
-//        pb1 = (ProgressBar) findViewById(R.id.progressBar2);
+        mWebView = (WebView) findViewById(R.id.webView);
+        pb1 = (ProgressBar) findViewById(R.id.progressBar2);
         mTv_title = (TextView) findViewById(R.id.textViewTitle);
         btnZhiDao = (Button) findViewById(R.id.btnZhiDao);
     }
@@ -119,22 +125,52 @@ public class TiShiActivity extends ZjbBaseActivity implements View.OnClickListen
 //        if (!TextUtils.isEmpty(title)) {
 //            mTv_title.setText(title);
 //        }
-//        mWebView.loadUrl(mUrl);
-//        mWebView.setWebViewClient(new WebViewClient());//覆盖第三方浏览器
-//        mSettings = mWebView.getSettings();
-//        mSettings.setJavaScriptEnabled(true);
-//        mSettings.setUseWideViewPort(true);
-//        mSettings.setLoadWithOverviewMode(true);
-//        mWebView.setWebChromeClient(new WebChromeClient() {
+        mWebView.loadUrl(Constant.Url.Precautions);
+        mWebView.setWebViewClient(new WebViewClient());//覆盖第三方浏览器
+        mSettings = mWebView.getSettings();
+        mSettings.setJavaScriptEnabled(true);
+        mSettings.setUseWideViewPort(true);
+        mSettings.setLoadWithOverviewMode(true);
+        mSettings.setSupportZoom(true);
+        mSettings.setDomStorageEnabled(true);
+        mSettings.setDefaultTextEncodingName("GBK");//设置解码格式
+        mSettings.setLoadsImagesAutomatically(true);
+        mSettings.setPluginState(WebSettings.PluginState.ON);
+
+        mWebView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                pb1.setProgress(newProgress);
+                if (newProgress == 100) {
+                    pb1.setVisibility(View.GONE);
+                } else {
+                    pb1.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                // TODO Auto-generated method stub
+                return super.onJsAlert(view, url, message, result);
+            }
+        });
+//        mWebView.setWebViewClient(new WebViewClient() {
 //            @Override
-//            public void onProgressChanged(WebView view, int newProgress) {
-//                super.onProgressChanged(view, newProgress);
-//                pb1.setProgress(newProgress);
-//                if (newProgress == 100) {
-//                    pb1.setVisibility(View.GONE);
-//                } else {
-//                    pb1.setVisibility(View.VISIBLE);
-//                }
+//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                // TODO Auto-generated method stub
+//                //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+//                view.loadUrl(url);
+//                return true;
+//            }
+//
+//            @Override
+//            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+//                super.onPageStarted(view, url, favicon);
+//            }
+//
+//            @Override
+//            public void onPageFinished(WebView view, String url) {
+//                super.onPageFinished(view, url);
 //            }
 //        });
     }
@@ -302,11 +338,11 @@ public class TiShiActivity extends ZjbBaseActivity implements View.OnClickListen
     }
 
     private void back() {
-//        if (mWebView.canGoBack()) {
-//            mWebView.goBack();
-//        } else {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
             finish();
-//        }
+        }
     }
 
     @Override

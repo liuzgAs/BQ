@@ -7,10 +7,22 @@
     tools:context=".activity.WebActivity">
 
     <include layout="@layout/view_bar_white"></include>
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:id="@+id/progressBar2"/>
 
+    <WebView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/webView"
+        android:layout_gravity="center_horizontal"/>
     <ScrollView
         android:layout_weight="1"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content">
 
         <LinearLayout
