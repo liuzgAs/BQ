@@ -86,6 +86,8 @@ public class BaoBaoLBActivity extends ZjbBaseActivity implements View.OnClickLis
     @Override
     protected void initIntent() {
 
+        
+
     }
 
     @Override
